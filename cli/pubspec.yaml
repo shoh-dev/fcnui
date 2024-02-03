@@ -12,7 +12,7 @@ dependencies:
   equatable: ^2.0.5
   fpdart: ^1.1.0
   get_it: ^7.6.7
-  yaml: ^3.1.2
+  yaml_edit: ^2.1.1
 
 dev_dependencies:
   lints: ^2.1.0

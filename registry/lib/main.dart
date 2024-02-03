@@ -1,17 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/components/button.dart';
-import 'package:registry/dependency_injection/dependency_injection.dart';
-import 'package:registry/store/store.dart';
-import 'package:registry/vm_providers/theme_provider.dart';
+import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
+
+import 'ui/default_components/default_components.dart';
 
 void main() {
-  initDependency();
-
-  runApp(
-      StoreProvider(store: getIt.get<Store<AppState>>(), child: const MyApp()));
+  runApp(DefaultStoreProvider(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -70,55 +65,55 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Text("Theme Mode: $vm");
                   }),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: PrimaryButtonVariant(
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: SecondaryButtonVariant(
                   text: "Secondary",
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: TertiaryButtonVariant(
                   text: "Tertiary",
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: ErrorButtonVariant(
                   text: "Error",
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: OutlineButtonVariant(
                   text: "Outline",
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: GhostButtonVariant(
                   text: "Ghost",
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: PrimaryButtonVariant(
                   icon: Icons.chevron_right,
                   onPressed: () {},
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: GhostButtonVariant(
                   icon: Icons.chevron_right,
                   onPressed: () {},
@@ -126,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               const SizedBox(height: 20),
-              MyButton(
+              DefaultButton(
                 variant: PrimaryButtonVariant(
                   onPressed: () {},
                   text: "Login with Email",
@@ -136,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () {
-                    getIt
+                    fcnGetIt
                         .get<Store<AppState>>()
                         .dispatch(ChangeThemeModeAction(themeMode: 'dark'));
                   },
@@ -144,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () {
-                    getIt
+                    fcnGetIt
                         .get<Store<AppState>>()
                         .dispatch(ChangeThemeModeAction(themeMode: 'light'));
                   },
@@ -162,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               value: e.index, child: Text(e.name)))
                           .toList(),
                       onChanged: (value) {
-                        getIt.get<Store<AppState>>().dispatch(
+                        fcnGetIt.get<Store<AppState>>().dispatch(
                             ChangeFlexSchemeAction(
                                 flexScheme: FlexScheme.values[value!].name));
                       }),

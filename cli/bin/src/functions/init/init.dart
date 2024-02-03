@@ -1,7 +1,12 @@
 import 'dart:io';
+import '../close.dart';
+import 'init_yaml.dart';
 
 Future<bool> doInit(List<String> arguments) async {
   bool initDone = false;
+
+  initFlutterCnYaml();
+  close();
 
   // Prompt user for components folder location
   stdout.write('Enter components folder location (default: lib/components): ');

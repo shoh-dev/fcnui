@@ -9,6 +9,12 @@
       <excludeFolder url="file://$MODULE_DIR$/registry/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/registry/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/registry/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_cn_ui_package/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_cn_ui_package/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_cn_ui_package/build" />
+      <excludeFolder url="file://$MODULE_DIR$/test_pr/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/test_pr/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/test_pr/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

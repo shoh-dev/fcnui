@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:yaml/yaml.dart';
+import 'package:yaml_edit/yaml_edit.dart';
+
 import '../../src.dart';
 
 void _printNotFlutterProjectAndClose() {
@@ -10,24 +12,23 @@ void _printNotFlutterProjectAndClose() {
 
 void isFlutterProject() {
   try {
-    if (!File(kPubspec).existsSync()) {
+    if (!File(kPubspecYaml).existsSync()) {
       _printNotFlutterProjectAndClose();
     }
-    final yamlFile = File(kPubspec);
-    final YamlMap pubspecFile = loadYaml(yamlFile.readAsStringSync());
-    final containsDeps = pubspecFile.containsKey('dependencies');
-    if (!containsDeps) {
+    final yamlFile = File(kPubspecYaml);
+    final YamlEditor pubspecFile = YamlEditor(yamlFile.readAsStringSync());
+    //If parsed successfully then it's a Flutter project
+    //If cannot parse, it throws error so catch it and print error message
+    //Most likely the user is not in a Flutter project directory
+    final flutterNodeValue =
+        pubspecFile.parseAt(['dependencies', 'flutter']).value;
+    if (flutterNodeValue == null) {
       _printNotFlutterProjectAndClose();
     }
-    final bool containsFlutter =
-        pubspecFile['dependencies'].containsKey('flutter');
-    if (!containsFlutter) {
-      _printNotFlutterProjectAndClose();
-    }
-
-    final projectName = pubspecFile['name'];
+    final projectName = pubspecFile.parseAt(['name']).value;
     print('Flutter project found => $projectName');
   } catch (e) {
+    print(e.toString());
     _printNotFlutterProjectAndClose();
   }
 }
