@@ -1,0 +1,5 @@
+{
+  "name": "button",
+  "dependencies": [],
+  "content": "import 'package:flutter/material.dart';\n\nclass Button extends StatelessWidget {\n  const Button({super.key});\n\n  @override\n  Widget build(BuildContext context) {\n    return ElevatedButton(\n      onPressed: () {},\n      child: const Text('Button'),\n    );\n  }\n}\n"
+}
