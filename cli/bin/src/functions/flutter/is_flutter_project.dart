@@ -26,7 +26,7 @@ void isFlutterProject() {
     }
 
     final projectName = pubspecFile['name'];
-    print('Flutter project found: $projectName');
+    print('Flutter project found => $projectName');
   } catch (e) {
     _printNotFlutterProjectAndClose();
   }

@@ -16,6 +16,7 @@ void myMain(List<String> arguments) {
   initializeDependency();
 
   isFlutterProject();
+
   close();
 
   final firstArg = arguments[0];
