@@ -9,46 +9,87 @@ abstract class ButtonVariant extends Equatable {
   final Widget? child;
   final bool isLoading;
   final IconData? icon;
+  final double iconSize;
+  final Size defaultSize;
 
   const ButtonVariant(
       {this.onPressed,
       this.text,
+      this.iconSize = 20,
       this.child,
       this.isLoading = false,
+      this.defaultSize = const Size(88, 42),
       this.icon});
 
   @override
-  List<Object?> get props => [onPressed, text, child, isLoading, icon];
+  List<Object?> get props =>
+      [onPressed, text, child, isLoading, icon, iconSize];
 }
 
 class PrimaryButtonVariant extends ButtonVariant {
   const PrimaryButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class SecondaryButtonVariant extends ButtonVariant {
   const SecondaryButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class TertiaryButtonVariant extends ButtonVariant {
   const TertiaryButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class ErrorButtonVariant extends ButtonVariant {
   const ErrorButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class OutlineButtonVariant extends ButtonVariant {
   const OutlineButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class GhostButtonVariant extends ButtonVariant {
   const GhostButtonVariant(
-      {super.onPressed, super.text, super.child, super.isLoading, super.icon});
+      {super.onPressed,
+      super.text,
+      super.child,
+      super.isLoading,
+      super.icon,
+      super.iconSize,
+      super.defaultSize});
 }
 
 class MyButton extends StatelessWidget {
@@ -83,6 +124,8 @@ class MyButton extends StatelessWidget {
     return ElevatedButton.styleFrom(
       backgroundColor: _getBackgroundColor(theme),
       foregroundColor: _getForegroundColor(theme),
+      minimumSize: variant.defaultSize,
+      shape: _getShape(theme),
       side: _getBorder(theme),
       splashFactory: NoSplash.splashFactory,
     );
@@ -107,7 +150,7 @@ class MyButton extends StatelessWidget {
             label: _getButtonChild(theme),
             icon: variant.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon),
+                : Icon(variant.icon, size: variant.iconSize),
           );
         }
       case OutlineButtonVariant:
@@ -125,7 +168,7 @@ class MyButton extends StatelessWidget {
             label: _getButtonChild(theme),
             icon: variant.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon),
+                : Icon(variant.icon, size: variant.iconSize),
           );
         }
       default:
@@ -203,10 +246,21 @@ class MyButton extends StatelessWidget {
         return null;
     }
   }
+
+  OutlinedBorder? _getShape(ThemeData theme) {
+    switch (variant.runtimeType) {
+      case GhostButtonVariant:
+        return null;
+      default:
+        return RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        );
+    }
+  }
 }
 
 class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator({super.key});
+  const _LoadingIndicator();
 
   @override
   Widget build(BuildContext context) {

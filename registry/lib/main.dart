@@ -121,17 +121,16 @@ class _MyHomePageState extends State<MyHomePage> {
               MyButton(
                 variant: GhostButtonVariant(
                   icon: Icons.chevron_right,
-                  isLoading: true,
                   onPressed: () {},
                   text: "Icon Button with text",
                 ),
               ),
               const SizedBox(height: 20),
               MyButton(
-                variant: OutlineButtonVariant(
-                  isLoading: true,
+                variant: PrimaryButtonVariant(
                   onPressed: () {},
-                  text: "Icon Button with text",
+                  text: "Login with Email",
+                  icon: Icons.email,
                 ),
               ),
               const SizedBox(height: 20),
