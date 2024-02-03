@@ -8,5 +8,7 @@ registry:
     version: 0.0.1
   
   components:
-    button:
+    folder: components
+    ui:
+      button:
       version: 0.0.1
