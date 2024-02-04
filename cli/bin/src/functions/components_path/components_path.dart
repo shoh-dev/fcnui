@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import '../../constants.dart';
-import '../init/init_yaml.dart';
+import '../../dependency/dependency.dart';
+import '../init/init_json_md.dart';
 
 String getComponentsPath() {
-  return "$kProjectBaseLibPath${InitYaml().componentsFolderPath}";
+  return "$kProjectBaseLibPath${getIt.get<InitJsonMd>().registry.componentsFolder}";
 }

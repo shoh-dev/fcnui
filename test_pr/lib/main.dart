@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
-import 'package:test_pr/components/button.dart';
 
 void main() {
   runApp(DefaultStoreProvider(child: const MyApp()));
@@ -114,11 +113,11 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            DefaultButton(
-              variant: SecondaryButtonVariant(
-                onPressed: () {},
-              ),
-            ),
+            // DefaultButton(
+            //   variant: SecondaryButtonVariant(
+            //     onPressed: () {},
+            //   ),
+            // ),
           ],
         ),
       ),
