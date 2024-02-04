@@ -1,37 +1,48 @@
 import 'dart:io';
 
 import '../../api/api.dart';
+import '../../api/models/models.dart';
+import '../../constants.dart';
 import '../../dependency/dependency.dart';
 import '../functions.dart';
 
 Future<void> doAdd(List<String> args) async {
-  final String componentName = args[1];
+  final List<String> componentNames = args.sublist(1);
 
   //Find the given component from db
-  final Result componentResult =
-      await getIt.get<ApiClient>().findComponent([componentName]);
-
-  componentResult.fold((l) {
+  final componentsResult =
+      await getIt.get<ApiClient>().findComponents(componentNames);
+  componentsResult.fold((l) {
     //error from catch
-    logger(l, hint: 'error');
+    print((l as DefaultErrorImpl).message);
   }, (r) {
     //success
-    final bool success = r['success'];
+    final bool success = r.success;
     if (!success) {
-      logger(r['error'], hint: 'error');
+      if (r.error == null) {
+        print('Error from server');
+      }
+      if (r.error!.message != null) {
+        print(r.error!.message!);
+      }
     } else {
-      final List<Map<String, dynamic>> listOfComponents =
-          r['data'].cast<Map<String, dynamic>>();
-      for (var component in listOfComponents) {
+      final listOfFoundComponents = r.data ?? [];
+      final listOfNotFoundComponents = r.error?.notFoundComponents ?? [];
+
+      for (var component in listOfFoundComponents) {
         final componentPath = getComponentsPath();
-        final componentDir =
-            "${Directory(componentPath).path}/${component['name']}.dart";
+        final componentDir = "$componentPath$pSeparator${component.name}.dart";
         //check if this components exists
         if (File(componentDir).existsSync()) {
-          logger('Component already exists', hint: 'error');
-          exit(0);
+          //todo: handle if exists
+          logger('${component.name} already exists', hint: '');
+          continue;
         }
-        File(componentDir).writeAsStringSync(component['content']);
+        File(componentDir).writeAsStringSync(component.content);
+        print('Component ${component.name} added successfully');
+      }
+      if (listOfNotFoundComponents.isNotEmpty) {
+        print('$listOfNotFoundComponents are not found in the database');
       }
     }
   });

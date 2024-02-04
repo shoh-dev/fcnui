@@ -3,19 +3,20 @@ import 'dart:io';
 import 'src/src.dart';
 
 Future<void> main(List<String> arguments) async {
-  if (arguments.isEmpty) {
+  final args = arguments.map((e) => e.toLowerCase()).toList();
+  if (args.isEmpty) {
     print('Invalid command. Use: cli <command>');
     close();
   }
 
-  myMain(arguments);
+  await myMain(args);
 }
 
-void myMain(List<String> arguments) {
+Future<void> myMain(List<String> arguments) async {
   //Initialize dependencies
   initializeDependency();
 
-  // isFlutterProject(); //todo: uncomment this line
+  isFlutterProject();
 
   final firstArg = arguments[0];
 
@@ -24,30 +25,7 @@ void myMain(List<String> arguments) {
       doInit(arguments);
       close();
     case "add":
-      doAdd(arguments);
-      break;
-    case "pub":
-      doPub(arguments);
-      break;
-  }
-}
-
-void doPub(List<String> args) {
-  if (args.length < 2) {
-    print('Invalid command. Use: cli pub <package-name>');
-    return;
-  }
-
-  final packageName = args[1];
-
-  final yourWorkingDir = Directory.current.path;
-  //call flutter pub add packageName
-  try {
-    Process.runSync('flutter', ['pub', 'add', packageName],
-        workingDirectory: yourWorkingDir, runInShell: true);
-  } on ProcessException catch (e) {
-    print(e.message);
-    print(e.errorCode);
-    print(e.executable);
+      await doAdd(arguments);
+      close();
   }
 }

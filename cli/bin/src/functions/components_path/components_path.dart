@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import '../../constants.dart';
+import '../init/init_yaml.dart';
+
 String getComponentsPath() {
-  final yourWorkingDir = Directory.current.path;
-  return "$yourWorkingDir/lib/components"; //todo: Get from flutter_cn_ui.yaml
+  return "$kProjectBaseLibPath${InitYaml().componentsFolderPath}";
 }

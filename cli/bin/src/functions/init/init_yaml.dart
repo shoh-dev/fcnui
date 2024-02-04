@@ -80,7 +80,5 @@ registry:
   components:
     folder:
     ui:
-      button:
-      version: 0.0.1
 ''';
 }

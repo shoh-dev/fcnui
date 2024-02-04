@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
+import '../functions/functions.dart';
+import 'models/models.dart';
+
 const String kBaseUrl = 'http://localhost:3000/api/';
 
-typedef Result<T> = Either<String, T>;
+typedef Result<T> = Either<DefaultError, T>;
 
 class ApiClient {
   ApiClient() {
@@ -16,18 +19,31 @@ class ApiClient {
     dio = Dio(BaseOptions(baseUrl: kBaseUrl));
   }
 
-  Future<Result> findComponent(List<String> componentNames) async {
+  Future<Result<DefaultResponse<List<ComponentFetchData>, ComponentFetchError>>>
+      findComponents(List<String> componentNames) async {
     try {
       final response = await dio
           .post("ui/component", data: {"componentNames": componentNames});
-      return right(response.data);
+      final bool success = response.data['success'];
+      var defaultResponse =
+          DefaultResponse<List<ComponentFetchData>, ComponentFetchError>(
+              success: success);
+      final ComponentFetchError error =
+          ComponentFetchError.fromJson(response.data);
+      defaultResponse = defaultResponse.copyWith(error: error);
+      final List<ComponentFetchData> data =
+          ((response.data['data'] as List?) ?? [])
+              .map((e) => ComponentFetchData.fromJson(e))
+              .toList();
+      defaultResponse = defaultResponse.copyWith(data: data);
+      return right(defaultResponse);
     } on DioException catch (e) {
       print('dio exception');
-      return left(e.error.toString());
+      return left(DefaultErrorImpl(message: e.message));
     } catch (e, st) {
       print('exception');
       print(st);
-      return left(e.toString());
+      return left(DefaultErrorImpl(message: e.toString()));
     }
   }
 }
