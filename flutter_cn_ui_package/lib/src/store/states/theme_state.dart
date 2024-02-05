@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-const String kDefaultFlexScheme = 'greyLaw';
 const String kDefaultThemeMode = 'light';
+const String kDefaultFlexScheme = 'greyLaw';
 const ThemeMode kDefaultThemeModeValue = ThemeMode.system;
 const FlexScheme kDefaultFlexSchemeValue = FlexScheme.greyLaw;
 

@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -14,23 +12,25 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# API Documentation for /ui/component
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## UI Provider Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+| Endpoint | Description |
+| --- | --- |
+| `ui_provider/routes/index.dart` | Handles incoming requests and returns a JSON response with a single key-value pair, where the key is 'name' and the value is 'Flutter Demo'. |
 
-## Learn More
+## UI Component Route
 
-To learn more about Next.js, take a look at the following resources:
+| Endpoint | Method | Description | Parameters |
+| --- | --- | --- | --- |
+| `ui/app/api/ui/component/route.js` | GET | Returns a default response indicating that the GET method is not available for this route. | None |
+| `ui/app/api/ui/component/route.js` | POST | Takes a request, extracts the 'componentNames' from the request body, and returns a response containing the components found in the `defaultThemeComponentsIndex`. | 'components': An array of component names |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## UI Theme componentNames
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+| File | Description |
+| --- | --- |
+| `ui/app/api/registry/themes/default/ui/index.json` | Contains a list of UI componentNames for the default theme. Each component is represented as a JSON object with a 'name' and 'content' key. The 'content' key contains the Dart code for the component. |
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This format provides a clear and concise overview of your API's endpoints, their methods, descriptions, and required parameters. It also includes a section for UI theme componentNames.

@@ -1,39 +1,26 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+### flutter_cn_ui Package for Flutter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+The flutter_cn_ui package for Flutter is a comprehensive collection of dependencies and default components, carefully crafted to empower developers in building stunning user interfaces for their Flutter applications. This package leverages a range of essential dependencies, ensuring seamless integration and optimal performance in your projects.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+#### Dependencies:
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+| Dependency       | Version |
+|------------------|---------|
+| redux            | 5.0.0   |
+| flutter_redux    | 0.10.0  |
+| flex_color_scheme| 7.3.1   |
+| equatable       | 2.0.5   |
+| get_it           | 7.6.7   |
 
-## Features
+#### Features:
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- **Redux Store**: Includes a Redux store with states and actions to manage application themes.
+- **ThemeState**: Manages theme-related states such as theme mode, flex scheme, and platform theme usage.
+- **Actions**:
+    - **ChangeThemeModeAction**: Accepts a string representing the theme mode (e.g., ThemeMode.light.name). Default: system.
+    - **ChangeFlexSchemeAction**: Accepts a string representing the flex scheme (e.g., FlexScheme.red.name). Default: greyLaw.
+    - **ChangeUsePlatformThemeAction**: Accepts a boolean value to indicate whether to use the platform's theme from Theme.of(context) for installed components. Default: false.
+- **Providers**:
+    - **DefaultStoreConnector\<T\>**: Provides a T type of state for Redux store connection.
+    - **DefaultStoreProvider**: Wrapper used to encompass MaterialApp or CupertinoApp. Important for the proper functioning of components.
+    - **ThemeProvider**: Offers all required ThemeState data and actions to toggle theme mode and change themes.
