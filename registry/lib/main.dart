@@ -27,9 +27,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ThemeProvider(
       builder: (context, vm) => MaterialApp(
-        theme: FlexColorScheme.light(scheme: vm.flexScheme).toTheme,
-        darkTheme: FlexColorScheme.dark(scheme: vm.flexScheme).toTheme,
-        themeMode: vm.themeMode,
+        // theme: FlexColorScheme.light(scheme: vm.flexScheme).toTheme,
+        // darkTheme: FlexColorScheme.dark(scheme: vm.flexScheme).toTheme,
+        // themeMode: vm.themeMode,
         title: 'Flutter Demo',
         home: const MyHomePage(title: 'Registry App for Flutter cn UI'),
       ),
@@ -128,8 +128,17 @@ class _MyHomePageState extends State<MyHomePage> {
               DefaultButton(
                 variant: PrimaryButtonVariant(
                   onPressed: () {},
+                  isLoading: true,
                   text: "Login with Email",
                   icon: Icons.email,
+                ),
+              ),
+              const SizedBox(height: 20),
+              DefaultButton(
+                variant: PrimaryButtonVariant(
+                  onPressed: () {},
+                  isLoading: true,
+                  child: Icon(Icons.email),
                 ),
               ),
               const SizedBox(height: 20),

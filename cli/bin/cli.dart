@@ -17,7 +17,7 @@ Future<void> myMain(List<String> arguments) async {
 
   getIt.registerSingleton<InitJson>(InitJson());
 
-  // isFlutterProject();//todo: uncomment this line
+  isFlutterProject();
 
   final firstArg = arguments[0];
 
