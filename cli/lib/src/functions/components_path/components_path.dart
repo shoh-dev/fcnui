@@ -1,7 +1,8 @@
+import 'package:cli/src/functions/init/init_json.dart';
+
 import '../../constants.dart';
 import '../../dependency/dependency.dart';
-import '../init/init_json_md.dart';
 
 String getComponentsPath() {
-  return "$kProjectBaseLibPath${getIt.get<InitJsonMd>().registry.componentsFolder}";
+  return "$kProjectBaseLibPath${getIt.get<InitJson>().initJsonMd.registry.componentsFolder}";
 }

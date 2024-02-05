@@ -1,7 +1,7 @@
-///v0.0.1
-
+import 'package:equatable/equatable.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
+import 'package:flutter_cn_ui_package/src/vm_providers/vm_providers.dart';
 
 abstract class ButtonVariant extends Equatable {
   final VoidCallback? onPressed;
@@ -112,11 +112,17 @@ class DefaultButton extends StatelessWidget {
   Widget getChild(BuildContext context, ThemeVm vm) {
     ///! Below part must not be changed
 
-    final theme = vm.theme;
+    final flexScheme = vm.flexScheme;
+    final theme = vm.themeMode == ThemeMode.dark
+        ? FlexThemeData.dark(scheme: flexScheme)
+        : FlexThemeData.light(scheme: flexScheme);
 
     ///! Above part must not be changed
 
-    return Theme(data: theme, child: _getButtonWidgetType(theme));
+    return Theme(
+      data: theme,
+      child: _getButtonWidgetType(theme),
+    );
   }
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
@@ -198,20 +204,6 @@ class DefaultButton extends StatelessWidget {
     }
   }
 
-  Color? _getForegroundColor(ThemeData theme) {
-    switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
-      case ErrorButtonVariant:
-        return theme.colorScheme.onPrimary;
-      case SecondaryButtonVariant:
-        return theme.colorScheme.onSecondary;
-      case TertiaryButtonVariant:
-        return theme.colorScheme.onTertiary;
-      default:
-        return null;
-    }
-  }
-
   Widget _getButtonChild(ThemeData theme) {
     final ch = variant.child ?? Text(_getText());
     if (variant.icon == null) {
@@ -234,6 +226,21 @@ class DefaultButton extends StatelessWidget {
       return "Please wait";
     }
     return variant.text ?? 'Button';
+  }
+
+  Color? _getForegroundColor(ThemeData theme) {
+    switch (variant.runtimeType) {
+      case PrimaryButtonVariant:
+        return theme.colorScheme.onPrimary;
+      case SecondaryButtonVariant:
+        return theme.colorScheme.onSecondary;
+      case TertiaryButtonVariant:
+        return theme.colorScheme.onTertiary;
+      case ErrorButtonVariant:
+        return theme.colorScheme.onError;
+      default:
+        return null;
+    }
   }
 
   BorderSide? _getBorder(ThemeData theme) {

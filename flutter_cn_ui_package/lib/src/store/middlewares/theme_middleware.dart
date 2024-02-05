@@ -8,6 +8,8 @@ class ThemeStateMiddleware extends MiddlewareClass<AppState> {
         return _changeThemeModeAction(store, action, next);
       case ChangeFlexSchemeAction:
         return _changeFlexSchemeAction(store, action, next);
+      case ChangeUsePlatformThemeAction:
+        return _changeUsePlatformThemeAction(store, action, next);
     }
   }
 
@@ -19,5 +21,10 @@ class ThemeStateMiddleware extends MiddlewareClass<AppState> {
   void _changeFlexSchemeAction(Store<AppState> store,
       ChangeFlexSchemeAction action, NextDispatcher next) {
     next(UpdateThemeState(flexScheme: action.flexScheme));
+  }
+
+  void _changeUsePlatformThemeAction(Store<AppState> store,
+      ChangeUsePlatformThemeAction action, NextDispatcher next) {
+    next(UpdateThemeState(usePlatformTheme: action.usePlatformTheme));
   }
 }

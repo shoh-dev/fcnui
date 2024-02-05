@@ -8,7 +8,6 @@ class Initialization {
   final InitJson initJson;
 
   Initialization({required this.initJson});
-
   void init() {
     //Check if the components folder is registered
     if (initJson.initJsonMd.registry.componentsFolder != null) {

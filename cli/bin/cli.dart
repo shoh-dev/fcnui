@@ -13,15 +13,15 @@ Future<void> main(List<String> arguments) async {
 
 Future<void> myMain(List<String> arguments) async {
   //Initialize dependencies
-  final InitJson initJson = InitJson();
-  final ApiClient apiClient = ApiClient();
+  getIt.registerSingleton<ApiClient>(ApiClient());
 
-  getIt.registerSingleton<ApiClient>(apiClient);
-  getIt.registerSingleton<InitJson>(initJson);
+  getIt.registerSingleton<InitJson>(InitJson());
 
-  // isFlutterProject();
+  // isFlutterProject();//todo: uncomment this line
 
   final firstArg = arguments[0];
+
+  final initJson = getIt<InitJson>();
 
   if (firstArg == "init") {
     final initialization = Initialization(initJson: initJson);
@@ -29,13 +29,24 @@ Future<void> myMain(List<String> arguments) async {
     close();
   }
 
+  if (!initJson.isInitialized) {
+    print('Please run "cli init" first');
+    close();
+  }
+
+  final componentMethods = ComponentMethods(initJson: initJson);
+
   switch (firstArg) {
     case "add":
-    // if (!Initialization(initJson: initJson).initialized()) {
-    //   print('Please run "cli init" first');
-    //   close();
-    // }
-    // await doAdd(arguments);
-    // close();
+      final components = arguments.sublist(1);
+      if (components.isEmpty) {
+        print('Invalid command. Use: cli add <componentName>');
+        close();
+      }
+      await componentMethods.add(components);
+      close();
+    default:
+      print("Invalid command. Use: 'cli help' for more information.");
+      close();
   }
 }

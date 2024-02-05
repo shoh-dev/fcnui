@@ -65,6 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Text("Theme Mode: $vm");
                   }),
               const SizedBox(height: 20),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("Default Elevated Button")),
+              const SizedBox(height: 20),
               DefaultButton(
                 variant: PrimaryButtonVariant(
                   onPressed: () {},
@@ -129,21 +133,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: () {
-                    fcnGetIt
-                        .get<Store<AppState>>()
-                        .dispatch(ChangeThemeModeAction(themeMode: 'dark'));
-                  },
-                  child: const Text("Dark")),
+              ThemeProvider(builder: (context, vm) {
+                return ElevatedButton(
+                    onPressed: () {
+                      vm.onToggleThemeMode(ThemeMode.dark);
+                    },
+                    child: const Text("Dark"));
+              }),
               const SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: () {
-                    fcnGetIt
-                        .get<Store<AppState>>()
-                        .dispatch(ChangeThemeModeAction(themeMode: 'light'));
-                  },
-                  child: const Text("Light")),
+              ThemeProvider(builder: (context, vm) {
+                return ElevatedButton(
+                    onPressed: () {
+                      vm.onToggleThemeMode(ThemeMode.light);
+                    },
+                    child: const Text("Light"));
+              }),
+              const SizedBox(height: 20),
+              ThemeProvider(builder: (context, vm) {
+                return ElevatedButton(
+                    onPressed: () {
+                      fcnGetIt.get<Store<AppState>>().dispatch(
+                          ChangeUsePlatformThemeAction(usePlatformTheme: true));
+                    },
+                    child: const Text("Use platform theme"));
+              }),
               const SizedBox(height: 20),
               ThemeProvider(
                 builder: (context, vm) => SizedBox(
@@ -157,9 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               value: e.index, child: Text(e.name)))
                           .toList(),
                       onChanged: (value) {
-                        fcnGetIt.get<Store<AppState>>().dispatch(
-                            ChangeFlexSchemeAction(
-                                flexScheme: FlexScheme.values[value!].name));
+                        vm.onChangeThemeScheme(FlexScheme.values[value!]);
                       }),
                 ),
               ),

@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-import '../../constants.dart';
-import '../functions.dart';
+import 'package:cli/src/constants.dart';
+import 'package:cli/src/functions/functions.dart';
 import 'init_json_md.dart';
 
 class InitJson {
-  late final InitJsonMd initJsonMd;
-
   InitJson() {
     initJsonFile();
   }
+  late final InitJsonMd initJsonMd;
 
-  bool get initJsonExists {
-    return getJsonFile() != null;
+  bool get isInitialized {
+    return initJsonMd.registry.componentsFolder != null;
   }
 
   File? getJsonFile() {
@@ -24,8 +23,14 @@ class InitJson {
   }
 
   InitJsonMd getCnUiJson() {
-    final file = File(kFlutterCnUiJson);
-    return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
+    try {
+      final file = File(kFlutterCnUiJson);
+      return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
+    } catch (e) {
+      print('Error reading flutter_cn_ui.json file: $e');
+      close();
+      rethrow;
+    }
   }
 
   void initJsonFile() {
@@ -70,8 +75,25 @@ class InitJson {
       close();
     }
     final json = getCnUiJson();
+    //if exists replace
+    final index = json.registry.components
+        .indexWhere((element) => element.name == component.name);
+    if (index != -1) {
+      json.registry.components[index] = component;
+      getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
+      logger("Updated ${component.name} in flutter_cn_ui.json");
+      return;
+    }
+    //if not exists add
     json.registry.components.add(component);
     logger("Registered ${component.name} in flutter_cn_ui.json");
-    getJsonFile()!.writeAsStringSync(json.toString());
+    getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
+  }
+
+  String getComponentVersion(String componentName) {
+    final json = getCnUiJson();
+    final component = json.registry.components
+        .firstWhere((element) => element.name == componentName);
+    return component.version;
   }
 }

@@ -7,7 +7,20 @@
       "name": "default",
       "version": "0.0.1"
     },
-    "componentsFolder": "components/ui",
-    "components": []
+    "componentsFolder": "components",
+    "components": [
+      {
+        "name": "button",
+        "version": "0.0.3"
+      },
+      {
+        "name": "avatar",
+        "version": "0.0.2"
+      },
+      {
+        "name": "badge",
+        "version": "0.0.2"
+      }
+    ]
   }
 }

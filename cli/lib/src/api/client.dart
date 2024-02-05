@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-
-import '../functions/functions.dart';
 import 'models/models.dart';
 
 const String kBaseUrl = 'http://localhost:3000/api/';
@@ -39,7 +37,7 @@ class ApiClient {
       return right(defaultResponse);
     } on DioException catch (e) {
       print('dio exception');
-      return left(DefaultErrorImpl(message: e.message));
+      return left(DefaultErrorImpl(message: "Server error: ${e.message}"));
     } catch (e, st) {
       print('exception');
       print(st);

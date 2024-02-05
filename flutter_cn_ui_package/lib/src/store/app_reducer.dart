@@ -13,5 +13,6 @@ ThemeState _updateGeneralState(ThemeState state, UpdateThemeState action) {
   return state.copyWith(
     themeMode: action.themeMode ?? state.themeMode,
     flexScheme: action.flexScheme ?? state.flexScheme,
+    usePlatformTheme: action.usePlatformTheme ?? state.usePlatformTheme,
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
 import 'package:flutter_cn_ui_package/src/store/store.dart';
 import 'vm_providers.dart';
 
@@ -10,7 +11,7 @@ class ThemeProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultStoreConnector<ThemeVm>(
-      converter: (store) => ThemeVm.fromStore(store),
+      converter: (store) => ThemeVm.fromStore(store, context),
       builder: (context, vm) {
         return builder(context, vm);
       },
@@ -22,24 +23,54 @@ class ThemeVm {
   final ThemeMode themeMode;
   final FlexScheme flexScheme;
 
-  ThemeVm({required this.themeMode, required this.flexScheme});
+  final ThemeData theme;
 
-  factory ThemeVm.fromStore(Store<AppState> store) {
+  final ValueChanged<ThemeMode> onToggleThemeMode;
+
+  final ValueChanged<FlexScheme> onChangeThemeScheme;
+
+  ThemeVm(
+      {required this.themeMode,
+      required this.flexScheme,
+      required this.theme,
+      required this.onToggleThemeMode,
+      required this.onChangeThemeScheme});
+
+  factory ThemeVm.fromStore(Store<AppState> store, BuildContext context) {
     ThemeMode themeMode = kDefaultThemeModeValue;
     FlexScheme flexScheme = kDefaultFlexSchemeValue;
 
+    final dispatch = store.dispatch;
+
     final themeModeStr = store.state.themeState.themeMode;
     final flexSchemeStr = store.state.themeState.flexScheme;
+    final bool usePlatformTheme = store.state.themeState.usePlatformTheme;
 
     if (themeModeStr == 'dark') {
       themeMode = ThemeMode.dark;
     } else if (themeModeStr == 'light') {
       themeMode = ThemeMode.light;
+    } else if (themeModeStr == 'system') {
+      themeMode = ThemeMode.system;
     }
 
     flexScheme = FlexScheme.values.firstWhere((e) => e.name == flexSchemeStr,
         orElse: () => kDefaultFlexSchemeValue);
 
-    return ThemeVm(themeMode: themeMode, flexScheme: flexScheme);
+    final theme = usePlatformTheme
+        ? Theme.of(context)
+        : (themeMode == ThemeMode.dark
+            ? FlexThemeData.dark(scheme: flexScheme, useMaterial3: true)
+            : FlexThemeData.light(scheme: flexScheme, useMaterial3: true));
+
+    return ThemeVm(
+      themeMode: themeMode,
+      flexScheme: flexScheme,
+      theme: theme,
+      onChangeThemeScheme: (value) =>
+          dispatch(ChangeFlexSchemeAction(flexScheme: value.name)),
+      onToggleThemeMode: (value) =>
+          dispatch(ChangeThemeModeAction(themeMode: value.name)),
+    );
   }
 }
