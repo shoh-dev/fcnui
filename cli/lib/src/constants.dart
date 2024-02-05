@@ -11,3 +11,6 @@ const String kDefaultComponentsFolder = 'components';
 String pSeparator = Platform.pathSeparator;
 String kProjectBaseLibPath =
     '${Directory.current.path}${pSeparator}lib$pSeparator';
+
+String getComponentsFullPath(String componentsFolder) =>
+    kProjectBaseLibPath + (componentsFolder);

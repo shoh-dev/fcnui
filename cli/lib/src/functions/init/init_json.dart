@@ -25,7 +25,6 @@ class InitJson {
 
   InitJsonMd getCnUiJson() {
     final file = File(kFlutterCnUiJson);
-    print(file.readAsStringSync());
     return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
   }
 

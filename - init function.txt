@@ -1,0 +1,10 @@
+- init function
+creates components folder
+creates flutter_cn_ui.json file and inserts all the required information name, version, folder path, theme name and components with name and version
+can check if it was initialized
+
+- add function
+checks if is initialized
+finds the component and folder
+inserts the found components to the found folder
+and registers to the flutter_cn_ui.json

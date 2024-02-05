@@ -1,7 +1,5 @@
-import 'dart:io';
-
-import 'src/functions/init/init_json.dart';
-import 'src/src.dart';
+import 'package:cli/src/functions/init/init_json.dart';
+import 'package:cli/src/src.dart';
 
 Future<void> main(List<String> arguments) async {
   final args = arguments.map((e) => e.toLowerCase()).toList();
@@ -15,32 +13,29 @@ Future<void> main(List<String> arguments) async {
 
 Future<void> myMain(List<String> arguments) async {
   //Initialize dependencies
-  initializeDependency();
+  final InitJson initJson = InitJson();
+  final ApiClient apiClient = ApiClient();
+
+  getIt.registerSingleton<ApiClient>(apiClient);
+  getIt.registerSingleton<InitJson>(initJson);
 
   // isFlutterProject();
 
   final firstArg = arguments[0];
 
-  final InitJson initJson = InitJson();
   if (firstArg == "init") {
-    final initialized =
-        await Initialization(initJson: initJson).doInit(arguments);
-    if (initialized) {
-      print('Initialized');
-    } else {
-      print('Failed to initialize');
-    }
+    final initialization = Initialization(initJson: initJson);
+    initialization.init();
     close();
   }
 
   switch (firstArg) {
-    case "init":
     case "add":
-      if (!Initialization(initJson: initJson).initialized()) {
-        print('Please run "cli init" first');
-        close();
-      }
-      await doAdd(arguments);
-      close();
+    // if (!Initialization(initJson: initJson).initialized()) {
+    //   print('Please run "cli init" first');
+    //   close();
+    // }
+    // await doAdd(arguments);
+    // close();
   }
 }

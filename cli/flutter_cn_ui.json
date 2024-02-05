@@ -7,7 +7,7 @@
       "name": "default",
       "version": "0.0.1"
     },
-    "componentsFolder": null,
+    "componentsFolder": "components/ui",
     "components": []
   }
 }
