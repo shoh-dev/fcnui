@@ -1,10 +1,10 @@
-import 'package:cli/src/functions/init/init_json.dart';
-import 'package:cli/src/src.dart';
+import 'package:fcnui/src/functions/init/init_json.dart';
+import 'package:fcnui/src/src.dart';
 
 Future<void> main(List<String> arguments) async {
   final args = arguments.map((e) => e.toLowerCase()).toList();
   if (args.isEmpty) {
-    print('Invalid command. Use: cli <command>');
+    print('Invalid command. Use: fcnui <command>');
     close();
   }
 
@@ -30,7 +30,7 @@ Future<void> myMain(List<String> arguments) async {
   }
 
   if (!initJson.isInitialized) {
-    print('Please run "cli init" first');
+    print('Please run "fcnui init" first');
     close();
   }
 
@@ -40,13 +40,13 @@ Future<void> myMain(List<String> arguments) async {
     case "add":
       final components = arguments.sublist(1);
       if (components.isEmpty) {
-        print('Invalid command. Use: cli add <componentName>');
+        print('Invalid command. Use: fcnui add <componentName>');
         close();
       }
       await componentMethods.add(components);
       close();
     default:
-      print("Invalid command. Use: 'cli help' for more information.");
+      print("Invalid command. Use: 'fcnui help' for more information.");
       close();
   }
 }

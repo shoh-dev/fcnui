@@ -1,10 +1,11 @@
-name: cli
-description: A sample command-line application.
+name: fcnui
+description: The flutter_cn_ui CLI (Command-Line Interface) tool.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/shoh-dev/flutter_cn_ui
+homepage: https://shoh.dev
 
 environment:
-  sdk: ^3.2.6
+  sdk: ^3.2.3
 
 # Add regular dependencies here.
 dependencies:
@@ -12,6 +13,7 @@ dependencies:
   equatable: ^2.0.5
   fpdart: ^1.1.0
   get_it: ^7.6.7
+  mockito: ^5.4.4
   yaml_edit: ^2.1.1
 
 dev_dependencies:
@@ -19,4 +21,4 @@ dev_dependencies:
   test: ^1.24.0
 
 executables:
-  cli: cli.dart
+  fcnui: fcnui.dart

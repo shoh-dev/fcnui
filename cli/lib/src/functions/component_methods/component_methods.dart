@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:cli/src/functions/init/init_json.dart';
-import 'package:cli/src/functions/init/init_json_md.dart';
-import 'package:cli/src/src.dart';
+import 'package:fcnui/src/functions/init/init_json.dart';
+import 'package:fcnui/src/functions/init/init_json_md.dart';
+import 'package:fcnui/src/src.dart';
 
 class ComponentMethods {
   final InitJson initJson;

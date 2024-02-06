@@ -1,4 +1,4 @@
-import 'package:cli/src/functions/init/init_json.dart';
+import 'package:fcnui/src/functions/init/init_json.dart';
 
 import '../../constants.dart';
 import '../../dependency/dependency.dart';

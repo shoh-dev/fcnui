@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:cli/src/constants.dart';
-import 'package:cli/src/functions/functions.dart';
+import 'package:fcnui/src/constants.dart';
+import 'package:fcnui/src/functions/functions.dart';
 import 'init_json_md.dart';
 
 class InitJson {
