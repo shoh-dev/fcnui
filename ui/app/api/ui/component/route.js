@@ -2,7 +2,7 @@
 import {defaultResponse} from '../../utils/defaultResponse';
 
 // Importing the default theme components index from the registry directory
-import defaultThemeComponentsIndex from '../../registry/themes/default/ui/index.json';
+import defaultThemeComponentsIndex from '../../registry/ui/index.json';
 
 // The GET method for this route, which currently returns a default response
 // indicating that the GET method is not available for this route.

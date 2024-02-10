@@ -1,6 +1,6 @@
-### fcnui CLI
+### `fcnui` CLI
 
-The fcnui CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of fcnui components within Flutter projects. With an intuitive interface and a set of essential commands, the CLI empowers developers to streamline their workflow and efficiently integrate fcnui components into their applications.
+The `fcnui` CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of `fcnui` components within Flutter projects.
 
 ### Pub Dev Link
 
@@ -13,8 +13,9 @@ The fcnui CLI (Command-Line Interface) tool is a powerful utility designed to si
 #### Commands:
 
 1. **init**:
-    - Initializes a new Flutter project with fcnui integration.
-    - Creates a directory structure for managing fcnui components.
+    - Initializes a new Flutter project with `fcnui` integration.
+    - Creates a directory structure for managing `fcnui` components.
+    - Creates `fcnui.json` file to store the project's configuration.
 
 2. **add [component_name]**:
     - Fetches the specified component from the API.

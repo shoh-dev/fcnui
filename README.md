@@ -10,11 +10,11 @@ This project consists of the following packages:
 
 ### cli
 
-The `cli` package is a Dart-based CLI tool that streamlines the process of working with fcnui. It contains all the necessary commands to initialize a project, add new components, and manage dependencies efficiently.
+The `cli` package is a Dart-based CLI tool that streamlines the process of working with fcnui. It contains all the necessary commands to initialize a project, add new components.
 
 ### fcnui_base
 
-The `fcnui_base` package is the heart of fcnui. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies and default components. With this package, integrating stunning UI elements into your Flutter applications becomes seamless.
+The `fcnui_base` package is the heart of fcnui. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies.
 
 ### registry
 
@@ -22,7 +22,7 @@ The `registry` package is a Flutter application designed for testing fcnui compo
 
 ### ui
 
-The `ui` package is a Next.js application that complements fcnui. It provides an API for all the components in JSON format, enabling seamless integration with the `cli` tool. By offering a user-friendly interface for accessing component information, the `ui` package enhances the development experience for Flutter developers using fcnui.
+The `ui` package is a Next.js application that complements fcnui. It provides an API for all the components in JSON format, enabling seamless integration with the `cli` tool.
 
 [//]: # (## Documentation Website)
 
@@ -72,13 +72,14 @@ To get started with fcnui, follow these steps:
     ThemeProvider(
       builder: (context, vm) => MaterialApp(
         // Configure theme, dark theme, and theme mode as needed
+        // theme: vm.theme, //Optional. Enables fcnui theme to affect whole application
         title: 'Your App Title',
         home: YourHomePage(),
       ),
     );
     ```
 
-   Optionally, you can use `flutter_cn_theme` as your default theme. If not needed, simply wrap it.
+   Optionally, you can use `fcnui` as your default theme. If not needed, simply wrap it.
 
 5. **Start adding components**:
     - Begin adding components to your project by running the following command:
