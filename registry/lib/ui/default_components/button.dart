@@ -1,7 +1,7 @@
-///v0.0.1
+//v0.0.1
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
+import 'package:fcnui_base/fcnui_base.dart';
 
 /// [ButtonVariant] is the base class for all button variants
 ///
@@ -197,10 +197,10 @@ class DefaultButton extends StatelessWidget {
 
   Widget _getButtonWidgetType(ThemeData theme) {
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
-      case SecondaryButtonVariant:
-      case TertiaryButtonVariant:
-      case ErrorButtonVariant:
+      case const (PrimaryButtonVariant):
+      case const (SecondaryButtonVariant):
+      case const (TertiaryButtonVariant):
+      case const (ErrorButtonVariant):
         if (variant.icon == null) {
           return ElevatedButton(
             style: _getButtonStyle(theme),
@@ -217,8 +217,8 @@ class DefaultButton extends StatelessWidget {
                 : Icon(variant.icon, size: variant.iconSize),
           );
         }
-      case OutlineButtonVariant:
-      case GhostButtonVariant:
+      case const (OutlineButtonVariant):
+      case const (GhostButtonVariant):
         if (variant.icon == null) {
           return TextButton(
             style: _getButtonStyle(theme),
@@ -251,13 +251,13 @@ class DefaultButton extends StatelessWidget {
   Color? _getBackgroundColor(ThemeData theme) {
     if (variant.backgroundColor != null) return variant.backgroundColor;
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
+      case const (PrimaryButtonVariant):
         return theme.colorScheme.primary;
-      case SecondaryButtonVariant:
+      case const (SecondaryButtonVariant):
         return theme.colorScheme.secondary;
-      case TertiaryButtonVariant:
+      case const (TertiaryButtonVariant):
         return theme.colorScheme.tertiary;
-      case ErrorButtonVariant:
+      case const (ErrorButtonVariant):
         return theme.colorScheme.error;
       default:
         return null;
@@ -267,12 +267,12 @@ class DefaultButton extends StatelessWidget {
   Color? _getForegroundColor(ThemeData theme) {
     if (variant.foregroundColor != null) return variant.foregroundColor;
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
-      case ErrorButtonVariant:
+      case const (PrimaryButtonVariant):
+      case const (ErrorButtonVariant):
         return theme.colorScheme.onPrimary;
-      case SecondaryButtonVariant:
+      case const (SecondaryButtonVariant):
         return theme.colorScheme.onSecondary;
-      case TertiaryButtonVariant:
+      case const (TertiaryButtonVariant):
         return theme.colorScheme.onTertiary;
       default:
         return null;
@@ -305,7 +305,7 @@ class DefaultButton extends StatelessWidget {
 
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
-      case OutlineButtonVariant:
+      case const (OutlineButtonVariant):
         return BorderSide(color: theme.colorScheme.primary, width: 1);
       default:
         return null;

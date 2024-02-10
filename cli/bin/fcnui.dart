@@ -2,16 +2,16 @@ import 'package:fcnui/src/functions/init/init_json.dart';
 import 'package:fcnui/src/src.dart';
 
 Future<void> main(List<String> arguments) async {
+  await myMain(arguments);
+}
+
+Future<void> myMain(List<String> arguments) async {
   final args = arguments.map((e) => e.toLowerCase()).toList();
-  if (args.isEmpty) {
+  if (args.isEmpty || args[0].isEmpty) {
     print('Invalid command. Use: fcnui <command>');
     close();
   }
 
-  await myMain(args);
-}
-
-Future<void> myMain(List<String> arguments) async {
   //Initialize dependencies
   getIt.registerSingleton<ApiClient>(ApiClient());
 

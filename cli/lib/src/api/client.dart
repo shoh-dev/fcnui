@@ -2,9 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'models/models.dart';
 
-const String kBaseUrl =
-    // 'https://flutter-cn-api.vercel.app/api/';
-    'http://localhost:3000/api/';
+///This must be switched manually based on the environment
+const bool kDebugMode = true;
+
+const String kBaseUrl = kDebugMode
+    ? 'http://localhost:3000/api/'
+    : 'https://flutter-cn-api.vercel.app/api/';
 
 typedef Result<T> = Either<DefaultError, T>;
 

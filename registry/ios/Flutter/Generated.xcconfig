@@ -1,8 +1,8 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\Users\shoh\fvm\default
-FLUTTER_APPLICATION_PATH=C:\Users\shoh\Documents\Github\personal\flutter_cn_ui\registry
+FLUTTER_ROOT=/Users/shoh/fvm/versions/3.16.9
+FLUTTER_APPLICATION_PATH=/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=lib\main.dart
+FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1

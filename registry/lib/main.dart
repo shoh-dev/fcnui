@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
+import 'package:fcnui_base/fcnui_base.dart';
 
 import 'ui/default_components/default_components.dart';
 
@@ -26,12 +26,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      builder: (context, vm) => MaterialApp(
+      builder: (context, vm) => const MaterialApp(
         // theme: FlexColorScheme.light(scheme: vm.flexScheme).toTheme,
         // darkTheme: FlexColorScheme.dark(scheme: vm.flexScheme).toTheme,
         // themeMode: vm.themeMode,
         title: 'Flutter Demo',
-        home: const MyHomePage(title: 'Registry App for Flutter cn UI'),
+        home: MyHomePage(title: 'Registry App for Flutter cn UI'),
       ),
     );
   }
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 variant: PrimaryButtonVariant(
                   onPressed: () {},
                   isLoading: true,
-                  child: Icon(Icons.email),
+                  child: const Icon(Icons.email),
                 ),
               ),
               const SizedBox(height: 20),

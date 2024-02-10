@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
+import 'package:fcnui_base/fcnui_base.dart';
 
 void main() {
   runApp(DefaultStoreProvider(child: const MyApp()));

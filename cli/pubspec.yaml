@@ -1,6 +1,6 @@
 name: fcnui
-description: The flutter_cn_ui CLI (Command-Line Interface) tool.
-version: 1.0.1
+description: The flutter_cn_ui CLI (Command-Line Interface) tool. It is used to generate component code for the flutter_cn_ui package.
+version: 1.0.2
 repository: https://github.com/shoh-dev/flutter_cn_ui
 homepage: https://shoh.dev
 
