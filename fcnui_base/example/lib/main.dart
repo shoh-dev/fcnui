@@ -1,9 +1,10 @@
+/// 0. Components can be found in: lib/components (or the folder specified in fcnui.json)
 import 'package:example/components/button.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  ///1. Wrap your app with [DefaultStoreProvider]
+  /// 1. Wrap your app with [DefaultStoreProvider]
   runApp(DefaultStoreProvider(child: const MyApp()));
 }
 
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ///2. Use fcnui components ex:[DefaultButton]
+            /// 2. Use fcnui components ex:[DefaultButton]
             DefaultButton(
               variant: PrimaryButtonVariant(
                 onPressed: _incrementCounter,
