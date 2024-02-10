@@ -4,7 +4,8 @@ The flutter_cn_ui CLI (Command-Line Interface) tool is a powerful utility design
 
 ### Getting Started
 
-[Full Documentation](https://github.com/shoh-dev/flutter_cn_ui/wiki)
+<a target="_blank" href="https://github.com/shoh-dev/flutter_cn_ui/wiki">Full Documentation</a>
+
 
 #### Commands:
 
