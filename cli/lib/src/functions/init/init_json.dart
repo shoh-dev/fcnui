@@ -27,7 +27,7 @@ class InitJson {
       final file = File(kFlutterCnUiJson);
       return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
     } catch (e) {
-      print('Error reading flutter_cn_ui.json file: $e');
+      print('Error reading fcnui.json file: $e');
       close();
       rethrow;
     }
@@ -43,20 +43,20 @@ class InitJson {
         final defaultJson = InitJsonMd();
         File(kFlutterCnUiJson)
             .writeAsStringSync(jsonEncode(defaultJson.toJson()));
-        print('flutter_cn_ui.json file created');
+        print('fcnui.json file created');
       } else {
-        print('flutter_cn_ui.json file exists');
+        print('fcnui.json file exists');
       }
       initJsonMd = getCnUiJson();
     } catch (e) {
-      print('Error flutter_cn_ui.json file initFlutterCnJson: $e');
+      print('Error fcnui.json file initFlutterCnJson: $e');
       close();
     }
   }
 
   void updateJson(InitJsonMd newJsonData) {
     if (getJsonFile() == null) {
-      print('Error: flutter_cn_ui.json file not found');
+      print('Error: fcnui.json file not found');
       close();
     }
     final file = getJsonFile()!;
@@ -71,7 +71,7 @@ class InitJson {
 
   void registerComponent(ComponentData component) {
     if (getJsonFile() == null) {
-      print('Error: flutter_cn_ui.json file not found');
+      print('Error: fcnui.json file not found');
       close();
     }
     final json = getCnUiJson();
@@ -81,12 +81,12 @@ class InitJson {
     if (index != -1) {
       json.registry.components[index] = component;
       getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
-      logger("Updated ${component.name} in flutter_cn_ui.json");
+      logger("Updated ${component.name} in fcnui.json");
       return;
     }
     //if not exists add
     json.registry.components.add(component);
-    logger("Registered ${component.name} in flutter_cn_ui.json");
+    logger("Registered ${component.name} in fcnui.json");
     getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
   }
 

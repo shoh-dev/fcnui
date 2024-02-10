@@ -1,6 +1,6 @@
 name: fcnui_base
-description: "Base package for FCNUI Flutter applications."
-version: 0.0.1
+description: "Base package for fcnui applications. Contains common code for all fcnui applications. This package is not meant to be used on its own. It is meant to be used as a base for other fcnui applications."
+version: 1.0.0
 homepage: https://www.shoh.dev
 
 environment:
@@ -10,9 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  redux: 5.0.0
-  flutter_redux: 0.10.0
-  flex_color_scheme: 7.3.1
+  redux: ^5.0.0
+  flutter_redux: ^0.10.0
+  flex_color_scheme: ^7.3.1
   equatable: ^2.0.5
   get_it: ^7.6.7
 

@@ -1,4 +1,4 @@
-package com.shohdev.cli.example.example
+package com.shohdev.cli.example
 
 import io.flutter.embedding.android.FlutterActivity
 

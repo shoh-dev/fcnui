@@ -8,5 +8,5 @@ void initDependency() {
   if (!fcnGetIt.isRegistered<Store<AppState>>()) {
     fcnGetIt.registerSingleton<Store<AppState>>(appStore);
   }
-  debugPrint('Dependency Injection initialized for flutter_cn_ui');
+  debugPrint('Dependency Injection initialized for fcnui');
 }

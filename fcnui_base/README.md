@@ -4,15 +4,15 @@ The fcnui_base package for Flutter is a comprehensive collection of dependencies
 
 ### Getting Started
 
-<a target="_blank" href="https://github.com/shoh-dev/flutter_cn_ui/wiki">Full Documentation</a>
+<a target="_blank" href="https://github.com/shoh-dev/fcnui/wiki">Full Documentation</a>
 
 #### Dependencies:
 
 | Dependency       | Version |
 |------------------|---------|
 | redux            | 5.0.0   |
-| flutter_redux    | 0.10.0  |
-| flex_color_scheme| 7.3.1   |
+_| flutter_redux    | 0.10.0  |
+| flex_color_scheme| 7.3.1   |_
 | equatable       | 2.0.5   |
 | get_it           | 7.6.7   |
 

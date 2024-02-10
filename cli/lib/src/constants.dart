@@ -1,8 +1,8 @@
 import 'dart:io';
 
 const String kPubspecYaml = 'pubspec.yaml';
-const String kFlutterCnUiJson = 'flutter_cn_ui.json';
-const String kDefaultInitJsonName = 'flutter_cn_ui';
+const String kFlutterCnUiJson = 'fcnui.json';
+const String kDefaultInitJsonName = 'fcnui';
 const String kDefaultInitJsonVersion = '0.0.1';
 const String kDefaultInitJsonDescription = 'Helper package for Flutter CN UI';
 const String kDefaultThemeName = 'greyLaw';

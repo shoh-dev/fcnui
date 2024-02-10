@@ -1,16 +1,20 @@
-### flutter_cn_ui CLI
+### fcnui CLI
 
-The flutter_cn_ui CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of flutter_cn_ui components within Flutter projects. With an intuitive interface and a set of essential commands, the CLI empowers developers to streamline their workflow and efficiently integrate flutter_cn_ui components into their applications.
+The fcnui CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of fcnui components within Flutter projects. With an intuitive interface and a set of essential commands, the CLI empowers developers to streamline their workflow and efficiently integrate fcnui components into their applications.
+
+### Pub Dev Link
+
+<a target="_blank" href="https://pub.dev/packages/fcnui">Open pub.dev</a>
 
 ### Getting Started
 
-<a target="_blank" href="https://github.com/shoh-dev/flutter_cn_ui/wiki">Full Documentation</a>
+<a target="_blank" href="https://github.com/shoh-dev/fcnui/wiki">Full Documentation</a>
 
 #### Commands:
 
 1. **init**:
-    - Initializes a new Flutter project with flutter_cn_ui integration.
-    - Creates a directory structure for managing flutter_cn_ui components.
+    - Initializes a new Flutter project with fcnui integration.
+    - Creates a directory structure for managing fcnui components.
 
 2. **add [component_name]**:
     - Fetches the specified component from the API.

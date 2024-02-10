@@ -9,17 +9,17 @@
       <excludeFolder url="file://$MODULE_DIR$/registry/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/registry/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/registry/build" />
-      <excludeFolder url="file://$MODULE_DIR$/test_pr/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/test_pr/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/test_pr/build" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
-      <excludeFolder url="file://$MODULE_DIR$/test_pr/macos/Flutter/ephemeral" />
       <excludeFolder url="file://$MODULE_DIR$/cli/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/cli/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/cli/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/fcnui_base/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/fcnui_base/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/fcnui_base/build" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_base/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_base/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_base/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_base/example/macos/Flutter/ephemeral" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
