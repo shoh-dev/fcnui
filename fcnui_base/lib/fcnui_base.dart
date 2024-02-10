@@ -1,3 +1,3 @@
-library com.shohdev.cli.examplefcnui_base;
+library fcnui_base;
 
 export 'src/src.dart';

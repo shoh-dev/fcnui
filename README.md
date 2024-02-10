@@ -12,13 +12,13 @@ This project consists of the following packages:
 
 The `cli` package is a Dart-based CLI tool that streamlines the process of working with fcnui. It contains all the necessary commands to initialize a project, add new components, and manage dependencies efficiently.
 
-### com.shohdev.cli.examplefcnui_base
+### fcnui_base
 
-The `com.shohdev.cli.examplefcnui_base` package is the heart of fcnui. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies and default components. With this package, integrating stunning UI elements into your Flutter applications becomes seamless.
+The `fcnui_base` package is the heart of fcnui. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies and default components. With this package, integrating stunning UI elements into your Flutter applications becomes seamless.
 
 ### registry
 
-The `registry` package is a Flutter application designed for testing fcnui components individually. This app serves as a visual playground where developers can explore and interact with each component in isolation. By including the `com.shohdev.cli.examplefcnui_base`, the registry ensures that components are thoroughly tested and ready for integration into real-world projects.
+The `registry` package is a Flutter application designed for testing fcnui components individually. This app serves as a visual playground where developers can explore and interact with each component in isolation. By including the `fcnui_base`, the registry ensures that components are thoroughly tested and ready for integration into real-world projects.
 
 ### ui
 
@@ -58,11 +58,11 @@ To get started with fcnui, follow these steps:
 
    This command creates a `fcnui.json` file, which is used to manage components, and prompts you to select the components library (default is `/lib/components`).
 
-3. **Add com.shohdev.cli.examplefcnui_base dependency**:
-    - Inside your Flutter project, add `com.shohdev.cli.examplefcnui_base` from pub.dev as a dependency. You can do this by running:
+3. **Add fcnui_base dependency**:
+    - Inside your Flutter project, add `fcnui_base` from pub.dev as a dependency. You can do this by running:
 
     ```bash
-    flutter pub add com.shohdev.cli.examplefcnui_base
+    flutter pub add fcnui_base
     ```
 
 4. **Wrap MaterialApp/CupertinoApp with ThemeProvider**:
