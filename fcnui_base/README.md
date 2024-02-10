@@ -2,6 +2,11 @@
 
 The fcnui_base package for Flutter is a comprehensive collection of dependencies and default components, carefully crafted to empower developers in building stunning user interfaces for their Flutter applications. This package leverages a range of essential dependencies, ensuring seamless integration and optimal performance in your projects.
 
+### Pub Dev Link
+
+<a target="_blank" href="https://pub.dev/packages/fcnui_base">Open pub.dev</a>
+
+
 ### Getting Started
 
 <a target="_blank" href="https://github.com/shoh-dev/fcnui/wiki">Full Documentation</a>
