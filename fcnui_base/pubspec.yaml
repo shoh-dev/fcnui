@@ -1,5 +1,5 @@
 name: fcnui_base
-description: "Base package for fcnui applications. Contains common code for all fcnui applications. This package is not meant to be used on its own. It is meant to be used as a base for other fcnui applications."
+description: "Base package for fcnui applications. Contains common code for all fcnui applications."
 version: 1.0.1
 homepage: https://www.shoh.dev
 

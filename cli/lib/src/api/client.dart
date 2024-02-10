@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:fcnui/src/constants.dart';
 import 'package:fpdart/fpdart.dart';
 import 'models/models.dart';
-
-///This must be switched manually based on the environment
-const bool kDebugMode = true;
 
 const String kBaseUrl = kDebugMode
     ? 'http://localhost:3000/api/'

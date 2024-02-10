@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Add debug mode switcher in constants.dart.
+
 ## 1.0.2
 
 - Added example app.
