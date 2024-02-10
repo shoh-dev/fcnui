@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'models/models.dart';
 
-const String kBaseUrl = 'http://localhost:3000/api/';
+const String kBaseUrl =
+    // 'https://flutter-cn-api.vercel.app/api/';
+    'http://localhost:3000/api/';
 
 typedef Result<T> = Either<DefaultError, T>;
 

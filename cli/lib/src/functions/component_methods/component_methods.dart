@@ -9,9 +9,6 @@ class ComponentMethods {
   ComponentMethods({required this.initJson});
 
   Future<void> add(List<String> components) async {
-    final fullComponentsFolder =
-        getComponentsFullPath(initJson.initJsonMd.registry.componentsFolder!);
-
     final componentsResult =
         await getIt.get<ApiClient>().findComponents(components);
     componentsResult.fold(

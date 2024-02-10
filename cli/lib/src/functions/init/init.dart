@@ -1,6 +1,4 @@
 import 'dart:io';
-import '../../constants.dart';
-import '../../dependency/dependency.dart';
 import '../../src.dart';
 import 'init_json.dart';
 

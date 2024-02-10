@@ -1,8 +1,5 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cn_ui_package/flutter_cn_ui_package.dart';
-import 'package:flutter_cn_ui_package/src/store/store.dart';
-import 'vm_providers.dart';
 
 class ThemeProvider extends StatelessWidget {
   final ViewModelBuilder<ThemeVm> builder;

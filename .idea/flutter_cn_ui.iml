@@ -15,6 +15,8 @@
       <excludeFolder url="file://$MODULE_DIR$/test_pr/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/test_pr/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/test_pr/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/test_pr/macos/Flutter/ephemeral" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

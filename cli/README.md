@@ -2,6 +2,10 @@
 
 The flutter_cn_ui CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of flutter_cn_ui components within Flutter projects. With an intuitive interface and a set of essential commands, the CLI empowers developers to streamline their workflow and efficiently integrate flutter_cn_ui components into their applications.
 
+### Getting Started
+
+[Full Documentation](https://github.com/shoh-dev/flutter_cn_ui/wiki)
+
 #### Commands:
 
 1. **init**:
