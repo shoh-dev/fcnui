@@ -10,36 +10,25 @@ This project consists of the following packages:
 
 ### cli
 
-The `cli` package is a Dart-based CLI tool that streamlines the process of working with fcnui. It contains all the necessary commands to initialize a project, add new components.
+The `cli` package is a Dart-based CLI tool that streamlines the process of working with `fcnui`. It contains all the necessary commands to initialize a project, add new components.
 
 ### fcnui_base
 
-The `fcnui_base` package is the heart of fcnui. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies.
+The `fcnui_base` package is the heart of `fcnui`. Written in Dart (Flutter), it provides developers with a comprehensive set of dependencies.
 
 ### registry
 
-The `registry` package is a Flutter application designed for testing fcnui components individually. This app serves as a visual playground where developers can explore and interact with each component in isolation. By including the `fcnui_base`, the registry ensures that components are thoroughly tested and ready for integration into real-world projects.
+The `registry` package is a Flutter application designed for testing `fcnui` components individually. This app serves as a visual playground where developers can explore and interact with each component in isolation. By including the `fcnui_base`, the registry ensures that components are thoroughly tested and ready for integration into real-world projects.
 
 ### ui
 
-The `ui` package is a Next.js application that complements fcnui. It provides an API for all the components in JSON format, enabling seamless integration with the `cli` tool.
-
-[//]: # (## Documentation Website)
-
-[//]: # ()
-[//]: # (Explore the comprehensive documentation for fcnui on the [FlutterCN Docs website]&#40;https://fluttercn.shoh.dev&#41;. This website serves as a central hub for all documentation related to the project, including installation guides, component usage instructions, API references, and more.)
-
-[//]: # ()
-[//]: # (Whether you're a beginner getting started with fcnui or an experienced developer looking for detailed information on specific components, the FlutterCN Docs website has you covered. Dive deep into the world of Flutter development with fcnui and unleash the full potential of your applications.)
-
-[//]: # ()
-[//]: # (Visit [fluttercn.shoh.dev]&#40;https://fluttercn.shoh.dev&#41; to access the documentation and accelerate your Flutter development journey!)
+The `ui` package is a `Next.js` application that complements `fcnui`. It provides an `API` for all the components in `JSON` format, enabling seamless integration with the `cli` tool.
 
 ## Getting Started
 
-To get started with fcnui, follow these steps:
+To get started with `fcnui`, follow these steps:
 
-1. **Install fcnui**:
+1. **Install `fcnui`**:
     - Install `fcnui` as a Dart global dependency by running the following command:
 
     ```bash
@@ -58,8 +47,8 @@ To get started with fcnui, follow these steps:
 
    This command creates a `fcnui.json` file, which is used to manage components, and prompts you to select the components library (default is `/lib/components`).
 
-3. **Add fcnui_base dependency**:
-    - Inside your Flutter project, add `fcnui_base` from pub.dev as a dependency. You can do this by running:
+3. **Add `fcnui_base` dependency**:
+    - Inside your Flutter project, add `fcnui_base` from [pub.dev](https://pub.dev/packages/fcnui_base) as a dependency. You can do this by running:
 
     ```bash
     flutter pub add fcnui_base
@@ -90,4 +79,4 @@ To get started with fcnui, follow these steps:
 
    Replace `[component_name]` with the name of the component you want to add.
 
-That's it! You're now ready to leverage the power of fcnui in your projects. Happy coding!
+That's it! You're now ready to leverage the power of `fcnui` in your projects. Happy coding!
