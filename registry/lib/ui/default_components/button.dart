@@ -63,8 +63,11 @@ abstract class ButtonVariant extends Equatable {
       this.iconSize = 18,
       this.child,
       this.isLoading = false,
-      this.minimumSize = const Size(88, 40),
-      this.icon});
+      this.minimumSize = const Size.square(40),
+      this.icon})
+      : assert(iconSize >= 0, "iconSize must be greater than or equal to 0"),
+        assert(text != null || child != null || icon != null,
+            "text, child, or icon must be provided");
 
   @override
   List<Object?> get props =>
@@ -152,10 +155,7 @@ class GhostButtonVariant extends ButtonVariant {
 class DefaultButton extends StatelessWidget {
   final ButtonVariant variant;
 
-  const DefaultButton({
-    super.key,
-    this.variant = const PrimaryButtonVariant(),
-  });
+  const DefaultButton({super.key, required this.variant});
 
   @override
   Widget build(BuildContext context) {
@@ -178,13 +178,18 @@ class DefaultButton extends StatelessWidget {
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
     return ElevatedButton.styleFrom(
+      disabledBackgroundColor: _getBackgroundColor(theme)?.withOpacity(0.5),
+      disabledForegroundColor: _getForegroundColor(theme)?.withOpacity(0.5),
       backgroundColor: _getBackgroundColor(theme),
       foregroundColor: _getForegroundColor(theme),
-      minimumSize: variant.minimumSize,
       shape: _getShape(theme),
       side: _getBorder(theme),
       padding: _getPadding(theme),
+      textStyle: _getTextStyle(theme),
+      minimumSize: variant.minimumSize,
       splashFactory: NoSplash.splashFactory,
+      disabledMouseCursor: SystemMouseCursors.forbidden,
+      surfaceTintColor: theme.colorScheme.surface,
     );
   }
 
@@ -192,6 +197,13 @@ class DefaultButton extends StatelessWidget {
     switch (variant.runtimeType) {
       default:
         return const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+    }
+  }
+
+  TextStyle? _getTextStyle(ThemeData theme) {
+    switch (variant.runtimeType) {
+      default:
+        return theme.textTheme.labelLarge?.copyWith(fontSize: 14);
     }
   }
 
@@ -208,11 +220,20 @@ class DefaultButton extends StatelessWidget {
             child: _getButtonChild(theme),
           );
         } else {
-          return ElevatedButton.icon(
+          if (variant.text != null && variant.text!.isNotEmpty) {
+            return ElevatedButton.icon(
+              style: _getButtonStyle(theme),
+              onPressed: _getOnPressed,
+              label: _getButtonChild(theme),
+              icon: variant.isLoading
+                  ? const _LoadingIndicator()
+                  : Icon(variant.icon, size: variant.iconSize),
+            );
+          }
+          return ElevatedButton(
             style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
-            label: _getButtonChild(theme),
-            icon: variant.isLoading
+            child: variant.isLoading
                 ? const _LoadingIndicator()
                 : Icon(variant.icon, size: variant.iconSize),
           );
@@ -306,7 +327,7 @@ class DefaultButton extends StatelessWidget {
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
       case const (OutlineButtonVariant):
-        return BorderSide(color: theme.colorScheme.primary, width: 1);
+        return BorderSide(color: theme.colorScheme.onPrimary.withOpacity(.2));
       default:
         return null;
     }

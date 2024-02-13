@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-const String kDefaultThemeMode = 'system';
-const String kDefaultFlexScheme = 'greyLaw';
-const ThemeMode kDefaultThemeModeValue = ThemeMode.system;
-const FlexScheme kDefaultFlexSchemeValue = FlexScheme.greyLaw;
+const String kDefaultThemeMode = 'dark';
+const String kDefaultFlexScheme = 'deepBlue';
+const ThemeMode kDefaultThemeModeValue = ThemeMode.dark;
+const FlexScheme kDefaultFlexSchemeValue = FlexScheme.deepBlue;
 
 @immutable
 class ThemeState extends Equatable {

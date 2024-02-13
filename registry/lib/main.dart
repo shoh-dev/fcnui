@@ -2,57 +2,48 @@
 
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+import 'package:go_router/go_router.dart';
 
+import 'manager/manager.dart';
 import 'ui/default_components/default_components.dart';
+import 'package:url_strategy/url_strategy.dart';
 
-void main() {
+void main() async {
+  setPathUrlStrategy();
+
   runApp(DefaultStoreProvider(child: const MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      builder: (context, vm) => const MaterialApp(
-        // theme: FlexColorScheme.light(scheme: vm.flexScheme).toTheme,
-        // darkTheme: FlexColorScheme.dark(scheme: vm.flexScheme).toTheme,
-        // themeMode: vm.themeMode,
+      builder: (context, vm) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: FlexColorScheme.light(scheme: vm.flexScheme).toTheme,
+        darkTheme: FlexColorScheme.dark(scheme: vm.flexScheme).toTheme,
+        themeMode: vm.themeMode,
         title: 'Flutter Demo',
-        home: MyHomePage(title: 'Registry App for Flutter cn UI'),
+        routerConfig: registryRouter,
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -71,74 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 20),
               DefaultButton(
                 variant: PrimaryButtonVariant(
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: SecondaryButtonVariant(
-                  text: "Secondary",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: TertiaryButtonVariant(
-                  text: "Tertiary",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: ErrorButtonVariant(
-                  text: "Error",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: OutlineButtonVariant(
-                  text: "Outline",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: GhostButtonVariant(
-                  text: "Ghost",
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: PrimaryButtonVariant(
-                  icon: Icons.chevron_right,
-                  onPressed: () {},
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: GhostButtonVariant(
-                  icon: Icons.chevron_right,
-                  onPressed: () {},
-                  text: "Icon Button with text",
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: PrimaryButtonVariant(
-                  onPressed: () {},
-                  isLoading: true,
-                  text: "Login with Email",
-                  icon: Icons.email,
-                ),
-              ),
-              const SizedBox(height: 20),
-              DefaultButton(
-                variant: PrimaryButtonVariant(
-                  onPressed: () {},
-                  isLoading: true,
-                  child: const Icon(Icons.email),
+                  text: "Go to Button Page",
+                  onPressed: () {
+                    context.go(Uri(path: '/button', queryParameters: {
+                      "variant": 'secondary',
+                    }).toString());
+                  },
                 ),
               ),
               const SizedBox(height: 20),
