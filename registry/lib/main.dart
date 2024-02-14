@@ -90,8 +90,8 @@ class MyHomePage extends StatelessWidget {
               ThemeProvider(builder: (context, vm) {
                 return ElevatedButton(
                     onPressed: () {
-                      fcnGetIt.get<Store<AppState>>().dispatch(
-                          ChangeUsePlatformThemeAction(usePlatformTheme: true));
+                      ChangeUsePlatformThemeAction(usePlatformTheme: true)
+                          .payload();
                     },
                     child: const Text("Use platform theme"));
               }),
@@ -108,7 +108,10 @@ class MyHomePage extends StatelessWidget {
                               value: e.index, child: Text(e.name)))
                           .toList(),
                       onChanged: (value) {
-                        vm.onChangeThemeScheme(FlexScheme.values[value!]);
+                        ChangeFlexSchemeAction(
+                                flexScheme: FlexScheme.values[value!].name)
+                            .payload();
+                        // vm.onChangeThemeScheme(FlexScheme.values[value!]);
                       }),
                 ),
               ),

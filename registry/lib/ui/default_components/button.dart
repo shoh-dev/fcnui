@@ -167,13 +167,8 @@ class DefaultButton extends StatelessWidget {
   }
 
   Widget getChild(BuildContext context, ThemeVm vm) {
-    ///! Below part must not be changed
-
     final theme = vm.theme;
-
-    ///! Above part must not be changed
-
-    return Theme(data: theme, child: _getButtonWidgetType(theme));
+    return _getButtonWidgetType(theme);
   }
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
@@ -185,7 +180,6 @@ class DefaultButton extends StatelessWidget {
       shape: _getShape(theme),
       side: _getBorder(theme),
       padding: _getPadding(theme),
-      textStyle: _getTextStyle(theme),
       minimumSize: variant.minimumSize,
       splashFactory: NoSplash.splashFactory,
       disabledMouseCursor: SystemMouseCursors.forbidden,
@@ -197,13 +191,6 @@ class DefaultButton extends StatelessWidget {
     switch (variant.runtimeType) {
       default:
         return const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
-    }
-  }
-
-  TextStyle? _getTextStyle(ThemeData theme) {
-    switch (variant.runtimeType) {
-      default:
-        return theme.textTheme.labelLarge?.copyWith(fontSize: 14);
     }
   }
 
@@ -318,9 +305,6 @@ class DefaultButton extends StatelessWidget {
   }
 
   String _getText() {
-    if (variant.isLoading) {
-      return "Please wait";
-    }
     return variant.text ?? 'Button';
   }
 

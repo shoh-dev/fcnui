@@ -1,1 +1,2 @@
-export 'theme_state.dart';
+export 'theme/state.dart';
+export 'theme/actions.dart';

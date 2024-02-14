@@ -20,7 +20,6 @@ class ButtonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(variant);
     return DefaultLayout(child: (controller) {
       return TabBarView(
         physics: const NeverScrollableScrollPhysics(),
@@ -40,7 +39,7 @@ class ButtonPage extends StatelessWidget {
         return DefaultButton(
           variant: SecondaryButtonVariant(
             isLoading: isLoading,
-            text: "Secondary",
+            text: getText(),
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
           ),
@@ -48,7 +47,7 @@ class ButtonPage extends StatelessWidget {
       case 'tertiary':
         return DefaultButton(
           variant: TertiaryButtonVariant(
-            text: "Tertiary",
+            text: getText(),
             isLoading: isLoading,
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
@@ -57,7 +56,7 @@ class ButtonPage extends StatelessWidget {
       case 'error':
         return DefaultButton(
           variant: ErrorButtonVariant(
-            text: "Error",
+            text: getText(),
             isLoading: isLoading,
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
@@ -66,7 +65,7 @@ class ButtonPage extends StatelessWidget {
       case 'outline':
         return DefaultButton(
           variant: OutlineButtonVariant(
-            text: "Outline",
+            text: getText(),
             isLoading: isLoading,
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
@@ -75,7 +74,7 @@ class ButtonPage extends StatelessWidget {
       case 'ghost':
         return DefaultButton(
           variant: GhostButtonVariant(
-            text: "Ghost",
+            text: getText(),
             isLoading: isLoading,
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
@@ -84,13 +83,36 @@ class ButtonPage extends StatelessWidget {
       default:
         return DefaultButton(
           variant: PrimaryButtonVariant(
-            text: "Primary",
+            text: getText(),
             isLoading: isLoading,
             onPressed: isDisabled ? null : () {},
             icon: withIcon ? Icons.email : null,
           ),
         );
     }
+  }
+
+  String getText() {
+    StringBuffer buffer = StringBuffer();
+
+    buffer.write(variant.capitalize);
+
+    if (isLoading) {
+      buffer.clear();
+      buffer.write('Loading');
+    }
+
+    if (isDisabled) {
+      buffer.clear();
+      buffer.write('Disabled');
+    }
+
+    if (withIcon) {
+      buffer.clear();
+      buffer.write('With Icon');
+    }
+
+    return buffer.toString();
   }
 
   Widget code(BuildContext context) {

@@ -16,7 +16,7 @@ class ThemeProvider extends StatelessWidget {
   }
 }
 
-class ThemeVm {
+class ThemeVm extends Equatable {
   final ThemeMode themeMode;
   final FlexScheme flexScheme;
 
@@ -26,7 +26,7 @@ class ThemeVm {
 
   final ValueChanged<FlexScheme> onChangeThemeScheme;
 
-  ThemeVm(
+  const ThemeVm(
       {required this.themeMode,
       required this.flexScheme,
       required this.theme,
@@ -70,4 +70,7 @@ class ThemeVm {
           dispatch(ChangeThemeModeAction(themeMode: value.name)),
     );
   }
+
+  @override
+  List<Object?> get props => [themeMode, flexScheme, theme];
 }

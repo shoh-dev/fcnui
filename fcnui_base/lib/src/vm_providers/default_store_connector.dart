@@ -11,6 +11,7 @@ class DefaultStoreConnector<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, T>(
       converter: converter,
+      distinct: true,
       builder: builder,
     );
   }

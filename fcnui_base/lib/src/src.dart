@@ -8,3 +8,5 @@ export 'package:equatable/equatable.dart';
 export 'store/store.dart';
 export 'vm_providers/vm_providers.dart';
 export 'dependency_injection/dependency_injection.dart';
+
+export 'helpers/helpers.dart';
