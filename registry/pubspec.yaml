@@ -14,7 +14,6 @@ dependencies:
   fcnui_base:
     path: ../fcnui_base
   go_router: ^13.2.0
-  url_strategy: ^0.2.0
   any_syntax_highlighter: ^0.0.13
 
 dev_dependencies:

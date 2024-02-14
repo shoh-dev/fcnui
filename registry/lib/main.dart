@@ -6,11 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import 'manager/manager.dart';
 import 'ui/default_components/default_components.dart';
-import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
-  setPathUrlStrategy();
-
   runApp(DefaultStoreProvider(child: const MyApp()));
 }
 
