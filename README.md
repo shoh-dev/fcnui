@@ -4,6 +4,14 @@ Welcome to the Flutter port of [shadcn-ui](https://ui.shadcn.com/), a component 
 
 ![hero](ui/public/cover.png)
 
+## Documentation Website
+
+Explore the comprehensive documentation for `fcnui` on the [docs](https://fcnui.shoh.dev/docs/get_started).
+
+Whether you're a beginner getting started with `fcnui` or an experienced developer looking for detailed information on specific components, the `fcnui` Docs website has you covered. Dive deep into the world of Flutter development with `fcnui` and unleash the full potential of your applications.
+
+Visit [fcnui.shoh.dev](https://fcnui.shoh.dev) to access the documentation and accelerate your Flutter development journey!
+
 ## Packages
 
 This project consists of the following packages:
