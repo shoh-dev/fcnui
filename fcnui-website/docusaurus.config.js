@@ -8,22 +8,22 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: 'fcnui Wesbite',
-    tagline: 'Dinosaurs are cool',
+    title: 'Flutter cn/ui',
+    tagline: 'shadcn/ui port to flutter',
     favicon: 'img/favicon.ico',
 
     // Set the production url of your site here
-    url: 'https://your-docusaurus-site.example.com',
+    url: 'https://fcnui.shoh.dev/',
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: '/',
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
-    organizationName: 'facebook', // Usually your GitHub org/user name.
-    projectName: 'docusaurus', // Usually your repo name.
+    organizationName: 'shoh.dev', // Usually your GitHub org/user name.
+    projectName: 'fcnui', // Usually your repo name.
 
-    onBrokenLinks: 'throw',
+    onBrokenLinks: 'ignore',
     onBrokenMarkdownLinks: 'warn',
 
     // Even if you don't use internationalization, you can use this field to set
@@ -43,15 +43,8 @@ const config = {
                     sidebarPath: './sidebars.js',
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
-                    editUrl:
-                        'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-                },
-                blog: {
-                    showReadingTime: true,
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
-                    editUrl:
-                        'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+                    // editUrl:
+                    //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -61,79 +54,89 @@ const config = {
     ],
 
     themeConfig:
-          /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-            ({
-              // Replace with your project's social card
-              image: 'img/docusaurus-social-card.jpg',
-              navbar: {
-                title: 'My Site',
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+        ({
+            // Replace with your project's social card
+            image: 'img/docusaurus-social-card.jpg',
+            navbar: {
+                title: 'Home',
                 logo: {
-                  alt: 'My Site Logo',
+                  alt: 'fcnui logo',
                   src: 'img/logo.svg',
                 },
                 items: [
-                  {
-                    type: 'docSidebar',
-                    sidebarId: 'tutorialSidebar',
-                    position: 'left',
-                    label: 'Tutorial',
-                  },
-                  {to: '/blog', label: 'Blog', position: 'left'},
-                  {
-                    href: 'https://github.com/facebook/docusaurus',
-                    label: 'GitHub',
-                    position: 'right',
-                  },
+                    {
+                        type: 'docSidebar',
+                        sidebarId: 'tutorialSidebar',
+                        position: 'left',
+                        label: 'Docs',
+                    },
+                    // {to: '/blog', label: 'Blog', position: 'left'},
+                    {
+                        href: 'https://github.com/shoh-dev/fcnui',
+                        label: 'GitHub',
+                        position: 'right',
+                    },
                 ],
-              },
-              footer: {
+            },
+            footer: {
                 style: 'dark',
                 links: [
-                  {
-                    title: 'Docs',
-                    items: [
-
-                    ],
-                  },
-                  {
-                    title: 'Community',
-                    items: [
-                      {
-                        label: 'Stack Overflow',
-                        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-                      },
-                      {
-                        label: 'Discord',
-                        href: 'https://discordapp.com/invite/docusaurus',
-                      },
-                      {
-                        label: 'Twitter',
-                        href: 'https://twitter.com/docusaurus',
-                      },
-                    ],
-                  },
-                  {
-                    title: 'More',
-                    items: [
-                      {
-                        label: 'Blog',
-                        to: '/blog',
-                      },
-                      {
-                        label: 'GitHub',
-                        href: 'https://github.com/facebook/docusaurus',
-                      },
-                    ],
-                  },
+                    {
+                        title: 'Docs',
+                        items: [
+                            {
+                                label: 'About',
+                                to: '/docs/',
+                            },
+                            {
+                                label: 'Getting Started',
+                                to: '/docs/get_started',
+                            },
+                            {
+                                label: 'Components',
+                                to: '/docs/category/components',
+                            },
+                        ],
+                    },
+                    {
+                        title: 'Community',
+                        items: [
+                            {
+                                label: 'Email',
+                                href: 'mailto:komiljonovshohjahon1@gmail.com',
+                            },
+                            {
+                                label: 'Telegram',
+                                href: 'https://t.me/shohdotdev',
+                            },
+                            {
+                                label: 'Twitter',
+                                href: 'https://twitter.com/shoh_dev',
+                            },
+                        ],
+                    },
+                    {
+                        title: 'More',
+                        items: [
+                            {
+                                label: 'GitHub',
+                                href: 'https://github.com/shoh-dev/fcnui',
+                            },
+                            {
+                                label: 'shoh.dev',
+                                href: 'https://shoh.dev',
+                            },
+                        ],
+                    },
                 ],
-                copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-              },
-              prism: {
+            },
+            prism: {
                 theme: prismThemes.vsLight,
                 darkTheme: prismThemes.oceanicNext,
                 additionalLanguages: ['dart', 'yaml', 'bash'],
-              },
-            }),
+            },
+        }),
 };
 
 export default config;

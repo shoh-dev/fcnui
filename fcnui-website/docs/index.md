@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Welcome to the Flutter port of [shadcn-ui](https://ui.shadcn.com/), a component library originally made for React developers. This project aims to bring the power and flexibility of shadcn-ui to Flutter developers, allowing them to easily integrate beautiful and customizable components into their Flutter applications.
 
-![hero](https://github.com/shoh-dev/fcnui/blob/main/ui/public/cover.png?raw=true)
+![hero](../static/img/cover.png)
 
 ## Packages
 
