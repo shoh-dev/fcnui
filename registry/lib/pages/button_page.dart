@@ -1,5 +1,4 @@
 import 'package:any_syntax_highlighter/any_syntax_highlighter.dart';
-import 'package:any_syntax_highlighter/themes/any_syntax_highlighter_theme.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/ui/default_components/default_components.dart';

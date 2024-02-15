@@ -8,7 +8,7 @@ import 'manager/manager.dart';
 import 'ui/default_components/default_components.dart';
 
 void main() async {
-  runApp(DefaultStoreProvider(initActions: [], child: const MyApp()));
+  runApp(DefaultStoreProvider(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

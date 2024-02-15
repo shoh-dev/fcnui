@@ -2,13 +2,11 @@
 
 The `fcnui` CLI (Command-Line Interface) tool is a powerful utility designed to simplify the management of `fcnui` components within Flutter projects.
 
-### Pub Dev Link
+### Links
 
-<a target="_blank" href="https://pub.dev/packages/fcnui">Open pub.dev</a>
+<a target="_blank" href="https://fcnui.shoh.dev/docs/get_started">Getting started</a>
 
-### Getting Started
-
-<a target="_blank" href="https://github.com/shoh-dev/fcnui/wiki">Full Documentation</a>
+<a target="_blank" href="https://pub.dev/packages/fcnui">pub.dev</a>
 
 #### Commands:
 
@@ -25,3 +23,7 @@ The `fcnui` CLI (Command-Line Interface) tool is a powerful utility designed to 
 
 3. **help**:
     - Provides information about all available commands and their usage.
+
+4. **version**:
+    - Displays the current version of the `fcnui` CLI tool.
+

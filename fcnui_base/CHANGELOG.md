@@ -1,3 +1,8 @@
+## 1.0.2 (02.15.2024)
+
+- Updated `README.md` with more information about the package and document link.
+- Fixed Dart Linting rules for more package score.
+
 ## 1.0.1
 
 - Added example app.
@@ -5,4 +10,4 @@
 
 ## 1.0.0
 
-* Initial release.
+- Initial release.

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fcnui_base/src/store/f_action.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 

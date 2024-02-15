@@ -1,8 +1,8 @@
 name: fcnui
 description: The fcnui CLI (Command-Line Interface) tool. It is used to generate component code for the fcnui package.
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/shoh-dev/flutter_cn_ui
-homepage: https://shoh.dev
+homepage: https://fcnui.shoh.dev
 
 environment:
   sdk: ^3.2.6

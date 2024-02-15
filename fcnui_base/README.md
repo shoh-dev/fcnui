@@ -2,14 +2,11 @@
 
 The `fcnui_base` package for Flutter is a comprehensive collection of dependencies.
 
-### Pub Dev Link
+### Links
 
-<a target="_blank" href="https://pub.dev/packages/fcnui_base">Open pub.dev</a>
+<a target="_blank" href="https://fcnui.shoh.dev/docs/get_started">Getting started</a>
 
-
-### Getting Started
-
-<a target="_blank" href="https://github.com/shoh-dev/fcnui/wiki">Full Documentation</a>
+<a target="_blank" href="https://pub.dev/packages/fcnui_base">pub.dev</a>
 
 #### Dependencies:
 

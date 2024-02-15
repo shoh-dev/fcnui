@@ -12,14 +12,28 @@ Future<void> myMain(List<String> arguments) async {
     close();
   }
 
+  final firstArg = arguments[0];
+
+  if (firstArg == "help") {
+    helpCommand();
+  }
+
+  ///These commands must come before all other commands, and must call close() at the end
+  switch (firstArg) {
+    case "help":
+      helpCommand();
+      close();
+    case "version":
+      versionCommand();
+      close();
+  }
+
+  isFlutterProject();
+
   //Initialize dependencies
   getIt.registerSingleton<ApiClient>(ApiClient());
 
   getIt.registerSingleton<InitJson>(InitJson());
-
-  isFlutterProject();
-
-  final firstArg = arguments[0];
 
   final initJson = getIt<InitJson>();
 

@@ -1,4 +1,4 @@
-cd ide/
+cd registry/
 git add .
-git commit -m "Update ide"
+git commit -m "Update registry"
 git push

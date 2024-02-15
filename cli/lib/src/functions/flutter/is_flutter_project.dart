@@ -9,7 +9,7 @@ void _printNotFlutterProjectAndClose() {
   close();
 }
 
-void isFlutterProject() {
+YamlEditor? isFlutterProject() {
   try {
     if (!File(kPubspecYaml).existsSync()) {
       _printNotFlutterProjectAndClose();
@@ -26,8 +26,10 @@ void isFlutterProject() {
     }
     final projectName = pubspecFile.parseAt(['name']).value;
     print('Flutter project found => $projectName');
+    return pubspecFile;
   } catch (e) {
     print(e.toString());
     _printNotFlutterProjectAndClose();
   }
+  return null;
 }
