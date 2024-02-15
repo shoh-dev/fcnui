@@ -4,7 +4,7 @@ rm -rf *
 
 cd ../
 
-flutter build web
+fvm flutter build web
 
 cp -r build/web/* ./playground/
 
