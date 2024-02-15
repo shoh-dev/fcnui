@@ -1,3 +1,9 @@
+## 1.0.5 (15.02.2024)
+
+- [Fix] Remove unnecessary `help` command.
+- [Fix] Fix version command.
+- Update README with new documentation link.
+
 ## 1.0.4 (15.02.2024)
 
 - Add help command - `fcnui help`. Prints all available commands.
