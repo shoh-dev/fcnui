@@ -3,9 +3,10 @@ description: "Base package for fcnui applications. Contains common code for all 
 version: 1.0.2
 repository: https://github.com/shoh-dev/flutter_cn_ui
 homepage: https://fcnui.shoh.dev
+documentation: https://fcnui.shoh.dev/docs
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

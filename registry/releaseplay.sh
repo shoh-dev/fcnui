@@ -10,4 +10,4 @@ cp -r build/web/* ./playground/
 
 cd ..
 
-sh comreg.sh
+sh complay.sh

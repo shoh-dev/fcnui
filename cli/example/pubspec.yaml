@@ -2,9 +2,11 @@ name: example
 description: Example project for fcnui cli
 publish_to: 'none'
 version: 1.0.0+1
+repository: https://github.com/shoh-dev/flutter_cn_ui
+homepage: https://fcnui.shoh.dev
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:

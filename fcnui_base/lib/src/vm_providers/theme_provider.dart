@@ -2,30 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 
 class ThemeProvider extends StatelessWidget {
-  final ViewModelBuilder<ThemeVm> builder;
-
   const ThemeProvider({super.key, required this.builder});
+  final ViewModelBuilder<ThemeVm> builder;
   @override
   Widget build(BuildContext context) {
     return DefaultStoreConnector<ThemeVm>(
       converter: (store) => ThemeVm.fromStore(store, context),
-      builder: (context, vm) {
-        return builder(context, vm);
-      },
+      builder: builder,
     );
   }
 }
 
 class ThemeVm extends Equatable {
-  final ThemeMode themeMode;
-  final FlexScheme flexScheme;
-
-  final ThemeData theme;
-
-  final ValueChanged<ThemeMode> onToggleThemeMode;
-
-  final ValueChanged<FlexScheme> onChangeThemeScheme;
-
   const ThemeVm(
       {required this.themeMode,
       required this.flexScheme,
@@ -70,6 +58,14 @@ class ThemeVm extends Equatable {
           dispatch(ChangeThemeModeAction(themeMode: value.name)),
     );
   }
+  final ThemeMode themeMode;
+  final FlexScheme flexScheme;
+
+  final ThemeData theme;
+
+  final ValueChanged<ThemeMode> onToggleThemeMode;
+
+  final ValueChanged<FlexScheme> onChangeThemeScheme;
 
   @override
   List<Object?> get props => [themeMode, flexScheme, theme];

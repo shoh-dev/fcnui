@@ -1,3 +1,7 @@
+## 1.0.5 (XX.02.2024)
+
+- Min Dart SDK version downgraded from `3.2.6` to `3.0.0`
+
 ## 1.0.5 (15.02.2024)
 
 - [Fix] Remove unnecessary `help` command.

@@ -3,9 +3,10 @@ description: The fcnui CLI (Command-Line Interface) tool. It is used to generate
 version: 1.0.5
 repository: https://github.com/shoh-dev/flutter_cn_ui
 homepage: https://fcnui.shoh.dev
+documentation: https://fcnui.shoh.dev/docs
 
 environment:
-  sdk: ^3.2.6
+  sdk: ^3.0.0
 
 # Add regular dependencies here.
 dependencies:
