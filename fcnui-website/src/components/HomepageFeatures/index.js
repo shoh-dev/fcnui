@@ -17,7 +17,7 @@ const FeatureList = [
     Svg: require('@site/static/img/component.svg').default,
     description: (
       <>
-        Standalone components that can be edited by your preference after installing.
+        Components that can be edited by your preference after installing.
       </>
     ),
   },
@@ -27,7 +27,7 @@ const FeatureList = [
     description: (
       <>
           Use built-in themes or create your own to customize your components.
-          Built-in themes get use of flex-color-scheme(pub.dev)
+          Built-in themes get   use of flex-color-scheme(pub.dev)
       </>
     ),
   },

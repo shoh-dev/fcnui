@@ -32,8 +32,9 @@ The `registry` package is a Flutter application designed for testing `fcnui` com
 
 The `ui` package is a `Next.js` application that complements `fcnui`. It provides an `API` for all the components in `JSON` format, enabling seamless integration with the `cli` tool.
 
+That's it! You're now ready to leverage the power of `fcnui` in your projects. Happy coding! 🚀
+
 ### Available Components
 
 - [x] [Button](https://fcnui.shoh.dev/docs/components/button)
 
-That's it! You're now ready to leverage the power of `fcnui` in your projects. Happy coding!

@@ -61,8 +61,8 @@ const config = {
             navbar: {
                 title: 'Home',
                 logo: {
-                  alt: 'fcnui logo',
-                  src: 'img/logo.svg',
+                    alt: 'fcnui logo',
+                    src: 'img/logo.svg',
                 },
                 items: [
                     {
@@ -71,11 +71,17 @@ const config = {
                         position: 'left',
                         label: 'Docs',
                     },
-                    // {to: '/blog', label: 'Blog', position: 'left'},
+                    {
+                        href: 'https://pub.dev/packages/fcnui',
+                        label: 'pub.dev',
+                        position: 'right',
+                        target: '_blank',
+                    },
                     {
                         href: 'https://github.com/shoh-dev/fcnui',
                         label: 'GitHub',
                         position: 'right',
+                        target: '_blank',
                     },
                 ],
             },
@@ -132,8 +138,8 @@ const config = {
                 ],
             },
             prism: {
-                theme: prismThemes.vsLight,
-                darkTheme: prismThemes.oceanicNext,
+                theme: prismThemes.oneLight,
+                darkTheme: prismThemes.oneDark,
                 additionalLanguages: ['dart', 'yaml', 'bash'],
             },
         }),

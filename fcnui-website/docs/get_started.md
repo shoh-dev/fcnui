@@ -13,7 +13,7 @@ Let's discover **fcnui** 🚀🚀🚀
 
 ### Installation
 
-1. Install `fcnui` by running the following command:
+1. Install `fcnui` by running the following command (view on [pub.dev](https://pub.dev/packages/fcnui)):
 
     ```bash
     dart pub global activate fcnui
@@ -23,7 +23,7 @@ Let's discover **fcnui** 🚀🚀🚀
 2. Verify that `fcnui` is installed correctly by running the following command:
 
     ```bash
-    fcnui --version
+    fcnui version
     ```
    > Note: You should see the version of `fcnui` you have installed.
 
@@ -33,9 +33,9 @@ Let's discover **fcnui** 🚀🚀🚀
     ```bash
     fcnui init
     ```
-   > This command creates a `fcnui.json` file, which is used to manage components, and prompts you to select the components library (**default is /lib/components**).
+   > Note: This command creates a `fcnui.json` file, which is used to manage components, and prompts you to select the components library (**default is /lib/components**).
 
-4. Add `fcnui_base` dependency by running the following command or manually inside `pubspec.yaml` file:
+4. Add `fcnui_base` dependency by running the following command or manually inside `pubspec.yaml` file (view on [pub.dev](https://pub.dev/packages/fcnui_base)):
 
     ```bash
     flutter pub add fcnui_base
