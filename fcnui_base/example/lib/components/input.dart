@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'form.dart';
-import '../disabled.dart';
+import 'disabled.dart';
 
 class InputModel extends IFormModel {
   final String? initialValue;

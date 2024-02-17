@@ -3,11 +3,11 @@ import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/card.dart';
-import 'package:registry/ui/default_components/form/form.dart';
-import 'package:registry/ui/default_components/form/save_button.dart';
+import 'package:registry/ui/default_components/form.dart';
+import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/layout/default_layout.dart';
-import '../ui/default_components/form/input.dart';
-import '../ui/default_components/form/with_label.dart';
+import '../ui/default_components/input.dart';
+import '../ui/default_components/with_label.dart';
 
 class CardPage extends StatelessWidget {
   final bool isCustom;

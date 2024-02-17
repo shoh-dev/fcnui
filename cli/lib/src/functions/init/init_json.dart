@@ -63,13 +63,13 @@ class InitJson {
     file.writeAsStringSync(jsonEncode(newJsonData.toJson()));
   }
 
-  bool isComponentRegistered(ComponentData component) {
+  bool isComponentRegistered(RegistryComponentData component) {
     final json = getCnUiJson();
     return json.registry.components
         .any((element) => element.name == component.name);
   }
 
-  void registerComponent(ComponentData component) {
+  void registerComponent(RegistryComponentData component) {
     if (getJsonFile() == null) {
       print('Error: fcnui.json file not found');
       close();
@@ -88,6 +88,23 @@ class InitJson {
     json.registry.components.add(component);
     logger("Registered ${component.name} in fcnui.json");
     getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
+  }
+
+  void unregisterComponent(String componentName) {
+    if (getJsonFile() == null) {
+      print('Error: fcnui.json file not found');
+      close();
+    }
+    final json = getCnUiJson();
+    final index = json.registry.components
+        .indexWhere((element) => element.name == componentName);
+    if (index != -1) {
+      json.registry.components.removeAt(index);
+      logger("Unregistered $componentName in fcnui.json");
+      getJsonFile()!.writeAsStringSync(jsonEncode(json.toJson()));
+      return;
+    }
+    logger("$componentName not found in fcnui.json");
   }
 
   String getComponentVersion(String componentName) {

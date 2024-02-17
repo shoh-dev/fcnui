@@ -6,6 +6,8 @@
 - [Registry] Add [DefaultDisabled] component. Wrap any widget with this component to disable it.
 - [Base] Fix `textTheme` issue when not used `fcnui` theme.
 - [API] Add `card`, `disabled`, `input`, `form`, `label`, `with_label`, `save_button` in `json` schema.
+- [CLI] Rename `ComponentData` to `RegistryComponentData`.
+- [CLI] Add `remove` command. Removes component dart file and unregisters from `jcnui.json`.
 
 ## 16.02.2024
 

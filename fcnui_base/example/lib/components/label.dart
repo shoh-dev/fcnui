@@ -2,7 +2,7 @@
 
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import '../disabled.dart';
+import 'disabled.dart';
 
 class LabelModel extends Equatable {
   final String text;

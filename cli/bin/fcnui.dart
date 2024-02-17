@@ -55,6 +55,14 @@ Future<void> myMain(List<String> arguments) async {
       }
       await componentMethods.add(components);
       close();
+    case "remove":
+      final components = arguments.sublist(1);
+      if (components.isEmpty) {
+        print('Invalid command. Use: fcnui remove <componentName>');
+        close();
+      }
+      componentMethods.remove(components);
+      close();
     default:
       print("Invalid command. Use: 'fcnui help' for more information.");
       close();

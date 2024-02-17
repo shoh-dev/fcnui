@@ -58,12 +58,12 @@ class InitJsonMd extends Equatable {
 class Registry extends Equatable {
   final ThemeData theme;
   final String? componentsFolder;
-  final List<ComponentData> components;
+  final List<RegistryComponentData> components;
 
   const Registry({
     this.theme = const ThemeData(),
     this.componentsFolder,
-    this.components = const <ComponentData>[],
+    this.components = const <RegistryComponentData>[],
   });
 
   //fromJson
@@ -72,7 +72,7 @@ class Registry extends Equatable {
       theme: ThemeData.fromJson(json['theme'] as Map<String, dynamic>),
       componentsFolder: json['componentsFolder'] as String?,
       components: (json['components'] as List<dynamic>)
-          .map((e) => ComponentData.fromJson(e as Map<String, dynamic>))
+          .map((e) => RegistryComponentData.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -90,7 +90,7 @@ class Registry extends Equatable {
   Registry copyWith({
     ThemeData? theme,
     String? componentsFolder,
-    List<ComponentData>? components,
+    List<RegistryComponentData>? components,
   }) {
     return Registry(
       theme: theme ?? this.theme,
@@ -143,33 +143,29 @@ class ThemeData extends Equatable {
   List<Object> get props => [name, version];
 }
 
-class ComponentData extends Equatable {
+class RegistryComponentData extends Equatable {
   final String name;
   final String version;
-  final List<String> depends;
 
-  const ComponentData({
+  const RegistryComponentData({
     required this.name,
     required this.version,
-    this.depends = const <String>[],
   });
 
   //fromJson
-  factory ComponentData.fromJson(Map<String, dynamic> json) {
-    return ComponentData(
+  factory RegistryComponentData.fromJson(Map<String, dynamic> json) {
+    return RegistryComponentData(
       name: json['name'] as String,
       version: json['version'] as String,
-      depends:
-          (json['depends'] as List<dynamic>).map((e) => e as String).toList(),
     );
   }
 
   //fromComponentFetchData
-  factory ComponentData.fromComponentFetchData(ComponentFetchData data) {
-    return ComponentData(
+  factory RegistryComponentData.fromComponentFetchData(
+      ComponentFetchData data) {
+    return RegistryComponentData(
       name: data.name,
       version: data.version,
-      depends: data.depends,
     );
   }
 
@@ -178,23 +174,20 @@ class ComponentData extends Equatable {
     return {
       'name': name,
       'version': version,
-      'depends': depends,
     };
   }
 
   //copyWith
-  ComponentData copyWith({
+  RegistryComponentData copyWith({
     String? name,
     String? version,
-    List<String>? depends,
   }) {
-    return ComponentData(
+    return RegistryComponentData(
       name: name ?? this.name,
       version: version ?? this.version,
-      depends: depends ?? this.depends,
     );
   }
 
   @override
-  List<Object> get props => [name, version, depends];
+  List<Object> get props => [name, version];
 }
