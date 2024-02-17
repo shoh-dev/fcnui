@@ -83,8 +83,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? TabBar(
                 controller: tabController,
                 indicator: BoxDecoration(
-                  color: vm.theme.colorScheme.secondary.withOpacity(.4),
+                  color: vm.theme.colorScheme.primary.withOpacity(.1),
                 ),
+                indicatorSize: TabBarIndicatorSize.tab,
                 tabs: const [
                     Tab(text: "Preview"),
                     Tab(text: "Code"),

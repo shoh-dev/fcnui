@@ -3,6 +3,7 @@
 - [Playground] Add card page.
 - [Homepage] Add card documentation.
 - [API] Add card `json` schema.
+- [Base] Fix `textTheme` issue when not used `fcnui` theme.
 
 ## 16.02.2024
 

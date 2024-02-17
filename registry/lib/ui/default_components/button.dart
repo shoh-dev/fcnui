@@ -312,7 +312,7 @@ class DefaultButton extends StatelessWidget {
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
       case const (OutlineButtonVariant):
-        return BorderSide(color: theme.colorScheme.onSurface.withOpacity(.2)).w;
+        return BorderSide(color: theme.colorScheme.outline).w;
       default:
         return null;
     }
@@ -337,6 +337,6 @@ class _LoadingIndicator extends StatelessWidget {
       width: 20,
       height: 20,
       child: CircularProgressIndicator(strokeWidth: 2.w),
-    ).w;
+    );
   }
 }

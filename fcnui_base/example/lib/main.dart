@@ -1,5 +1,6 @@
 /// 0. Components can be found in: lib/components (or the folder specified in fcnui.json)
 import 'package:example/components/button.dart';
+import 'package:example/components/card.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(useMaterial3: true),
+      darkTheme: ThemeData(useMaterial3: true, brightness: Brightness.dark),
+      themeMode: ThemeMode.system,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -56,8 +56,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icons.add,
               ),
             ),
+
+            DefaultCard(
+              variant: CardVariant(
+                  title: CardTitle(title: "Hello"),
+                  content: CardContent(content: Text("Context")),
+                  footer: CardFooter(footer: [])),
+            ),
           ],
-        ),
+        ).spaced(20),
       ),
     );
   }

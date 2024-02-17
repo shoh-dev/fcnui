@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+import 'package:flutter/scheduler.dart';
 
 class ThemeProvider extends StatelessWidget {
   const ThemeProvider({super.key, required this.builder});
+
   final ViewModelBuilder<ThemeVm> builder;
+
   @override
   Widget build(BuildContext context) {
     return DefaultStoreConnector<ThemeVm>(
@@ -37,26 +40,33 @@ class ThemeVm extends Equatable {
       themeMode = ThemeMode.light;
     } else if (themeModeStr == 'system') {
       themeMode = ThemeMode.system;
+      // final contextThemeMode =
+      //     View.of(context).platformDispatcher.platformBrightness;
+      // print('contextThemeMode: $contextThemeMode');
+      // if (contextThemeMode == Brightness.dark) {
+      //   themeMode = ThemeMode.dark;
+      // } else if (contextThemeMode == Brightness.light) {
+      //   themeMode = ThemeMode.light;
+      // }
     }
 
     flexScheme = FlexScheme.values.firstWhere((e) => e.name == flexSchemeStr,
         orElse: () => kDefaultFlexSchemeValue);
 
-    final defaultTheme = Theme.of(context);
+    final ThemeData defaultTheme = Theme.of(context);
 
-    final theme = usePlatformTheme
-        ? defaultTheme
-        : (themeMode == ThemeMode.dark
-            ? FlexThemeData.dark(
-                scheme: flexScheme,
-                useMaterial3: true,
-                textTheme: defaultTheme.textTheme,
-              )
-            : FlexThemeData.light(
-                scheme: flexScheme,
-                useMaterial3: true,
-                textTheme: defaultTheme.textTheme,
-              ));
+    final dark = FlexThemeData.dark(scheme: flexScheme, useMaterial3: true);
+    final light = FlexThemeData.light(scheme: flexScheme, useMaterial3: true);
+
+    late final ThemeData theme;
+
+    if (usePlatformTheme) {
+      theme = defaultTheme;
+    } else {
+      theme = themeMode == ThemeMode.dark
+          ? dark.copyWith(textTheme: defaultTheme.textTheme)
+          : light.copyWith(textTheme: defaultTheme.textTheme);
+    }
 
     return ThemeVm(
       themeMode: themeMode,
@@ -68,6 +78,7 @@ class ThemeVm extends Equatable {
           dispatch(ChangeThemeModeAction(themeMode: value.name)),
     );
   }
+
   final ThemeMode themeMode;
   final FlexScheme flexScheme;
 

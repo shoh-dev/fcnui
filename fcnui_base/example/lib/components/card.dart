@@ -160,6 +160,7 @@ class DefaultCard extends StatelessWidget {
 
     final border = Border.all(
             color: theme.colorScheme.onSurface.withOpacity(0.1),
+            width: 1,
             strokeAlign: BorderSide.strokeAlignInside)
         .w;
 

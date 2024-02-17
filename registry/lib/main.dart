@@ -20,10 +20,11 @@ class MyApp extends StatelessWidget {
     return ThemeProvider(
       builder: (context, vm) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        darkTheme: ThemeData(brightness: Brightness.dark),
-        // theme: FlexThemeData.light(scheme: vm.flexScheme),
-        // darkTheme: FlexThemeData.dark(scheme: vm.flexScheme),
+        // theme: ThemeData(useMaterial3: true),
+        // darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
+        theme: FlexThemeData.light(scheme: vm.flexScheme, useMaterial3: true),
+        darkTheme:
+            FlexThemeData.dark(scheme: vm.flexScheme, useMaterial3: true),
         themeMode: vm.themeMode,
         title: 'Flutter Demo',
         routerConfig: registryRouter,
@@ -51,7 +52,9 @@ class MyHomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     DefaultButton(
-                        variant: PrimaryButtonVariant(
+                        variant: OutlineButtonVariant(
+                      isLoading: true,
+                      minimumSize: const Size(200, 48),
                       text: "Button Page",
                       onPressed: () {
                         context.go(Uri(

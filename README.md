@@ -48,7 +48,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Dialog
 - [ ] Dropdown Menu 🚀
 - [ ] Form 🚀
-- [ ] Input 🚀
+- [ ] Input 🚀 (WIP)
 - [ ] Menu Bar
 - [ ] Navigation Menu
 - [ ] Pagination
@@ -69,3 +69,4 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Tooltip
 
 > 🚀 - Very Important
+> WIP - Work in Progress
