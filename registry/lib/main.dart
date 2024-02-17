@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/button.dart';
-import 'package:registry/ui/default_components/card.dart';
-
 import 'manager/manager.dart';
 import 'ui/layout/default_layout.dart';
 

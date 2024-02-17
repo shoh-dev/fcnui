@@ -1,3 +1,9 @@
+## 17.02.2024
+
+- [Playground] Add card page.
+- [Homepage] Add card documentation.
+- [API] Add card `json` schema.
+
 ## 16.02.2024
 
 ### `fcnui_base`

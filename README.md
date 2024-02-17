@@ -39,7 +39,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Avatar
 - [ ] Badge
 - [x] [Button](https://fcnui.shoh.dev/docs/components/button)
-- [ ] Card (WIP) 🚀
+- [x] [Card](https://fcnui.shoh.dev/docs/components/card)
 - [ ] Checkbox 🚀
 - [ ] Combobox
 - [ ] Command

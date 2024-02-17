@@ -19,19 +19,6 @@ class CardVariant extends Equatable {
     required this.footer,
   });
 
-  // //assert if custom if given, title, subtitle, content, and footer should be null
-  //: assert(
-  //     custom != null
-  //         ? title == null || content == null || footer == null
-  //         : title != null && content != null && footer != null,
-  //     'CardVariant 1: custom is null. title, content and footer should not be null'),
-  // //assert if custom is null, title or content or footer should not be null
-  // assert(
-  //     custom == null
-  //         ? title != null && content != null && footer != null
-  //         : title == null && content == null && footer == null,
-  //     'CardVariant 2: custom is null, title or subtitle or content or footer should not be null');
-
   @override
   List<Object?> get props => [title, content, footer, subtitle];
 }
