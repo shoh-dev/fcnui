@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
 
-            DefaultCard(
+            const DefaultCard(
               variant: CardVariant(
                   title: CardTitle(title: "Hello"),
                   content: CardContent(content: Text("Context")),

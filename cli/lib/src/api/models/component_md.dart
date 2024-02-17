@@ -4,10 +4,13 @@ class ComponentFetchData extends DefaultData {
   final String name;
   final String content;
   final String version;
+  final List<String> depends;
+
   const ComponentFetchData({
     required this.name,
     required this.content,
     required this.version,
+    this.depends = const [],
   });
 
   factory ComponentFetchData.fromJson(Map<String, dynamic> json) {
@@ -16,6 +19,8 @@ class ComponentFetchData extends DefaultData {
       name: data['name'],
       content: data['content'],
       version: data['version'],
+      depends:
+          data['depends'] != null ? List<String>.from(data['depends']) : [],
     );
   }
 
@@ -23,7 +28,12 @@ class ComponentFetchData extends DefaultData {
   bool? get stringify => true;
 
   @override
-  List<Object?> get props => [name, content, version];
+  List<Object?> get props => [
+        name,
+        content,
+        version,
+        depends,
+      ];
 }
 
 class ComponentFetchError extends DefaultError {

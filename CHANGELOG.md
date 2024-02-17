@@ -1,9 +1,11 @@
 ## 17.02.2024
 
-- [Playground] Add card page.
 - [Homepage] Add card documentation.
-- [API] Add card `json` schema.
+- [Playground] Add `card`, `input` page.
+- [Playground] Update `Card` with new `Input` component.
+- [Registry] Add [DefaultDisabled] component. Wrap any widget with this component to disable it.
 - [Base] Fix `textTheme` issue when not used `fcnui` theme.
+- [API] Add `card`, `disabled`, `input`, `form`, `label`, `with_label`, `save_button` in `json` schema.
 
 ## 16.02.2024
 

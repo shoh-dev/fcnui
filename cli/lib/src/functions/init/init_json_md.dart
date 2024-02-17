@@ -146,10 +146,12 @@ class ThemeData extends Equatable {
 class ComponentData extends Equatable {
   final String name;
   final String version;
+  final List<String> depends;
 
   const ComponentData({
     required this.name,
     required this.version,
+    this.depends = const <String>[],
   });
 
   //fromJson
@@ -157,6 +159,8 @@ class ComponentData extends Equatable {
     return ComponentData(
       name: json['name'] as String,
       version: json['version'] as String,
+      depends:
+          (json['depends'] as List<dynamic>).map((e) => e as String).toList(),
     );
   }
 
@@ -165,6 +169,7 @@ class ComponentData extends Equatable {
     return ComponentData(
       name: data.name,
       version: data.version,
+      depends: data.depends,
     );
   }
 
@@ -173,6 +178,7 @@ class ComponentData extends Equatable {
     return {
       'name': name,
       'version': version,
+      'depends': depends,
     };
   }
 
@@ -180,13 +186,15 @@ class ComponentData extends Equatable {
   ComponentData copyWith({
     String? name,
     String? version,
+    List<String>? depends,
   }) {
     return ComponentData(
       name: name ?? this.name,
       version: version ?? this.version,
+      depends: depends ?? this.depends,
     );
   }
 
   @override
-  List<Object> get props => [name, version];
+  List<Object> get props => [name, version, depends];
 }

@@ -34,32 +34,42 @@ Future<void> doAdd(List<String> args) async {
         final componentPath = getComponentsPath();
         //check if componentPath exists
         if (!Directory(componentPath).existsSync()) {
-          print('$componentPath does not exist');
-          print('Creating $componentPath');
-          Directory(componentPath).createSync();
+          _createComponentPath(componentPath);
         }
         final componentDir = "$componentPath$pSeparator${component.name}.dart";
         final initJson = getIt.get<InitJson>();
+        final componentData = ComponentData.fromComponentFetchData(component);
         //check if this components exists
         if (File(componentDir).existsSync()) {
-          if (!initJson.isComponentRegistered(
-              ComponentData.fromComponentFetchData(component))) {
+          if (!initJson.isComponentRegistered(componentData)) {
             //if not registered in the yaml, then register it
-            initJson.registerComponent(
-                ComponentData.fromComponentFetchData(component));
+            initJson.registerComponent(componentData);
           }
-          //todo: handle if exists
           logger('${component.name} already exists', hint: '');
           continue;
         }
-        File(componentDir).writeAsStringSync(component.content);
-        initJson
-            .registerComponent(ComponentData.fromComponentFetchData(component));
-        print('Component ${component.name} added successfully');
+
+        //check if componentData.depends is not empty
+
+        //write the component to the file if it does not exist
+        _writeComponentFile(componentDir, componentData, component, initJson);
       }
       if (listOfNotFoundComponents.isNotEmpty) {
         print('$listOfNotFoundComponents are not found in the database');
       }
     }
   });
+}
+
+void _createComponentPath(String componentPath) {
+  print('$componentPath does not exist');
+  print('Creating $componentPath');
+  Directory(componentPath).createSync();
+}
+
+void _writeComponentFile(String componentDir, ComponentData componentData,
+    ComponentFetchData component, InitJson initJson) {
+  File(componentDir).writeAsStringSync(component.content);
+  initJson.registerComponent(componentData);
+  print('Component ${component.name} added successfully');
 }

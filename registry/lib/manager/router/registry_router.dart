@@ -8,7 +8,7 @@ final registryRouter = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return const MyHomePage(title: 'Registry App for Flutter cn UI');
+        return MyHomePage(title: 'Registry App for Flutter cn UI');
       },
     ),
     GoRoute(
@@ -40,6 +40,24 @@ final registryRouter = GoRouter(
         return CardPage(
           isCustom: isCustom == "true",
           isDecorated: isDecorated == "true",
+        );
+      },
+    ),
+    GoRoute(
+      path: "/input",
+      builder: (context, state) {
+        final String isDisabled =
+            state.uri.queryParameters['isDisabled'] ?? "false";
+        final String withLabel =
+            state.uri.queryParameters['withLabel'] ?? "false";
+        final String withButton =
+            state.uri.queryParameters['withButton'] ?? "false";
+        final String isForm = state.uri.queryParameters['isForm'] ?? "false";
+        return InputPage(
+          isDisabled: isDisabled == "true",
+          withLabel: withLabel == "true",
+          withButton: withButton == "true",
+          isForm: isForm == "true",
         );
       },
     ),

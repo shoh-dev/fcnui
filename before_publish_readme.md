@@ -3,3 +3,4 @@
 - [ ] Update the version number in `pubspec.yaml`
 - [ ] Update the `CHANGELOG.md`
 - [ ] Update version number in `cli/lib/src/functions/version/version_command.dart`
+- [ ] Check analysis and fix issues.
