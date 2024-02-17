@@ -1,32 +1,22 @@
-# Button
+# Card
+
+Displays a card with title, subtitle, content, and footer.
+Customizable and custom components can be added to the card.
+
 
 ## Installation
 ```shell
-fcnui add button
+fcnui add card
 ```
 
-### Primary
 import DefaultIframe from '../../src/components/default_iframe'
 
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=primary"/>
+### Default
+<DefaultIframe src="https://fcnui-playground.vercel.app/#/card" height={600}/>
 
-### Secondary
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=secondary"/>
+### Custom
+<DefaultIframe src="https://fcnui-playground.vercel.app/#/card?isCustom=true" height={500}/>
 
-### Error
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=error"/>
+### Decorated
+<DefaultIframe src="https://fcnui-playground.vercel.app/#/card?isDecorated=true" height={600}/>
 
-### Outline
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=outline"/>
-
-### Ghost
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=ghost"/>
-
-### With Icon
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=primary&withIcon=true"/>
-
-### Loading
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=primary&isLoading=true"/>
-
-### Disabled
-<DefaultIframe src="https://fcnui-playground.vercel.app/#/button?variant=primary&isDisabled=true"/>
