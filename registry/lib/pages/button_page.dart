@@ -26,7 +26,7 @@ class ButtonPage extends StatelessWidget {
         controller: controller,
         children: [
           Center(child: preview()),
-          code(context),
+          Center(child: SingleChildScrollView(child: code(context))),
         ],
       );
     });
@@ -125,9 +125,7 @@ DefaultButton(
   ),
 ),
     """;
-    return Center(
-        child: SingleChildScrollView(
-            child: AnySyntaxHighlighter(code,
-                hasCopyButton: true, padding: 16, isSelectableText: true)));
+    return AnySyntaxHighlighter(code,
+        hasCopyButton: true, padding: 16, isSelectableText: true);
   }
 }

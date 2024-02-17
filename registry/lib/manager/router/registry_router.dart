@@ -29,5 +29,19 @@ final registryRouter = GoRouter(
             withIcon: withIcon == "true");
       },
     ),
+    GoRoute(
+      path: "/card",
+      builder: (context, state) {
+        final String isCustom =
+            state.uri.queryParameters['isCustom'] ?? "false";
+        final String isDecorated =
+            state.uri.queryParameters['isDecorated'] ?? "false";
+
+        return CardPage(
+          isCustom: isCustom == "true",
+          isDecorated: isDecorated == "true",
+        );
+      },
+    ),
   ],
 );

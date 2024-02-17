@@ -667,6 +667,7 @@
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/dependency_injection/init.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/helpers/f_action_helper.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/helpers/helpers.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/helpers/spaced_layout.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/src.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/store/app_reducer.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/fcnui_base/lib/src/store/app_state.dart
@@ -692,14 +693,12 @@
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/manager/router/registry_router.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/manager/router/router.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/button_page.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/card_page.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/pages.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/button.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/card.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/default_components.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/layout/default_layout.dart
-/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/widgets/spaced_column.dart
-/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/widgets/spaced_row.dart
-/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/widgets/widgets.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/pubspec.yaml
 /Users/shoh/fvm/versions/3.16.9/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf
 /Users/shoh/fvm/versions/3.16.9/bin/cache/pkg/sky_engine/LICENSE

@@ -179,8 +179,7 @@ class DefaultCard extends StatelessWidget {
 
     final color = decoration.color ?? theme.colorScheme.surface;
 
-    return Container(
-        padding: decoration.padding ?? defaultPadding,
+    return DecoratedBox(
         decoration: BoxDecoration(
           color: color,
           borderRadius: decoration.borderRadius,
@@ -188,16 +187,23 @@ class DefaultCard extends StatelessWidget {
           border: decoration.border ?? border,
         ),
         child: custom == null
-            ? Column(
-                crossAxisAlignment: decoration.childrenCrossAxisAlignment,
-                children: [
-                  _getTitle(theme),
-                  if (variant!.subtitle != null) _getSubtitle(theme),
-                  _getContent(theme),
-                  _getFooter(theme),
-                ],
+            ? Padding(
+                padding: decoration.padding ?? defaultPadding,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: decoration.childrenCrossAxisAlignment,
+                  children: [
+                    _getTitle(theme),
+                    if (variant!.subtitle != null) _getSubtitle(theme),
+                    _getContent(theme),
+                    _getFooter(theme),
+                  ],
+                ),
               )
-            : custom!.widget);
+            : Padding(
+                padding: decoration.padding ?? defaultPadding,
+                child: custom!.widget,
+              ));
   }
 
   Widget _getTitle(ThemeData theme) {
