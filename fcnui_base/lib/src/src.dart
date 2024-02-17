@@ -10,3 +10,5 @@ export 'vm_providers/vm_providers.dart';
 export 'dependency_injection/dependency_injection.dart';
 
 export 'helpers/helpers.dart';
+
+export 'utils/utils.dart';

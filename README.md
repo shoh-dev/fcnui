@@ -36,6 +36,36 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 
 ### Available Components
 
-- [ ] 
+- [ ] Avatar
+- [ ] Badge
 - [x] [Button](https://fcnui.shoh.dev/docs/components/button)
+- [ ] Card (WIP) 🚀
+- [ ] Checkbox 🚀
+- [ ] Combobox
+- [ ] Command
+- [ ] Context Menu
+- [ ] Data Table 🚀
+- [ ] Dialog
+- [ ] Dropdown Menu 🚀
+- [ ] Form 🚀
+- [ ] Input 🚀
+- [ ] Menu Bar
+- [ ] Navigation Menu
+- [ ] Pagination
+- [ ] Progress Bar
+- [ ] Radio Group 🚀
+- [ ] Resizable
+- [ ] Select 🚀
+- [ ] Sheet
+- [ ] Skeleton
+- [ ] Slider
+- [ ] Switch 🚀
+- [ ] Table 🚀
+- [ ] Tabs 🚀
+- [ ] Textarea
+- [ ] Toast
+- [ ] Toggle 🚀
+- [ ] Toggle Group 🚀
+- [ ] Tooltip
 
+> 🚀 - Very Important

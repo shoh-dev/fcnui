@@ -63,7 +63,7 @@ abstract class ButtonVariant extends Equatable {
       this.iconSize = 18,
       this.child,
       this.isLoading = false,
-      this.minimumSize = const Size.square(40),
+      this.minimumSize = const Size.square(48),
       this.icon})
       : assert(iconSize >= 0, "iconSize must be greater than or equal to 0"),
         assert(text != null || child != null || icon != null,
@@ -161,14 +161,13 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeProvider(
       builder: (context, vm) {
-        return getChild(context, vm);
+        return getChild(vm);
       },
     );
   }
 
-  Widget getChild(BuildContext context, ThemeVm vm) {
-    final theme = vm.theme;
-    return _getButtonWidgetType(theme);
+  Widget getChild(ThemeVm vm) {
+    return _getButtonWidgetType(vm.theme);
   }
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
@@ -180,7 +179,7 @@ class DefaultButton extends StatelessWidget {
       shape: _getShape(theme),
       side: _getBorder(theme),
       padding: _getPadding(theme),
-      minimumSize: variant.minimumSize,
+      minimumSize: variant.minimumSize.w,
       splashFactory: NoSplash.splashFactory,
       disabledMouseCursor: SystemMouseCursors.forbidden,
       surfaceTintColor: theme.colorScheme.surface,
@@ -190,7 +189,7 @@ class DefaultButton extends StatelessWidget {
   EdgeInsetsGeometry _getPadding(ThemeData theme) {
     switch (variant.runtimeType) {
       default:
-        return const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+        return const EdgeInsets.symmetric(horizontal: 16, vertical: 8).w;
     }
   }
 
@@ -214,7 +213,7 @@ class DefaultButton extends StatelessWidget {
               label: _getButtonChild(theme),
               icon: variant.isLoading
                   ? const _LoadingIndicator()
-                  : Icon(variant.icon, size: variant.iconSize),
+                  : Icon(variant.icon, size: variant.iconSize.w),
             );
           }
           return ElevatedButton(
@@ -222,7 +221,7 @@ class DefaultButton extends StatelessWidget {
             onPressed: _getOnPressed,
             child: variant.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon, size: variant.iconSize),
+                : Icon(variant.icon, size: variant.iconSize.w),
           );
         }
       case const (OutlineButtonVariant):
@@ -240,7 +239,7 @@ class DefaultButton extends StatelessWidget {
             label: _getButtonChild(theme),
             icon: variant.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon, size: variant.iconSize),
+                : Icon(variant.icon, size: variant.iconSize.w),
           );
         }
       default:
@@ -282,6 +281,9 @@ class DefaultButton extends StatelessWidget {
         return theme.colorScheme.onSecondary;
       case const (TertiaryButtonVariant):
         return theme.colorScheme.onTertiary;
+      case const (OutlineButtonVariant):
+      case const (GhostButtonVariant):
+        return theme.colorScheme.onSurface;
       default:
         return null;
     }
@@ -295,10 +297,9 @@ class DefaultButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const _LoadingIndicator(),
-            const SizedBox(width: 8),
             ch,
           ],
-        );
+        ).spaced(8);
       }
     }
     return ch;
@@ -311,7 +312,7 @@ class DefaultButton extends StatelessWidget {
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
       case const (OutlineButtonVariant):
-        return BorderSide(color: theme.colorScheme.onPrimary.withOpacity(.2));
+        return BorderSide(color: theme.colorScheme.onSurface.withOpacity(.2)).w;
       default:
         return null;
     }
@@ -321,7 +322,7 @@ class DefaultButton extends StatelessWidget {
     switch (variant.runtimeType) {
       default:
         return RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(6).r,
         );
     }
   }
@@ -332,10 +333,10 @@ class _LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       width: 20,
       height: 20,
-      child: CircularProgressIndicator(strokeWidth: 2),
-    );
+      child: CircularProgressIndicator(strokeWidth: 2.w),
+    ).w;
   }
 }

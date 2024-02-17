@@ -1,25 +1,73 @@
-///v0.0.3
+//v0.0.1
 
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 
+/// [ButtonVariant] is the base class for all button variants
+///
+/// Can use these variants:
+/// - [PrimaryButtonVariant]
+/// - [SecondaryButtonVariant]
+/// - [TertiaryButtonVariant]
+/// - [ErrorButtonVariant]
+/// - [OutlineButtonVariant]
+/// - [GhostButtonVariant]
 abstract class ButtonVariant extends Equatable {
+  /// If [onPressed] is null, the button will be disabled
   final VoidCallback? onPressed;
+
   final String? text;
+
+  /// If [child] is provided, [text] will be ignored
+  ///
+  /// [child] will be used as the button's child
   final Widget? child;
+
+  /// If true, it will show a loading indicator
+  ///
+  /// If [icon] is provided, icon will be replaced with loading indicator
+  ///
+  /// [onPressed] will be disabled if [isLoading] is true
   final bool isLoading;
+
+  /// Icon of the button
+  ///
+  /// If [isLoading] is true, icon will be replaced with loading indicator
   final IconData? icon;
+
+  /// Size of the icon
+  ///
+  /// Default is 18px
   final double iconSize;
+
+  /// Minimum size of the button
+  ///
+  /// Default is 88px x 40px
   final Size minimumSize;
+
+  ///Custom background color
+  ///
+  /// It will override the default background color if provided
+  final Color? backgroundColor;
+
+  ///Custom foreground color
+  ///
+  /// It will override the default foreground color if provided
+  final Color? foregroundColor;
 
   const ButtonVariant(
       {this.onPressed,
       this.text,
-      this.iconSize = 20,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.iconSize = 18,
       this.child,
       this.isLoading = false,
-      this.minimumSize = const Size(88, 42),
-      this.icon});
+      this.minimumSize = const Size.square(40),
+      this.icon})
+      : assert(iconSize >= 0, "iconSize must be greater than or equal to 0"),
+        assert(text != null || child != null || icon != null,
+            "text, child, or icon must be provided");
 
   @override
   List<Object?> get props =>
@@ -34,7 +82,9 @@ class PrimaryButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class SecondaryButtonVariant extends ButtonVariant {
@@ -45,7 +95,9 @@ class SecondaryButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class TertiaryButtonVariant extends ButtonVariant {
@@ -56,7 +108,9 @@ class TertiaryButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class ErrorButtonVariant extends ButtonVariant {
@@ -67,7 +121,9 @@ class ErrorButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class OutlineButtonVariant extends ButtonVariant {
@@ -78,7 +134,9 @@ class OutlineButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class GhostButtonVariant extends ButtonVariant {
@@ -89,16 +147,15 @@ class GhostButtonVariant extends ButtonVariant {
       super.isLoading,
       super.icon,
       super.iconSize,
-      super.minimumSize});
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
 }
 
 class DefaultButton extends StatelessWidget {
   final ButtonVariant variant;
 
-  const DefaultButton({
-    super.key,
-    this.variant = const PrimaryButtonVariant(),
-  });
+  const DefaultButton({super.key, required this.variant});
 
   @override
   Widget build(BuildContext context) {
@@ -110,32 +167,39 @@ class DefaultButton extends StatelessWidget {
   }
 
   Widget getChild(BuildContext context, ThemeVm vm) {
-    ///! Below part must not be changed
-
     final theme = vm.theme;
-
-    ///! Above part must not be changed
-
-    return Theme(data: theme, child: _getButtonWidgetType(theme));
+    return _getButtonWidgetType(theme);
   }
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
     return ElevatedButton.styleFrom(
+      disabledBackgroundColor: _getBackgroundColor(theme)?.withOpacity(0.5),
+      disabledForegroundColor: _getForegroundColor(theme)?.withOpacity(0.5),
       backgroundColor: _getBackgroundColor(theme),
       foregroundColor: _getForegroundColor(theme),
-      minimumSize: variant.minimumSize,
       shape: _getShape(theme),
       side: _getBorder(theme),
+      padding: _getPadding(theme),
+      minimumSize: variant.minimumSize,
       splashFactory: NoSplash.splashFactory,
+      disabledMouseCursor: SystemMouseCursors.forbidden,
+      surfaceTintColor: theme.colorScheme.surface,
     );
+  }
+
+  EdgeInsetsGeometry _getPadding(ThemeData theme) {
+    switch (variant.runtimeType) {
+      default:
+        return const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+    }
   }
 
   Widget _getButtonWidgetType(ThemeData theme) {
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
-      case SecondaryButtonVariant:
-      case TertiaryButtonVariant:
-      case ErrorButtonVariant:
+      case const (PrimaryButtonVariant):
+      case const (SecondaryButtonVariant):
+      case const (TertiaryButtonVariant):
+      case const (ErrorButtonVariant):
         if (variant.icon == null) {
           return ElevatedButton(
             style: _getButtonStyle(theme),
@@ -143,17 +207,26 @@ class DefaultButton extends StatelessWidget {
             child: _getButtonChild(theme),
           );
         } else {
-          return ElevatedButton.icon(
+          if (variant.text != null && variant.text!.isNotEmpty) {
+            return ElevatedButton.icon(
+              style: _getButtonStyle(theme),
+              onPressed: _getOnPressed,
+              label: _getButtonChild(theme),
+              icon: variant.isLoading
+                  ? const _LoadingIndicator()
+                  : Icon(variant.icon, size: variant.iconSize),
+            );
+          }
+          return ElevatedButton(
             style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
-            label: _getButtonChild(theme),
-            icon: variant.isLoading
+            child: variant.isLoading
                 ? const _LoadingIndicator()
                 : Icon(variant.icon, size: variant.iconSize),
           );
         }
-      case OutlineButtonVariant:
-      case GhostButtonVariant:
+      case const (OutlineButtonVariant):
+      case const (GhostButtonVariant):
         if (variant.icon == null) {
           return TextButton(
             style: _getButtonStyle(theme),
@@ -184,14 +257,15 @@ class DefaultButton extends StatelessWidget {
   }
 
   Color? _getBackgroundColor(ThemeData theme) {
+    if (variant.backgroundColor != null) return variant.backgroundColor;
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
+      case const (PrimaryButtonVariant):
         return theme.colorScheme.primary;
-      case SecondaryButtonVariant:
+      case const (SecondaryButtonVariant):
         return theme.colorScheme.secondary;
-      case TertiaryButtonVariant:
+      case const (TertiaryButtonVariant):
         return theme.colorScheme.tertiary;
-      case ErrorButtonVariant:
+      case const (ErrorButtonVariant):
         return theme.colorScheme.error;
       default:
         return null;
@@ -199,13 +273,14 @@ class DefaultButton extends StatelessWidget {
   }
 
   Color? _getForegroundColor(ThemeData theme) {
+    if (variant.foregroundColor != null) return variant.foregroundColor;
     switch (variant.runtimeType) {
-      case PrimaryButtonVariant:
-      case ErrorButtonVariant:
+      case const (PrimaryButtonVariant):
+      case const (ErrorButtonVariant):
         return theme.colorScheme.onPrimary;
-      case SecondaryButtonVariant:
+      case const (SecondaryButtonVariant):
         return theme.colorScheme.onSecondary;
-      case TertiaryButtonVariant:
+      case const (TertiaryButtonVariant):
         return theme.colorScheme.onTertiary;
       default:
         return null;
@@ -230,16 +305,13 @@ class DefaultButton extends StatelessWidget {
   }
 
   String _getText() {
-    if (variant.isLoading) {
-      return "Please wait";
-    }
     return variant.text ?? 'Button';
   }
 
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
-      case OutlineButtonVariant:
-        return BorderSide(color: theme.colorScheme.primary, width: 1);
+      case const (OutlineButtonVariant):
+        return BorderSide(color: theme.colorScheme.onPrimary.withOpacity(.2));
       default:
         return null;
     }
@@ -247,8 +319,6 @@ class DefaultButton extends StatelessWidget {
 
   OutlinedBorder? _getShape(ThemeData theme) {
     switch (variant.runtimeType) {
-      case GhostButtonVariant:
-        return null;
       default:
         return RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),

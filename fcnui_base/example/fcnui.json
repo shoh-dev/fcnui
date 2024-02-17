@@ -4,14 +4,14 @@
   "description": "Helper package for Flutter CN UI",
   "registry": {
     "theme": {
-      "name": "default",
+      "name": "greyLaw",
       "version": "0.0.1"
     },
     "componentsFolder": "components",
     "components": [
       {
         "name": "button",
-        "version": "0.0.3"
+        "version": "0.0.1"
       }
     ]
   }

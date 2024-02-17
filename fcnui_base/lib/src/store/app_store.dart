@@ -6,4 +6,5 @@ import 'middlewares/middlewares.dart';
 final appStore =
     Store<AppState>(appReducer, initialState: AppState.initial(), middleware: [
   ThemeStateMiddleware(),
+  UtilityStateMiddleware(),
 ]);

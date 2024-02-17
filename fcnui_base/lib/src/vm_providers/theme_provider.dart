@@ -42,11 +42,21 @@ class ThemeVm extends Equatable {
     flexScheme = FlexScheme.values.firstWhere((e) => e.name == flexSchemeStr,
         orElse: () => kDefaultFlexSchemeValue);
 
+    final defaultTheme = Theme.of(context);
+
     final theme = usePlatformTheme
-        ? Theme.of(context)
+        ? defaultTheme
         : (themeMode == ThemeMode.dark
-            ? FlexThemeData.dark(scheme: flexScheme, useMaterial3: true)
-            : FlexThemeData.light(scheme: flexScheme, useMaterial3: true));
+            ? FlexThemeData.dark(
+                scheme: flexScheme,
+                useMaterial3: true,
+                textTheme: defaultTheme.textTheme,
+              )
+            : FlexThemeData.light(
+                scheme: flexScheme,
+                useMaterial3: true,
+                textTheme: defaultTheme.textTheme,
+              ));
 
     return ThemeVm(
       themeMode: themeMode,

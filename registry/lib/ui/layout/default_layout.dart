@@ -32,8 +32,8 @@ class _DefaultLayoutState extends State<DefaultLayout>
 }
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final TabController tabController;
-  const DefaultAppBar({super.key, required this.tabController});
+  final TabController? tabController;
+  const DefaultAppBar({super.key, this.tabController});
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +54,6 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                         borderSide:
                             BorderSide(color: vm.theme.colorScheme.onPrimary)),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8)),
-                // style: Theme.of(context)
-                //     .textTheme
-                //     .bodyLarge!
-                //     .copyWith(color: vm.theme.colorScheme.onPrimary),
                 items: FlexScheme.values
                     .map((e) => DropdownMenuItem<int>(
                         value: e.index, child: Text(e.formatted.capitalize)))
@@ -83,15 +79,17 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icon(getThemeModeIcon(vm.themeMode)),
           ),
         ],
-        bottom: TabBar(
-            controller: tabController,
-            indicator: BoxDecoration(
-              color: vm.theme.colorScheme.secondary.withOpacity(.4),
-            ),
-            tabs: const [
-              Tab(text: "Preview"),
-              Tab(text: "Code"),
-            ]),
+        bottom: tabController != null
+            ? TabBar(
+                controller: tabController,
+                indicator: BoxDecoration(
+                  color: vm.theme.colorScheme.secondary.withOpacity(.4),
+                ),
+                tabs: const [
+                    Tab(text: "Preview"),
+                    Tab(text: "Code"),
+                  ])
+            : null,
       );
     });
   }
@@ -103,7 +101,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       };
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
+  Size get preferredSize => Size.fromHeight(
+      kToolbarHeight + (tabController != null ? kTextTabBarHeight : 0));
 }
 
 extension FlexSchemeExt on FlexScheme {
