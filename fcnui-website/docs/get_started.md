@@ -52,7 +52,7 @@ Let's discover **fcnui** 🚀🚀🚀
     ```dart
     DefaultStoreProvider(
       // Optionally pass actions need to be activated on app start.
-      // ex: ChangeFlexSchemeAction(usePlatformTheme: true)
+      // ex: ChangeUsePlatformThemeAction(usePlatformTheme: true)
       //initActions: [],
       child: MaterialApp(
         title: 'Your App Title',
