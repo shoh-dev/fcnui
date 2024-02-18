@@ -8,7 +8,7 @@ Future<void> main(List<String> arguments) async {
 Future<void> myMain(List<String> arguments) async {
   final args = arguments.map((e) => e.toLowerCase()).toList();
   if (args.isEmpty || args[0].isEmpty) {
-    print('Invalid command. Use: fcnui <command>');
+    logger('Invalid command. Use: fcnui <command>');
     close();
   }
 
@@ -29,9 +29,7 @@ Future<void> myMain(List<String> arguments) async {
   //Initialize dependencies
   getIt.registerSingleton<ApiClient>(ApiClient());
 
-  getIt.registerSingleton<InitJson>(InitJson());
-
-  final initJson = getIt<InitJson>();
+  final initJson = getIt.registerSingleton<InitJson>(InitJson());
 
   if (firstArg == "init") {
     final initialization = Initialization(initJson: initJson);
@@ -40,7 +38,7 @@ Future<void> myMain(List<String> arguments) async {
   }
 
   if (!initJson.isInitialized) {
-    print('Please run "fcnui init" first');
+    logger('Please run "fcnui init" first');
     close();
   }
 
@@ -50,7 +48,7 @@ Future<void> myMain(List<String> arguments) async {
     case "add":
       final components = arguments.sublist(1);
       if (components.isEmpty) {
-        print('Invalid command. Use: fcnui add <componentName>');
+        logger('Invalid command. Use: fcnui add <componentName>');
         close();
       }
       await componentMethods.add(components);
@@ -58,13 +56,13 @@ Future<void> myMain(List<String> arguments) async {
     case "remove":
       final components = arguments.sublist(1);
       if (components.isEmpty) {
-        print('Invalid command. Use: fcnui remove <componentName>');
+        logger('Invalid command. Use: fcnui remove <componentName>');
         close();
       }
       componentMethods.remove(components);
       close();
     default:
-      print("Invalid command. Use: 'fcnui help' for more information.");
+      logger("Invalid command. Use: 'fcnui help' for more information.");
       close();
   }
 }

@@ -27,7 +27,7 @@ class InitJson {
       final file = File(kFlutterCnUiJson);
       return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
     } catch (e) {
-      print('Error reading fcnui.json file: $e');
+      logger('Error reading fcnui.json file: $e');
       close();
       rethrow;
     }
@@ -43,20 +43,20 @@ class InitJson {
         final defaultJson = InitJsonMd();
         File(kFlutterCnUiJson)
             .writeAsStringSync(jsonEncode(defaultJson.toJson()));
-        print('fcnui.json file created');
+        logger('fcnui.json file created');
       } else {
-        print('fcnui.json file exists');
+        logger('fcnui.json file exists');
       }
       initJsonMd = getCnUiJson();
     } catch (e) {
-      print('Error fcnui.json file initFlutterCnJson: $e');
+      logger('Error fcnui.json file initFlutterCnJson: $e');
       close();
     }
   }
 
   void updateJson(InitJsonMd newJsonData) {
     if (getJsonFile() == null) {
-      print('Error: fcnui.json file not found');
+      logger('Error: fcnui.json file not found');
       close();
     }
     final file = getJsonFile()!;
@@ -71,7 +71,7 @@ class InitJson {
 
   void registerComponent(RegistryComponentData component) {
     if (getJsonFile() == null) {
-      print('Error: fcnui.json file not found');
+      logger('Error: fcnui.json file not found');
       close();
     }
     final json = getCnUiJson();
@@ -92,7 +92,7 @@ class InitJson {
 
   void unregisterComponent(String componentName) {
     if (getJsonFile() == null) {
-      print('Error: fcnui.json file not found');
+      logger('Error: fcnui.json file not found');
       close();
     }
     final json = getCnUiJson();

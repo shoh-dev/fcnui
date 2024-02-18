@@ -103,16 +103,23 @@ void _askUserToUpdateComponent(
     RegistryComponentData registryComponentData,
     InitJson initJson,
     String componentDir) {
-  logger('Component ${component.name} already exists with a,hint: " '
-      'different version: ${component.version}. Old version: ${initJson.getComponentVersion(component.name)}');
-  logger('Do you want to update the component? (y/N): ');
+  logger(
+      'Component ${component.name} already exists with a different version: ${component.version}. Old version: ${initJson.getComponentVersion(component.name)}');
+  logger('Do you want to update the component? (y/n): ');
   final answer = stdin.readLineSync();
   if (answer == 'y') {
-    File(componentDir).writeAsStringSync(component.content);
-    initJson.registerComponent(registryComponentData);
-    logger(
-        "Component '${component.name}':${component.version} updated successfully");
+    _updateComponent(componentDir, component, registryComponentData, initJson);
+  } else {
+    logger("Component '${component.name}' not updated");
   }
+}
+
+void _updateComponent(String componentDir, ComponentFetchData component,
+    RegistryComponentData registryComponentData, InitJson initJson) {
+  File(componentDir).writeAsStringSync(component.content);
+  initJson.registerComponent(registryComponentData);
+  logger(
+      "Component '${component.name}':${component.version} updated successfully");
 }
 
 void _addComponent(String componentDir, ComponentFetchData component,

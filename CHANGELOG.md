@@ -1,6 +1,11 @@
+## 18.02.2024
+
+- [CLI] Change `print` method to custom `logger` method. Will format prints using `logger`.
+
+
 ## 17.02.2024
 
-- [Homepage] Add card documentation.
+- [Homepage] Add `card` documentation.
 - [Playground] Add `card`, `input` page.
 - [Playground] Update `Card` with new `Input` component.
 - [Registry] Add [DefaultDisabled] component. Wrap any widget with this component to disable it.
