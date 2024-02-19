@@ -1,3 +1,7 @@
+import 'package:fcnui/src/constants.dart';
+
 void logger(dynamic message, {String? hint}) {
-  print(message.toString());
+  if (!isTestMode) {
+    print(message.toString());
+  }
 }

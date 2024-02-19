@@ -40,6 +40,7 @@ class ApiClient {
       return right(defaultResponse);
     } on DioException catch (e) {
       print('dio exception');
+      print(e.toString());
       return left(DefaultErrorImpl(message: "Server error: ${e.message}"));
     } catch (e, st) {
       print('exception');

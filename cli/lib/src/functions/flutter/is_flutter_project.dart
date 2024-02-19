@@ -1,20 +1,18 @@
 import 'dart:io';
+import 'package:fcnui/src/functions/log/logger.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
-import '../../src.dart';
-
-void _printNotFlutterProjectAndClose() {
-  print(
+void _printNotFlutterProject() {
+  logger(
       'Not a Flutter project. Please run this command in a Flutter project directory.');
-  close();
 }
 
-YamlEditor? isFlutterProject() {
+YamlEditor? isFlutterProject(String pubspecPath) {
   try {
-    if (!File(kPubspecYaml).existsSync()) {
-      _printNotFlutterProjectAndClose();
+    if (!File(pubspecPath).existsSync()) {
+      _printNotFlutterProject();
     }
-    final yamlFile = File(kPubspecYaml);
+    final yamlFile = File(pubspecPath);
     final YamlEditor pubspecFile = YamlEditor(yamlFile.readAsStringSync());
     //If parsed successfully then it's a Flutter project
     //If cannot parse, it throws error so catch it and print error message
@@ -22,14 +20,14 @@ YamlEditor? isFlutterProject() {
     final flutterNodeValue =
         pubspecFile.parseAt(['dependencies', 'flutter']).value;
     if (flutterNodeValue == null) {
-      _printNotFlutterProjectAndClose();
+      _printNotFlutterProject();
     }
     final projectName = pubspecFile.parseAt(['name']).value;
     logger('Flutter project found => $projectName');
     return pubspecFile;
   } catch (e) {
-    print(e.toString());
-    _printNotFlutterProjectAndClose();
+    logger(e.toString());
+    _printNotFlutterProject();
   }
   return null;
 }

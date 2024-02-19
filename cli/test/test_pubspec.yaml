@@ -1,0 +1,17 @@
+name: test_cli
+description: Test yaml file for CLI
+publish_to: 'none'
+version: 1.0.0+1
+repository: https://github.com/shoh-dev/flutter_cn_ui
+homepage: https://fcnui.shoh.dev
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

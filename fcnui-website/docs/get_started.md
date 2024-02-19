@@ -70,4 +70,7 @@ Let's discover **fcnui** 🚀🚀🚀
     * Replace [**component_name**] with the name of the component you want to add.
     * Optionally, can pass a list of components to add at once by separating them with a comma.
 
+> **Note**:
+> Text theme is used from the user definition. So if you defined a text theme in your Material/CupertinoApp, it will use that. If not, it will use the default `fcnui` text theme. 
+
    That's it! You're now ready to leverage the power of fcnui in your projects. Happy coding! 🚀

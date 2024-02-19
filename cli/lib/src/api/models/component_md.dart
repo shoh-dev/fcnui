@@ -24,17 +24,6 @@ class ComponentFetchData extends DefaultData {
           : [],
     );
   }
-
-  @override
-  bool? get stringify => true;
-
-  @override
-  List<Object?> get props => [
-        name,
-        content,
-        version,
-        dependencies,
-      ];
 }
 
 class ComponentFetchError extends DefaultError {
@@ -42,9 +31,6 @@ class ComponentFetchError extends DefaultError {
 
   const ComponentFetchError(
       {super.message, this.notFoundComponents = const []});
-
-  @override
-  List<Object?> get props => [message, notFoundComponents];
 
   factory ComponentFetchError.fromJson(Map<String, dynamic> json) {
     final error = json['error'];
@@ -57,7 +43,4 @@ class ComponentFetchError extends DefaultError {
           : [],
     );
   }
-
-  @override
-  bool? get stringify => true;
 }

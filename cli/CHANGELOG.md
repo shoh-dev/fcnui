@@ -1,5 +1,6 @@
-## 1.0.6 (17.02.2024 - 18.02.2024)
+## 1.0.6 (17.02.2024 - 19.02.2024)
 
+- Remove `get_it` and `equatable` dependencies.
 - Add `remove` command. Removes component dart file and unregisters from `jcnui.json`.
 - Rename `ComponentData` to `RegistryComponentData`.
 - Change `print` method to custom `logger` method. Will format prints using `logger`.

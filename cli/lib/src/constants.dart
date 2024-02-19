@@ -1,7 +1,10 @@
 import 'dart:io';
 
 ///This must be switched manually based on the environment
-const bool kDebugMode = true;
+const bool kDebugMode = false;
+
+//Enable this if running commands as test
+const bool isTestMode = false;
 
 const String kPubspecYaml = 'pubspec.yaml';
 const String kFlutterCnUiJson = 'fcnui.json';

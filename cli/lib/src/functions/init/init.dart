@@ -1,38 +1,41 @@
 import 'dart:io';
 import '../../src.dart';
-import 'init_json.dart';
+
+export 'init_json.dart';
+export 'init_json_md.dart';
 
 class Initialization {
   final InitJson initJson;
 
   Initialization({required this.initJson});
-  void init() {
+  String init(String defaultComponentPath) {
     //Check if the components folder is registered
     if (initJson.initJsonMd.registry.componentsFolder != null) {
       logger(
           'Components folder is at: ${initJson.initJsonMd.registry.componentsFolder}');
-      close();
+      return initJson.initJsonMd.registry.componentsFolder!;
     }
     //Ask for the components folder location
-    final componentsFolder = _requireComponentsFolder();
+    final componentsFolder = _requireComponentsFolder(defaultComponentPath);
     //Update the components folder location
     initJson.updateJson(initJson.initJsonMd.copyWith(
         registry: initJson.initJsonMd.registry
             .copyWith(componentsFolder: componentsFolder)));
     logger('Components folder registered at: $componentsFolder');
+    return componentsFolder;
   }
 }
 
 ///Ask to the user for the components folder location
-///If the user doesn't provide a location, the default location will be used which is [kDefaultComponentsFolder]
+///If the user doesn't provide a location, the default location will be used which is [defaultComponentPath]
 ///If the folder doesn't exist, it will be created and returned
-String _requireComponentsFolder() {
+String _requireComponentsFolder(String defaultComponentPath) {
   stdout.write(
-      'Enter components folder location inside lib (default: $kDefaultComponentsFolder): ');
+      'Enter components folder location inside lib (default: $defaultComponentPath): ');
   String fullPath = "";
   String componentsFolder = stdin.readLineSync() ?? "";
   if (componentsFolder.isEmpty) {
-    componentsFolder = kDefaultComponentsFolder;
+    componentsFolder = defaultComponentPath;
   } else {
     //If starts with /, remove it
     //ex: /components -> components

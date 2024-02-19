@@ -1,18 +1,17 @@
 import 'dart:io';
-import 'package:fcnui/src/functions/init/init_json.dart';
-import 'package:fcnui/src/functions/init/init_json_md.dart';
 import 'package:fcnui/src/src.dart';
 
 class ComponentMethods {
   final InitJson initJson;
+  final ApiClient apiClient;
 
-  ComponentMethods({required this.initJson});
+  ComponentMethods({required this.initJson, required this.apiClient});
 
   Future<void> add(List<String> components) async {
-    final componentsResult =
-        await getIt.get<ApiClient>().findComponents(components);
+    final componentsResult = await apiClient.findComponents(components);
     await componentsResult.fold(
       (error) {
+        print("3");
         logger((error as DefaultErrorImpl).message);
       },
       (success) async {
@@ -24,7 +23,7 @@ class ComponentMethods {
               success.error?.notFoundComponents ?? [];
 
           for (var component in listOfFoundComponents) {
-            final componentPath = getComponentsPath();
+            final componentPath = getComponentsPath(initJson);
             //check if componentPath exists
             if (!Directory(componentPath).existsSync()) {
               _createComponentPath(componentPath);
@@ -35,7 +34,6 @@ class ComponentMethods {
 
             final componentDir =
                 "$componentPath$pSeparator${component.name}.dart";
-            final initJson = getIt.get<InitJson>();
 
             //check if this components exists
             if (File(componentDir).existsSync() &&
@@ -76,8 +74,7 @@ class ComponentMethods {
   }
 
   void remove(List<String> components) {
-    final componentPath = getComponentsPath();
-    final initJson = getIt.get<InitJson>();
+    final componentPath = getComponentsPath(initJson);
     for (var component in components) {
       final componentDir = "$componentPath$pSeparator$component.dart";
       if (File(componentDir).existsSync()) {

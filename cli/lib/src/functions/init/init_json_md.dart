@@ -1,9 +1,7 @@
-import 'package:equatable/equatable.dart';
-
 import '../../api/models/component_md.dart';
 import '../../constants.dart';
 
-class InitJsonMd extends Equatable {
+class InitJsonMd {
   final String name;
   final String version;
   final String description;
@@ -50,12 +48,9 @@ class InitJsonMd extends Equatable {
       registry: registry ?? this.registry,
     );
   }
-
-  @override
-  List<Object> get props => [name, version, description, registry];
 }
 
-class Registry extends Equatable {
+class Registry {
   final ThemeData theme;
   final String? componentsFolder;
   final List<RegistryComponentData> components;
@@ -98,12 +93,9 @@ class Registry extends Equatable {
       components: components ?? this.components,
     );
   }
-
-  @override
-  List<Object?> get props => [theme, componentsFolder, components];
 }
 
-class ThemeData extends Equatable {
+class ThemeData {
   final String name;
   final String version;
 
@@ -138,12 +130,9 @@ class ThemeData extends Equatable {
       version: version ?? this.version,
     );
   }
-
-  @override
-  List<Object> get props => [name, version];
 }
 
-class RegistryComponentData extends Equatable {
+class RegistryComponentData {
   final String name;
   final String version;
 
@@ -187,7 +176,4 @@ class RegistryComponentData extends Equatable {
       version: version ?? this.version,
     );
   }
-
-  @override
-  List<Object> get props => [name, version];
 }

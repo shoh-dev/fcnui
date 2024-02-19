@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:fcnui/src/constants.dart';
 import 'package:fcnui/src/functions/functions.dart';
-import 'init_json_md.dart';
 
 class InitJson {
-  InitJson() {
-    initJsonFile();
-  }
+  final String path;
+
+  InitJson({required this.path});
+
   late final InitJsonMd initJsonMd;
 
   bool get isInitialized {
@@ -15,7 +14,7 @@ class InitJson {
   }
 
   File? getJsonFile() {
-    final file = File(kFlutterCnUiJson);
+    final file = File(path);
     if (file.existsSync()) {
       return file;
     }
@@ -24,7 +23,7 @@ class InitJson {
 
   InitJsonMd getCnUiJson() {
     try {
-      final file = File(kFlutterCnUiJson);
+      final file = File(path);
       return InitJsonMd.fromJson(jsonDecode(file.readAsStringSync()));
     } catch (e) {
       logger('Error reading fcnui.json file: $e');
@@ -41,8 +40,7 @@ class InitJson {
       final file = getJsonFile();
       if (file == null) {
         final defaultJson = InitJsonMd();
-        File(kFlutterCnUiJson)
-            .writeAsStringSync(jsonEncode(defaultJson.toJson()));
+        File(path).writeAsStringSync(jsonEncode(defaultJson.toJson()));
         logger('fcnui.json file created');
       } else {
         logger('fcnui.json file exists');

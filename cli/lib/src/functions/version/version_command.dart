@@ -1,5 +1,8 @@
-const version = '1.0.6';
+import 'package:fcnui/src/functions/log/logger.dart';
 
-void versionCommand() {
-  print('Version: $version');
+const versionResponse = '1.0.6';
+
+String versionCommand() {
+  logger('Version: $versionResponse');
+  return versionResponse;
 }

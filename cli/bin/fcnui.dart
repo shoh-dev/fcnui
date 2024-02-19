@@ -1,4 +1,3 @@
-import 'package:fcnui/src/functions/init/init_json.dart';
 import 'package:fcnui/src/src.dart';
 
 Future<void> main(List<String> arguments) async {
@@ -24,16 +23,20 @@ Future<void> myMain(List<String> arguments) async {
       close();
   }
 
-  isFlutterProject();
+  final isFlutter = isFlutterProject(kPubspecYaml);
+  if (isFlutter == null) {
+    close();
+  }
 
   //Initialize dependencies
-  getIt.registerSingleton<ApiClient>(ApiClient());
+  final ApiClient apiClient = ApiClient();
 
-  final initJson = getIt.registerSingleton<InitJson>(InitJson());
+  final initJson = InitJson(path: kFlutterCnUiJson);
+  initJson.initJsonFile();
 
   if (firstArg == "init") {
     final initialization = Initialization(initJson: initJson);
-    initialization.init();
+    initialization.init(kDefaultComponentsFolder);
     close();
   }
 
@@ -42,7 +45,8 @@ Future<void> myMain(List<String> arguments) async {
     close();
   }
 
-  final componentMethods = ComponentMethods(initJson: initJson);
+  final componentMethods =
+      ComponentMethods(initJson: initJson, apiClient: apiClient);
 
   switch (firstArg) {
     case "add":

@@ -1,17 +1,9 @@
-import 'package:equatable/equatable.dart';
-
-class DefaultResponse<T, E> extends Equatable {
+class DefaultResponse<T, E> {
   final bool success;
   final T? data;
   final E? error;
 
   const DefaultResponse({required this.success, this.data, this.error});
-
-  @override
-  List<Object?> get props => [success, data, error];
-
-  @override
-  bool? get stringify => true;
 
   //copyWith method
   DefaultResponse<T, E> copyWith({
@@ -27,21 +19,15 @@ class DefaultResponse<T, E> extends Equatable {
   }
 }
 
-abstract class DefaultError extends Equatable {
+abstract class DefaultError {
   final String? message;
   const DefaultError({this.message});
-
-  @override
-  List<Object?> get props => [message];
-
-  @override
-  bool? get stringify => true;
 }
 
 class DefaultErrorImpl extends DefaultError {
   const DefaultErrorImpl({super.message});
 }
 
-abstract class DefaultData extends Equatable {
+abstract class DefaultData {
   const DefaultData();
 }
