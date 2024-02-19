@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
-import 'package:flutter/scheduler.dart';
 
 class ThemeProvider extends StatelessWidget {
   const ThemeProvider({super.key, required this.builder});

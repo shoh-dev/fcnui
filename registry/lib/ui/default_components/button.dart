@@ -183,7 +183,12 @@ class DefaultButton extends StatelessWidget {
       splashFactory: NoSplash.splashFactory,
       disabledMouseCursor: SystemMouseCursors.forbidden,
       surfaceTintColor: theme.colorScheme.surface,
+      textStyle: _getTextStyle(theme),
     );
+  }
+
+  TextStyle _getTextStyle(ThemeData theme) {
+    return theme.textTheme.bodyMedium!.sp;
   }
 
   EdgeInsetsGeometry _getPadding(ThemeData theme) {

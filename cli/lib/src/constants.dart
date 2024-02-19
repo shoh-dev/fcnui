@@ -1,7 +1,7 @@
 import 'dart:io';
 
 ///This must be switched manually based on the environment
-const bool kDebugMode = false;
+const bool kDebugMode = true;
 
 const String kPubspecYaml = 'pubspec.yaml';
 const String kFlutterCnUiJson = 'fcnui.json';

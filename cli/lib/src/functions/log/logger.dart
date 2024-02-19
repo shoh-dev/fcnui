@@ -1,5 +1,3 @@
-void logger(dynamic message, {String hint = "LOGGER"}) {
-  print("-----------$hint-----------");
+void logger(dynamic message, {String? hint}) {
   print(message.toString());
-  print("-----------$hint-----------");
 }

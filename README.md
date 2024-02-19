@@ -47,7 +47,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Data Table 🚀
 - [ ] Dialog
 - [ ] Dropdown Menu 🚀
-- [ ] Form 🚀
+- [ ] Form 🚀 (WIP)
 - [ ] Input 🚀 (WIP)
 - [ ] Menu Bar
 - [ ] Navigation Menu

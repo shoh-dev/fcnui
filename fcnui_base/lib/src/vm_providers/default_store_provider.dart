@@ -2,7 +2,6 @@ import 'package:fcnui_base/src/store/f_action.dart';
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/src/dependency_injection/init.dart';
 import 'package:fcnui_base/src/store/store.dart';
-import 'package:flutter/scheduler.dart';
 
 class DefaultStoreProvider extends StatelessWidget {
   final Widget child;

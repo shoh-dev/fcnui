@@ -25,7 +25,7 @@ YamlEditor? isFlutterProject() {
       _printNotFlutterProjectAndClose();
     }
     final projectName = pubspecFile.parseAt(['name']).value;
-    print('Flutter project found => $projectName');
+    logger('Flutter project found => $projectName');
     return pubspecFile;
   } catch (e) {
     print(e.toString());

@@ -1,0 +1,39 @@
+# Form
+
+Forms in `fcnui` uses [flutter_form_builder](https://pub.dev/packages/flutter_form_builder) to create forms. It is a flutter package that helps in creating forms in a declarative manner.
+
+> [Docs](https://pub.dev/packages/flutter_form_builder)
+
+## Installation
+```shell
+fcnui add form
+```
+
+> :warning: **Important**:
+> When added, need to stop running app and run `flutter pub get` to install all necessary dependencies.
+
+## Usage
+
+In `fcnui` forms are created using the `DefaultForm` widget, which accepts `FormModel` as a parameter.
+
+    ```dart
+final formModel = FormModel();
+DefaultForm(vm: formModel, child: ...) //your child widget
+    ```
+
+The `FormModel` takes care of all the form related operations like validation, submission, etc.
+
+### Available methods
+
+- `isValid`: to check if the form is valid.
+- `getValue`: to get the value of a field.
+- `getValues`: to get the values of all fields.
+- `patchValue`: to update the value of a field.
+- `save`: to save the form.
+- `reset`: to reset the form.
+- `validate`: to validate the form.
+- `saveAndValidate`: to save and validate the form.
+- `invalidateField`: to invalidate a field.
+
+## Additional
+Component `SaveButton` also accepts `FormModel` and has several features to automatically enable or disable button on form change.

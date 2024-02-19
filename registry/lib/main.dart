@@ -1,10 +1,12 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/button.dart';
+import 'package:registry/ui/default_components/form.dart';
+import 'package:registry/ui/default_components/save_button.dart';
+import 'package:registry/ui/default_components/with_label.dart';
 import 'manager/manager.dart';
+import 'ui/default_components/input.dart';
 import 'ui/layout/default_layout.dart';
 
 void main() async {
@@ -20,11 +22,11 @@ class MyApp extends StatelessWidget {
     return ThemeProvider(
       builder: (context, vm) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        // theme: ThemeData(useMaterial3: true),
-        // darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
-        theme: FlexThemeData.light(scheme: vm.flexScheme, useMaterial3: true),
-        darkTheme:
-            FlexThemeData.dark(scheme: vm.flexScheme, useMaterial3: true),
+        theme: ThemeData(useMaterial3: true),
+        darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
+        // theme: FlexThemeData.light(scheme: vm.flexScheme, useMaterial3: true),
+        // darkTheme:
+        //     FlexThemeData.dark(scheme: vm.flexScheme, useMaterial3: true),
         themeMode: vm.themeMode,
         title: 'Flutter Demo',
         routerConfig: registryRouter,
@@ -34,9 +36,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title});
 
   final String title;
+
+  final formModel = FormModel();
 
   @override
   Widget build(BuildContext context) {
@@ -52,223 +56,116 @@ class MyHomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     DefaultButton(
-                        variant: OutlineButtonVariant(
-                      isLoading: true,
-                      minimumSize: const Size(200, 48),
-                      text: "Button Page",
-                      onPressed: () {
-                        context.go(Uri(
-                          path: "/button",
-                        ).toString());
-                      },
-                    )),
-                    DefaultButton(
                         variant: PrimaryButtonVariant(
-                      text: "Default Card Page",
                       onPressed: () {
-                        context.go(Uri(
-                          path: "/card",
-                        ).toString());
-                      },
-                    )),
-                    DefaultButton(
-                        variant: PrimaryButtonVariant(
-                      text: "Custom Card Page",
-                      onPressed: () {
-                        context.go(Uri(path: "/card", queryParameters: {
-                          "isCustom": "true",
-                        }).toString());
-                      },
-                    )),
-                    DefaultButton(
-                        variant: PrimaryButtonVariant(
-                      text: "Decorated Card Page",
-                      onPressed: () {
-                        context.go(Uri(path: "/card", queryParameters: {
+                        context.go(Uri(path: '/card', queryParameters: {
                           "isDecorated": "true",
                         }).toString());
                       },
+                      text: "Card",
                     )),
-                    ElevatedButton(
-                        onPressed: () {
-                          ChangeUsePlatformThemeAction(
-                                  usePlatformTheme: !fcnGetIt
-                                      .get<Store<AppState>>()
-                                      .state
-                                      .themeState
-                                      .usePlatformTheme)
-                              .payload();
-                        },
-                        child: Text(
-                            "Use platform theme ${fcnGetIt.get<Store<AppState>>().state.themeState.usePlatformTheme}")),
-                    // const Text("Default Card"),
-                    // DefaultCard(
-                    //   variant: CardVariant(
-                    //     title: const CardTitle(title: "Create project"),
-                    //     subtitle: const CardSubtitle(
-                    //         subtitle: "Deploy your new project in one-click"),
-                    //     content: CardContent(
-                    //       content: Column(
-                    //         children: [
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Project name",
-                    //             ),
-                    //           ),
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Deadline",
-                    //             ),
-                    //           ),
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Description",
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ).spaced(20),
-                    //     ),
-                    //     footer: CardFooter(
-                    //       footer: [
-                    //         DefaultButton(
-                    //           variant: OutlineButtonVariant(
-                    //             onPressed: () {},
-                    //             text: "Cancel",
-                    //           ),
-                    //         ),
-                    //         DefaultButton(
-                    //           variant: PrimaryButtonVariant(
-                    //             onPressed: () {},
-                    //             text: "Deploy",
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // const Text("Custom Card"),
-                    // DefaultCard(
-                    //   custom: CardCustom(
-                    //     widget: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text('Notification',
-                    //               style: textTheme.displaySmall),
-                    //           Text('You have 3 new notifications',
-                    //               style: textTheme.labelLarge),
-                    //           const SizedBox(height: 20),
-                    //           DefaultCard(
-                    //             custom: CardCustom(
-                    //                 widget: Row(
-                    //               crossAxisAlignment: CrossAxisAlignment.center,
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 Row(
-                    //                   children: [
-                    //                     const Icon(
-                    //                       Icons.notifications_active_outlined,
-                    //                       size: 32,
-                    //                     ),
-                    //                     const SizedBox(width: 20),
-                    //                     SizedBox(
-                    //                       width: MediaQuery.of(context)
-                    //                               .size
-                    //                               .width *
-                    //                           0.5,
-                    //                       child: Column(
-                    //                         crossAxisAlignment:
-                    //                             CrossAxisAlignment.start,
-                    //                         children: [
-                    //                           Text('Push Notifications',
-                    //                               style: textTheme.labelLarge),
-                    //                           Text(
-                    //                               'Send push notifications to your users',
-                    //                               style: textTheme.labelMedium),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //                 Switch(
-                    //                   value: false,
-                    //                   onChanged: (value) {},
-                    //                 ),
-                    //               ],
-                    //             ).spaced(10)),
-                    //           ),
-                    //           const SizedBox(height: 20),
-                    //           DefaultButton(
-                    //               variant: PrimaryButtonVariant(
-                    //             backgroundColor: Colors.white,
-                    //             foregroundColor: Colors.black,
-                    //             minimumSize: const Size(double.infinity, 48),
-                    //             onPressed: () {},
-                    //             text: "Mark all as read",
-                    //             icon: Icons.check,
-                    //           )),
-                    //         ]),
-                    //   ),
-                    // ),
-                    // const Text("Decorated Card"),
-                    // DefaultCard(
-                    //   decoration: CardDecoration(
-                    //     borderRadius: BorderRadius.circular(24),
-                    //     border: Border.all(
-                    //         color: colorScheme.error,
-                    //         width: 2,
-                    //         strokeAlign: BorderSide.strokeAlignInside),
-                    //     color: colorScheme.error.withOpacity(0.2),
-                    //   ),
-                    //   variant: CardVariant(
-                    //     title: const CardTitle(title: "Create project"),
-                    //     subtitle: const CardSubtitle(
-                    //         subtitle: "Deploy your new project in one-click"),
-                    //     content: CardContent(
-                    //       content: Column(
-                    //         children: [
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Project name",
-                    //             ),
-                    //           ),
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Deadline",
-                    //             ),
-                    //           ),
-                    //           TextFormField(
-                    //             decoration: const InputDecoration(
-                    //               border: OutlineInputBorder(),
-                    //               labelText: "Description",
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ).spaced(20),
-                    //     ),
-                    //     footer: CardFooter(
-                    //       footer: [
-                    //         DefaultButton(
-                    //           variant: OutlineButtonVariant(
-                    //             onPressed: () {},
-                    //             text: "Cancel",
-                    //           ),
-                    //         ),
-                    //         DefaultButton(
-                    //           variant: PrimaryButtonVariant(
-                    //             onPressed: () {},
-                    //             text: "Deploy",
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                    DefaultButton(
+                        variant: PrimaryButtonVariant(
+                      onPressed: () {
+                        context.go(Uri(path: '/input').toString());
+                      },
+                      text: "Input Page",
+                    )),
+                    DefaultButton(
+                        variant: SecondaryButtonVariant(
+                      onPressed: () {
+                        ChangeUsePlatformThemeAction(
+                                usePlatformTheme: !fcnGetIt
+                                    .get<Store<AppState>>()
+                                    .state
+                                    .themeState
+                                    .usePlatformTheme)
+                            .payload();
+                      },
+                      text:
+                          "Use platform theme ${fcnGetIt.get<Store<AppState>>().state.themeState.usePlatformTheme}",
+                    )),
+                    const DefaultInput(
+                      vm: InputModel(
+                        name: "email",
+                        hintText: "Email",
+                      ),
+                    ),
+                    const DefaultInput(
+                      vm: InputModel(
+                        name: "emailDisabled",
+                        enabled: false,
+                        hintText: "Email",
+                      ),
+                    ),
+                    const WithLabel(
+                        labelVm: LabelModel(text: "Email", enabled: true),
+                        child: DefaultInput(
+                            vm: InputModel(
+                          name: "emailWithLabel",
+                          hintText: "Email",
+                        ))),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Expanded(
+                          child: DefaultInput(
+                              vm: InputModel(
+                            name: "emailWithButton",
+                            hintText: "Email",
+                          )),
+                        ),
+                        SaveButton(
+                            text: "Subscribe",
+                            vm: formModel,
+                            autoValidate: false,
+                            onSave: print),
+                      ],
+                    ).spaced(10),
+
+                    DefaultForm(
+                      vm: formModel,
+                      child: WithLabel(
+                        labelVm: const LabelModel(text: "Username"),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DefaultInput(
+                              vm: InputModel(
+                                name: "username",
+                                hintText: "Username",
+                                helperText: "This is your public display name",
+                                validators: [
+                                  FormBuilderValidators.minLength(2,
+                                      errorText:
+                                          'Username must be at least 2 characters.'),
+                                ],
+                              ),
+                            ),
+                            SaveButton(
+                                vm: formModel,
+                                onSave: (value) {
+                                  if (formModel.isValid) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(formModel
+                                                .getValues()
+                                                .toString())));
+                                  }
+                                },
+                                text: "Submit"),
+                          ],
+                        ).spaced(20),
+                      ),
+                    ),
+                    // DefaultButton(
+                    //     variant: PrimaryButtonVariant(
+                    //   onPressed: () {
+                    //     formModel.validate();
+                    //     print(formModel.getValue("username"));
+                    //   },
+                    //   text: "Submit",
+                    // )),
                   ],
                 ).spaced(20),
               )),

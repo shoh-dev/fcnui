@@ -9,7 +9,7 @@ class Initialization {
   void init() {
     //Check if the components folder is registered
     if (initJson.initJsonMd.registry.componentsFolder != null) {
-      print(
+      logger(
           'Components folder is at: ${initJson.initJsonMd.registry.componentsFolder}');
       close();
     }
@@ -19,7 +19,7 @@ class Initialization {
     initJson.updateJson(initJson.initJsonMd.copyWith(
         registry: initJson.initJsonMd.registry
             .copyWith(componentsFolder: componentsFolder)));
-    print('Components folder registered at: $componentsFolder');
+    logger('Components folder registered at: $componentsFolder');
   }
 }
 
@@ -50,7 +50,7 @@ String _requireComponentsFolder() {
   // Create the components folder if it doesn't exist
   if (!Directory(fullPath).existsSync()) {
     Directory(fullPath).createSync(recursive: true);
-    print('Components folder created: $componentsFolder');
+    logger('Components folder created: $componentsFolder');
   }
   return componentsFolder;
 }

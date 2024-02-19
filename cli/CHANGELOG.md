@@ -1,5 +1,8 @@
-## 1.0.5 (XX.02.2024)
+## 1.0.6 (17.02.2024 - 18.02.2024)
 
+- Add `remove` command. Removes component dart file and unregisters from `jcnui.json`.
+- Rename `ComponentData` to `RegistryComponentData`.
+- Change `print` method to custom `logger` method. Will format prints using `logger`.
 - Min Dart SDK version downgraded from `3.2.6` to `3.0.0`
 
 ## 1.0.5 (15.02.2024)
