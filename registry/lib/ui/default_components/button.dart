@@ -43,7 +43,7 @@ abstract class ButtonVariant extends Equatable {
   /// Minimum size of the button
   ///
   /// Default is 88px x 40px
-  final Size minimumSize;
+  final Size? minimumSize;
 
   ///Custom background color
   ///
@@ -63,7 +63,7 @@ abstract class ButtonVariant extends Equatable {
       this.iconSize = 18,
       this.child,
       this.isLoading = false,
-      this.minimumSize = const Size.square(48),
+      this.minimumSize,
       this.icon})
       : assert(iconSize >= 0, "iconSize must be greater than or equal to 0"),
         assert(text != null || child != null || icon != null,
@@ -179,7 +179,7 @@ class DefaultButton extends StatelessWidget {
       shape: _getShape(theme),
       side: _getBorder(theme),
       padding: _getPadding(theme),
-      minimumSize: variant.minimumSize.w,
+      minimumSize: variant.minimumSize?.w,
       splashFactory: NoSplash.splashFactory,
       disabledMouseCursor: SystemMouseCursors.forbidden,
       surfaceTintColor: theme.colorScheme.surface,

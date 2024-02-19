@@ -1,12 +1,15 @@
 /// 0. Components can be found in: lib/components (or the folder specified in fcnui.json)
 import 'package:example/components/button.dart';
 import 'package:example/components/card.dart';
+import 'package:example/components/checkbox.dart';
 import 'package:example/components/form.dart';
 import 'package:example/components/input.dart';
 import 'package:example/components/save_button.dart';
 import 'package:example/components/with_label.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+
+import 'components/dp_item.dart';
 
 void main() {
   /// 1. Wrap your app with [DefaultStoreProvider]
@@ -71,9 +74,31 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
               _DecoratedCard(),
+
+              const _WithLabel(),
             ],
           ).spaced(20),
         ),
+      ),
+    );
+  }
+}
+
+class _WithLabel extends StatelessWidget {
+  const _WithLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    return const FormCheckbox(
+      vm: CheckboxModel(
+        name: "withLabel",
+        items: [
+          DpItem(
+              id: "1",
+              title: "Accept terms and conditions",
+              subtitle:
+                  "You agree to our Terms of Service and Privacy Policy."),
+        ],
       ),
     );
   }
