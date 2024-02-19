@@ -2,6 +2,9 @@ import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/button.dart';
+import 'package:registry/ui/default_components/card.dart';
+import 'package:registry/ui/default_components/checkbox.dart';
+import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/with_label.dart';
@@ -50,125 +53,93 @@ class MyHomePage extends StatelessWidget {
           appBar: const DefaultAppBar(),
           body: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    DefaultButton(
-                        variant: PrimaryButtonVariant(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  DefaultButton(
+                      variant: SecondaryButtonVariant(
+                          onPressed: () => ChangeUsePlatformThemeAction(
+                                  usePlatformTheme: true)
+                              .payload(),
+                          text:
+                              "Use platform theme ${fcnGetIt.get<Store<AppState>>().state.themeState.usePlatformTheme}")),
+                  ElevatedButton(
                       onPressed: () {
-                        context.go(Uri(path: '/card', queryParameters: {
-                          "isDecorated": "true",
-                        }).toString());
+                        context.go(Uri(path: "/checkbox").toString());
                       },
-                      text: "Card",
-                    )),
-                    DefaultButton(
-                        variant: PrimaryButtonVariant(
-                      onPressed: () {
-                        context.go(Uri(path: '/input').toString());
-                      },
-                      text: "Input Page",
-                    )),
-                    DefaultButton(
-                        variant: SecondaryButtonVariant(
-                      onPressed: () {
-                        ChangeUsePlatformThemeAction(
-                                usePlatformTheme: !fcnGetIt
-                                    .get<Store<AppState>>()
-                                    .state
-                                    .themeState
-                                    .usePlatformTheme)
-                            .payload();
-                      },
-                      text:
-                          "Use platform theme ${fcnGetIt.get<Store<AppState>>().state.themeState.usePlatformTheme}",
-                    )),
-                    const DefaultInput(
-                      vm: InputModel(
-                        name: "email",
-                        hintText: "Email",
-                      ),
-                    ),
-                    const DefaultInput(
-                      vm: InputModel(
-                        name: "emailDisabled",
-                        enabled: false,
-                        hintText: "Email",
-                      ),
-                    ),
-                    const WithLabel(
-                        labelVm: LabelModel(text: "Email", enabled: true),
-                        child: DefaultInput(
-                            vm: InputModel(
-                          name: "emailWithLabel",
-                          hintText: "Email",
-                        ))),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Expanded(
-                          child: DefaultInput(
-                              vm: InputModel(
-                            name: "emailWithButton",
-                            hintText: "Email",
-                          )),
-                        ),
-                        SaveButton(
-                            text: "Subscribe",
-                            vm: formModel,
-                            autoValidate: false,
-                            onSave: print),
+                      child: Text('Checkboxpage')),
+                  const FormCheckbox(
+                    vm: CheckboxModel(
+                      name: "termsField",
+                      items: [
+                        DpItem(
+                            id: "1",
+                            title: "Accept terms and conditions",
+                            subtitle:
+                                "You agree to our Terms of Service and Privacy Policy."),
                       ],
-                    ).spaced(10),
-
-                    DefaultForm(
-                      vm: formModel,
-                      child: WithLabel(
-                        labelVm: const LabelModel(text: "Username"),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            DefaultInput(
-                              vm: InputModel(
-                                name: "username",
-                                hintText: "Username",
-                                helperText: "This is your public display name",
-                                validators: [
-                                  FormBuilderValidators.minLength(2,
-                                      errorText:
-                                          'Username must be at least 2 characters.'),
-                                ],
-                              ),
-                            ),
-                            SaveButton(
-                                vm: formModel,
-                                onSave: (value) {
-                                  if (formModel.isValid) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(formModel
-                                                .getValues()
-                                                .toString())));
-                                  }
-                                },
-                                text: "Submit"),
-                          ],
-                        ).spaced(20),
+                    ),
+                  ),
+                  const FormCheckbox(
+                    vm: CheckboxModel(
+                      name: "termsFieldDisabled",
+                      enabled: false,
+                      items: [
+                        DpItem(id: "1", title: "Accept terms and conditions"),
+                      ],
+                    ),
+                  ),
+                  const DefaultCard(
+                    decoration: CardDecoration(padding: EdgeInsets.all(16)),
+                    custom: CardCustom(
+                        widget: FormCheckbox(
+                      vm: CheckboxModel(
+                        name: "settingsField",
+                        orientation: OptionsOrientation.vertical,
+                        onChanged: print,
+                        items: [
+                          DpItem(
+                            id: "settings",
+                            title:
+                                "Use different settings for my mobile devices",
+                            subtitle:
+                                "You can manage your mobile notifications in the mobile settings page.",
+                          ),
+                        ],
+                      ),
+                    )),
+                  ),
+                  DefaultForm(
+                    vm: formModel,
+                    child: FormCheckbox(
+                      vm: CheckboxModel(
+                        title: "Sidebar",
+                        subtitle: "Select the items you want to display",
+                        disabled: [
+                          "3",
+                          "2",
+                        ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        helperText: "You have to select at least one item",
+                        name: "termsForm",
+                        orientation: OptionsOrientation.vertical,
+                        validator: FormBuilderValidators.required(
+                            errorText: 'You have to select at least one item'),
+                        onChanged: print,
+                        items: [
+                          const DpItem(id: "1", title: "Recents"),
+                          const DpItem(id: "2", title: "Home"),
+                          const DpItem(id: "3", title: "Applications"),
+                          const DpItem(id: "4", title: "Settings"),
+                          const DpItem(id: "5", title: "About"),
+                        ],
                       ),
                     ),
-                    // DefaultButton(
-                    //     variant: PrimaryButtonVariant(
-                    //   onPressed: () {
-                    //     formModel.validate();
-                    //     print(formModel.getValue("username"));
-                    //   },
-                    //   text: "Submit",
-                    // )),
-                  ],
-                ).spaced(20),
-              )),
+                  ),
+                  SaveButton(vm: formModel, onSave: print),
+                ],
+              ).spaced(20)),
         );
       },
     );

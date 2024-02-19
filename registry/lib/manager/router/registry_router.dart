@@ -61,5 +61,16 @@ final registryRouter = GoRouter(
         );
       },
     ),
+
+    //CheckboxPage
+    GoRoute(
+      path: "/checkbox",
+      builder: (context, state) {
+        final variant = CheckboxVariant.values.firstWhere(
+            (e) => e.name == state.uri.queryParameters['variant'],
+            orElse: () => CheckboxVariant.withLabel);
+        return CheckboxPage(variant: variant);
+      },
+    ),
   ],
 );
