@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class _DecoratedCard extends StatelessWidget {
-  _DecoratedCard({super.key});
+  _DecoratedCard();
 
   final formModel = FormModel();
 

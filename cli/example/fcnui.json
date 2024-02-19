@@ -1,13 +1,1 @@
-{
-  "name": "fcnui",
-  "version": "0.0.1",
-  "description": "Helper package for Flutter CN UI",
-  "registry": {
-    "theme": {
-      "name": "greyLaw",
-      "version": "0.0.1"
-    },
-    "componentsFolder": "components",
-    "components": []
-  }
-}
+{"name":"fcnui","version":"0.0.1","description":"Helper package for Flutter CN UI","registry":{"theme":{"name":"greyLaw","version":"0.0.1"},"componentsFolder":"components","components":[]}}

@@ -17,7 +17,7 @@
   {
     "name": "input",
     "version": "0.0.1",
-    "depends": [
+    "dependencies": [
       "form",
       "with_label",
       "save_button"
@@ -32,7 +32,7 @@
   {
     "name": "label",
     "version": "0.0.1",
-    "depends": [
+    "dependencies": [
       "disabled"
     ],
     "content": "//v0.0.1\n\nimport 'package:fcnui_base/fcnui_base.dart';\nimport 'package:flutter/material.dart';\nimport 'disabled.dart';\n\nclass LabelModel extends Equatable {\n  final String text;\n  final bool isRequired;\n  final bool enabled;\n  const LabelModel({\n    required this.text,\n    this.enabled = true,\n    this.isRequired = false,\n  });\n\n  @override\n  List<Object?> get props => [\n        text,\n        isRequired,\n        enabled,\n      ];\n}\n\nclass Label extends StatelessWidget {\n  final LabelModel vm;\n  const Label({super.key, required this.vm});\n\n  @override\n  Widget build(BuildContext context) {\n    return DefaultDisabled(\n        vm: DisabledVm(\n      disabled: !vm.enabled,\n      child: RichText(\n          text: TextSpan(children: [\n        TextSpan(\n            text: vm.text,\n            style: Theme.of(context).textTheme.titleSmall!.copyWith(\n                  fontWeight: FontWeight.normal,\n                  color: vm.enabled\n                      ? null\n                      : Theme.of(context)\n                          .colorScheme\n                          .onSurface\n                          .withOpacity(0.4),\n                )),\n        if (vm.isRequired)\n          TextSpan(\n              text: \"\\t*\",\n              style: Theme.of(context)\n                  .textTheme\n                  .titleMedium!\n                  .copyWith(color: Colors.red))\n      ])),\n    ));\n  }\n}\n"
@@ -40,7 +40,7 @@
   {
     "name": "with_label",
     "version": "0.0.1",
-    "depends": [
+    "dependencies": [
       "label"
     ],
     "content": "//v0.0.1\n\nimport 'package:fcnui_base/fcnui_base.dart';\nimport 'package:flutter/material.dart';\nimport 'label.dart';\n\nexport 'label.dart';\n\nclass WithLabel extends StatelessWidget {\n  final LabelModel labelVm;\n  final Widget child;\n  const WithLabel({super.key, required this.labelVm, required this.child});\n\n  @override\n  Widget build(BuildContext context) {\n    return Column(\n      crossAxisAlignment: CrossAxisAlignment.start,\n      mainAxisSize: MainAxisSize.min,\n      children: [\n        Label(vm: labelVm),\n        child,\n      ],\n    ).spaced(4);\n  }\n}\n"
@@ -48,7 +48,7 @@
   {
     "name": "save_button",
     "version": "0.0.1",
-    "depends": [
+    "dependencies": [
       "button",
       "form"
     ],

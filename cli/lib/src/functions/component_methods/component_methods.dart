@@ -59,10 +59,10 @@ class ComponentMethods {
                 componentDir, component, registryComponentData, initJson);
 
             //Check if component.depends is not empty
-            if (component.depends.isNotEmpty) {
+            if (component.dependencies.isNotEmpty) {
               logger(
-                  "Component '${component.name}' depends on ${component.depends}");
-              await add(component.depends);
+                  "Component '${component.name}' depends on ${component.dependencies}");
+              await add(component.dependencies);
             }
           }
 

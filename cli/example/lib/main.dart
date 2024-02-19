@@ -9,14 +9,23 @@ Future<ProcessResult> run(List<String> args) async {
 }
 
 void main() {
-  //ivalid command
+  //invalid command
   // invalidCommand();
 
   //init
   // initialize();
 
   //add button
-  addButton();
+  // addButton();
+
+  //version
+  // version();
+
+  //help
+  // help();
+
+  //remove
+  remove();
 }
 
 void invalidCommand() {
@@ -29,4 +38,16 @@ void initialize() {
 
 void addButton() {
   run(['add', 'button']);
+}
+
+void version() {
+  run(['version']);
+}
+
+void help() {
+  run(['help']);
+}
+
+void remove() {
+  run(['remove', 'button']);
 }
