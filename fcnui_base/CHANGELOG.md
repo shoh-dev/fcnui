@@ -1,3 +1,8 @@
+
+## 1.0.4 (19.02.2024)
+
+- Add new dependencies to README.md.
+
 ## 1.0.3 (16.02.2024 - 17.02.2024)
 
 - Min Dart SDK version downgraded from `3.2.6` to `3.0.0`

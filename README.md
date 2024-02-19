@@ -40,32 +40,32 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Badge
 - [x] [Button](https://fcnui.shoh.dev/docs/components/button)
 - [x] [Card](https://fcnui.shoh.dev/docs/components/card)
-- [ ] Checkbox 🚀
+- [ ] Checkbox 🚀 (WIP)
 - [ ] Combobox
 - [ ] Command
 - [ ] Context Menu
 - [ ] Data Table 🚀
 - [ ] Dialog
-- [ ] Dropdown Menu 🚀
-- [ ] Form 🚀 (WIP)
-- [ ] Input 🚀 (WIP)
+- [ ] Dropdown Menu 🚀 (WIP)
+- [x] Form
+- [x] Input
 - [ ] Menu Bar
 - [ ] Navigation Menu
 - [ ] Pagination
 - [ ] Progress Bar
 - [ ] Radio Group 🚀
 - [ ] Resizable
-- [ ] Select 🚀
+- [ ] Select 🚀 (WIP)
 - [ ] Sheet
 - [ ] Skeleton
 - [ ] Slider
-- [ ] Switch 🚀
+- [ ] Switch 🚀 (WIP)
 - [ ] Table 🚀
 - [ ] Tabs 🚀
 - [ ] Textarea
 - [ ] Toast
-- [ ] Toggle 🚀
-- [ ] Toggle Group 🚀
+- [ ] Toggle 🚀 (WIP)
+- [ ] Toggle Group 🚀 (WIP)
 - [ ] Tooltip
 
 > 🚀 - Very Important

@@ -12,6 +12,7 @@ Full changelog of the project.
 
 - [CLI] Remove `get_it` and `equatable` dependencies.
 - [CLI] Added some tests. (Not complete).
+- [Base] Add new dependencies to README.md.
 
 ## 18.02.2024
 

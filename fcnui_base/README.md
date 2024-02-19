@@ -10,13 +10,15 @@ The `fcnui_base` package for Flutter is a comprehensive collection of dependenci
 
 #### Dependencies:
 
-| Dependency        | Version |
-|-------------------|---------|
-| redux             | 5.0.0   |
-| flutter_redux     | 0.10.0  |
-| flex_color_scheme | 7.3.1   |
-| equatable         | 2.0.5   |
-| get_it            | 7.6.7   |
+| Dependency              | Version |
+|-------------------------|---------|
+| redux                   | 5.0.0   |
+| flutter_redux           | 0.10.0  |
+| flex_color_scheme       | 7.3.1   |
+| equatable               | 2.0.5   |
+| get_it                  | 7.6.7   |
+| flutter_form_builder    | 9.2.0   |
+| form_builder_validators | 9.1.0   |
 
 #### Features:
 
