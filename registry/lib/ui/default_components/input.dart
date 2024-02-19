@@ -65,77 +65,79 @@ class DefaultInput extends StatelessWidget {
     return DefaultDisabled(
         vm: DisabledVm(
       disabled: !vm.enabled,
-      child: FormBuilderTextField(
-        style: theme.textTheme.bodyLarge!
-            .copyWith(
-              color: theme.colorScheme.onSurface,
-              fontWeight: FontWeight.normal,
-            )
-            .sp,
-        name: vm.name,
-        initialValue: vm.initialValue,
-        onChanged: vm.onChanged,
-        maxLines: vm.maxLines,
-        validator: FormBuilderValidators.compose(vm.validators),
-        inputFormatters: vm.inputFormatters,
-        enabled: vm.enabled,
-        valueTransformer: vm.valueTransformer,
-        readOnly: vm.readOnly,
-        decoration: InputDecoration(
-          hoverColor: Colors.transparent,
-          //Border when tapped and focused
-          focusedBorder: OutlineInputBorder(
+      child: Theme(
+        data: theme,
+        child: FormBuilderTextField(
+          style: theme.textTheme.bodyLarge!
+              .copyWith(
+                  color: theme.colorScheme.onSurface,
+                  fontWeight: FontWeight.normal)
+              .sp,
+          name: vm.name,
+          initialValue: vm.initialValue,
+          onChanged: vm.onChanged,
+          maxLines: vm.maxLines,
+          validator: FormBuilderValidators.compose(vm.validators),
+          inputFormatters: vm.inputFormatters,
+          enabled: vm.enabled,
+          valueTransformer: vm.valueTransformer,
+          readOnly: vm.readOnly,
+          decoration: InputDecoration(
+            hoverColor: Colors.transparent,
+            //Border when tapped and focused
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8).r,
+                borderSide: BorderSide(
+                        color: theme.colorScheme.primary,
+                        width: 2,
+                        strokeAlign: BorderSide.strokeAlignOutside)
+                    .w),
+            //Idle state border
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8).r,
               borderSide: BorderSide(
-                      color: theme.colorScheme.primary,
+                      color: theme.dividerColor,
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8).r,
+              borderSide: const BorderSide(
+                      color: Colors.red,
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8).r,
+              borderSide: BorderSide(
+                      color: theme.dividerColor.withOpacity(0.6),
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8).r,
+              borderSide: const BorderSide(
+                      color: Colors.red,
                       width: 2,
                       strokeAlign: BorderSide.strokeAlignOutside)
-                  .w),
-          //Idle state border
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8).r,
-            borderSide: BorderSide(
-                    color: theme.dividerColor,
-                    strokeAlign: BorderSide.strokeAlignInside)
-                .w,
+                  .w,
+            ),
+            errorStyle:
+                theme.textTheme.bodyMedium!.copyWith(color: Colors.red).sp,
+            helperStyle: theme.textTheme.bodyMedium!
+                .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6))
+                .sp,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 8).w,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            helperText: vm.helperText,
+            hintText: vm.hintText,
+            filled: true,
+            fillColor: theme.colorScheme.surface,
+            hintStyle: theme.textTheme.bodyMedium!
+                .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.4))
+                .sp,
           ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8).r,
-            borderSide: const BorderSide(
-                    color: Colors.red,
-                    strokeAlign: BorderSide.strokeAlignInside)
-                .w,
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8).r,
-            borderSide: BorderSide(
-                    color: theme.dividerColor.withOpacity(0.6),
-                    strokeAlign: BorderSide.strokeAlignInside)
-                .w,
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8).r,
-            borderSide: const BorderSide(
-                    color: Colors.red,
-                    width: 2,
-                    strokeAlign: BorderSide.strokeAlignOutside)
-                .w,
-          ),
-          errorStyle:
-              theme.textTheme.bodyMedium!.copyWith(color: Colors.red).sp,
-          helperStyle: theme.textTheme.bodyMedium!
-              .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6))
-              .sp,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 8).w,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          helperText: vm.helperText,
-          hintText: vm.hintText,
-          filled: true,
-          fillColor: theme.colorScheme.surface,
-          hintStyle: theme.textTheme.bodyMedium!
-              .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.4))
-              .sp,
         ),
       ),
     ));

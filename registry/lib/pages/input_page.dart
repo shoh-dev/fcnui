@@ -1,13 +1,14 @@
 import 'package:any_syntax_highlighter/any_syntax_highlighter.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+import 'package:registry/pages/page_impl.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/input.dart';
 import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/with_label.dart';
 import 'package:registry/ui/layout/default_layout.dart';
 
-class InputPage extends StatelessWidget {
+class InputPage extends PageImpl {
   final bool isDisabled;
   final bool withLabel;
   final bool withButton;
@@ -21,24 +22,6 @@ class InputPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultLayout(child: (controller) {
-      return TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        clipBehavior: Clip.none,
-        controller: controller,
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              child: preview(),
-            ),
-          ),
-          Center(child: SingleChildScrollView(child: code(context))),
-        ],
-      );
-    });
-  }
-
   Widget preview() {
     if (isDisabled) {
       return const _Disabled();
@@ -55,7 +38,8 @@ class InputPage extends StatelessWidget {
     return const _Default();
   }
 
-  Widget code(BuildContext context) {
+  @override
+  String getCode() {
     String code = "";
 
     if (isDisabled) {
@@ -187,9 +171,7 @@ class _Default extends StatelessWidget {
 }
 ''';
     }
-
-    return AnySyntaxHighlighter(code,
-        hasCopyButton: true, padding: 16, isSelectableText: true);
+    return code;
   }
 }
 

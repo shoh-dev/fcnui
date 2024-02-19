@@ -1,7 +1,7 @@
 import 'dart:io';
 
 ///This must be switched manually based on the environment
-const bool kDebugMode = false;
+const bool kDebugMode = true;
 
 //Enable this if running commands as test
 const bool isTestMode = false;

@@ -6,7 +6,7 @@ import 'button.dart';
 
 class SaveButton extends StatelessWidget {
   final FormModel vm;
-  final ValueChanged<Map<String, dynamic>> onSave;
+  final ValueChanged<Map<String, dynamic>>? onSave;
   final String text;
   final bool autoValidate;
   const SaveButton(
@@ -25,11 +25,10 @@ class SaveButton extends StatelessWidget {
             return DefaultButton(
               variant: PrimaryButtonVariant(
                 text: text,
-                minimumSize: const Size(0, 54),
                 onPressed: value
                     ? () {
                         vm.formKey.currentState?.saveAndValidate();
-                        onSave(vm.formKey.currentState?.value
+                        onSave?.call(vm.formKey.currentState?.value
                             as Map<String, dynamic>);
                       }
                     : null,
@@ -40,11 +39,13 @@ class SaveButton extends StatelessWidget {
       return DefaultButton(
         variant: PrimaryButtonVariant(
             text: text,
-            minimumSize: const Size(0, 54),
-            onPressed: () {
-              vm.formKey.currentState?.saveAndValidate();
-              onSave(vm.formKey.currentState?.value as Map<String, dynamic>);
-            }),
+            onPressed: onSave == null
+                ? null
+                : () {
+                    vm.formKey.currentState?.saveAndValidate();
+                    onSave!(
+                        vm.formKey.currentState?.value as Map<String, dynamic>);
+                  }),
       );
     }
   }

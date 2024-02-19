@@ -1,7 +1,7 @@
 ## 1.0.6 (17.02.2024 - 19.02.2024)
 
 - Remove `get_it` and `equatable` dependencies.
-- Add `remove` command. Removes component dart file and unregisters from `jcnui.json`.
+- Add `remove` command. Removes component dart file and unregisters from `fcnui.json`.
 - Rename `ComponentData` to `RegistryComponentData`.
 - Change `print` method to custom `logger` method. Will format prints using `logger`.
 - Min Dart SDK version downgraded from `3.2.6` to `3.0.0`
