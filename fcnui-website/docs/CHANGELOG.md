@@ -15,6 +15,8 @@ Full changelog of the project.
 - [Base] Add new dependencies to README.md.
 - [Registry] Add `Checkbox` component.
 - [Playground] Add `checkbox` page.
+- [Registry] Add `PageImpl` that makes pages for Playground.
+- [Homepage] Add `checkbox` documentation.
 
 ## 18.02.2024
 

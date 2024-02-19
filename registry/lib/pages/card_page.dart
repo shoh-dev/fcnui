@@ -1,6 +1,7 @@
 import 'package:any_syntax_highlighter/any_syntax_highlighter.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+import 'package:registry/pages/page_impl.dart';
 import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/card.dart';
 import 'package:registry/ui/default_components/form.dart';
@@ -9,7 +10,7 @@ import 'package:registry/ui/layout/default_layout.dart';
 import '../ui/default_components/input.dart';
 import '../ui/default_components/with_label.dart';
 
-class CardPage extends StatelessWidget {
+class CardPage extends PageImpl {
   final bool isCustom;
   final bool isDecorated;
 
@@ -20,24 +21,6 @@ class CardPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultLayout(child: (controller) {
-      return TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        clipBehavior: Clip.none,
-        controller: controller,
-        children: [
-          Center(
-            child: SingleChildScrollView(
-              child: preview(),
-            ),
-          ),
-          Center(child: SingleChildScrollView(child: code(context))),
-        ],
-      );
-    });
-  }
-
   Widget preview() {
     if (isCustom) {
       return const _CustomCard();
@@ -48,7 +31,8 @@ class CardPage extends StatelessWidget {
     }
   }
 
-  Widget code(BuildContext context) {
+  @override
+  String getCode() {
     String code = """
     """;
 
@@ -263,8 +247,7 @@ class _DefaultCardWithForm extends StatelessWidget {
 }
       """;
     }
-    return AnySyntaxHighlighter(code,
-        hasCopyButton: true, padding: 16, isSelectableText: true);
+    return code;
   }
 }
 

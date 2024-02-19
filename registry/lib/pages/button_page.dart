@@ -1,10 +1,10 @@
-import 'package:any_syntax_highlighter/any_syntax_highlighter.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/ui/default_components/button.dart';
-import 'package:registry/ui/layout/default_layout.dart';
 
-class ButtonPage extends StatelessWidget {
+import 'page_impl.dart';
+
+class ButtonPage extends PageImpl {
   final String variant;
   final bool isDisabled;
   final bool isLoading;
@@ -18,20 +18,6 @@ class ButtonPage extends StatelessWidget {
       required this.isLoading});
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultLayout(child: (controller) {
-      return TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        clipBehavior: Clip.none,
-        controller: controller,
-        children: [
-          Center(child: preview()),
-          Center(child: SingleChildScrollView(child: code(context))),
-        ],
-      );
-    });
-  }
-
   Widget preview() {
     switch (variant) {
       case 'secondary':
@@ -114,8 +100,9 @@ class ButtonPage extends StatelessWidget {
     return buffer.toString();
   }
 
-  Widget code(BuildContext context) {
-    String code = """
+  @override
+  String getCode() {
+    return """
 DefaultButton(
   variant: ${variant.capitalize}ButtonVariant(
   text: "${variant.capitalize}${isLoading ? ' Loading' : ''}${isDisabled ? ' Disabled' : ''}${withIcon ? ' With Icon' : ''},
@@ -125,7 +112,5 @@ DefaultButton(
   ),
 ),
     """;
-    return AnySyntaxHighlighter(code,
-        hasCopyButton: true, padding: 16, isSelectableText: true);
   }
 }
