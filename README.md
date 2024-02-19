@@ -47,8 +47,8 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Data Table 🚀
 - [ ] Dialog
 - [ ] Dropdown Menu 🚀 (WIP)
-- [x] Form
-- [x] Input
+- [x] [Form](https://fcnui.shoh.dev/docs/components/form)
+- [x] [Input](https://fcnui.shoh.dev/docs/components/input)
 - [ ] Menu Bar
 - [ ] Navigation Menu
 - [ ] Pagination
