@@ -17,10 +17,12 @@ class InputModel extends IFormModel {
   final String? hintText;
   final String? helperText;
   final ValueTransformer<String?>? valueTransformer;
+  final TextEditingController? controller;
 
   const InputModel({
     required super.name,
     this.initialValue,
+    this.controller,
     this.onChanged,
     this.valueTransformer,
     this.helperText,
@@ -45,6 +47,7 @@ class InputModel extends IFormModel {
         hintText,
         validators,
         inputFormatters,
+        controller,
       ];
 }
 
@@ -66,23 +69,8 @@ class DefaultInput extends StatelessWidget {
         vm: DisabledVm(
       disabled: !vm.enabled,
       child: Theme(
-        data: theme,
-        child: FormBuilderTextField(
-          style: theme.textTheme.bodyLarge!
-              .copyWith(
-                  color: theme.colorScheme.onSurface,
-                  fontWeight: FontWeight.normal)
-              .sp,
-          name: vm.name,
-          initialValue: vm.initialValue,
-          onChanged: vm.onChanged,
-          maxLines: vm.maxLines,
-          validator: FormBuilderValidators.compose(vm.validators),
-          inputFormatters: vm.inputFormatters,
-          enabled: vm.enabled,
-          valueTransformer: vm.valueTransformer,
-          readOnly: vm.readOnly,
-          decoration: InputDecoration(
+        data: theme.copyWith(
+          inputDecorationTheme: InputDecorationTheme(
             hoverColor: Colors.transparent,
             //Border when tapped and focused
             focusedBorder: OutlineInputBorder(
@@ -130,13 +118,32 @@ class DefaultInput extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 8).w,
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            helperText: vm.helperText,
-            hintText: vm.hintText,
             filled: true,
             fillColor: theme.colorScheme.surface,
             hintStyle: theme.textTheme.bodyMedium!
                 .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.4))
                 .sp,
+          ),
+        ),
+        child: FormBuilderTextField(
+          controller: vm.controller,
+          style: theme.textTheme.bodyLarge!
+              .copyWith(
+                  color: theme.colorScheme.onSurface,
+                  fontWeight: FontWeight.normal)
+              .sp,
+          name: vm.name,
+          initialValue: vm.initialValue,
+          onChanged: vm.onChanged,
+          maxLines: vm.maxLines,
+          validator: FormBuilderValidators.compose(vm.validators),
+          inputFormatters: vm.inputFormatters,
+          enabled: vm.enabled,
+          valueTransformer: vm.valueTransformer,
+          readOnly: vm.readOnly,
+          decoration: InputDecoration(
+            helperText: vm.helperText,
+            hintText: vm.hintText,
           ),
         ),
       ),

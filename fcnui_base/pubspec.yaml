@@ -19,6 +19,7 @@ dependencies:
   get_it: ^7.6.7
   flutter_form_builder: ^9.2.0
   form_builder_validators: ^9.1.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

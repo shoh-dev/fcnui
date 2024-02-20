@@ -8,6 +8,11 @@ Full changelog of the project.
 - Base - `fcnui_base` package which is the core of `fcnui` package.
 - API - `fcnui` package API documentation which provides `json` format components.
 
+## 20.02.2024
+
+- Add TextEditingController parameter for `Input` component.
+- 
+
 ## 19.02.2024
 
 - [CLI] Remove `get_it` and `equatable` dependencies.
