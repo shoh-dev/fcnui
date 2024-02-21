@@ -57,7 +57,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Context Menu
 - [ ] Data Table 🚀
 - [ ] Dialog
-- [ ] Dropdown Menu 🚀 (WIP)
+- [x] [Dropdown](https://fcnui.shoh.dev/docs/components/dropdown)
 - [x] [Form](https://fcnui.shoh.dev/docs/components/form)
 - [x] [Input](https://fcnui.shoh.dev/docs/components/input)
 - [ ] Menu Bar
@@ -66,7 +66,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Progress Bar
 - [ ] Radio Group 🚀
 - [ ] Resizable
-- [ ] Select 🚀 (WIP)
+- [ ] ~~Select~~ -> [Dropdown](https://fcnui.shoh.dev/docs/components/dropdown).
 - [ ] Sheet
 - [ ] Skeleton
 - [ ] Slider
