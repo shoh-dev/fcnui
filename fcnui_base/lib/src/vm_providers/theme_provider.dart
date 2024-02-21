@@ -21,7 +21,8 @@ class ThemeVm extends Equatable {
       required this.flexScheme,
       required this.theme,
       required this.onToggleThemeMode,
-      required this.onChangeThemeScheme});
+      required this.onChangeThemeScheme,
+      required this.usePlatformTheme});
 
   factory ThemeVm.fromStore(Store<AppState> store, BuildContext context) {
     ThemeMode themeMode = kDefaultThemeModeValue;
@@ -71,10 +72,12 @@ class ThemeVm extends Equatable {
       themeMode: themeMode,
       flexScheme: flexScheme,
       theme: theme,
+      usePlatformTheme: usePlatformTheme,
       onChangeThemeScheme: (value) =>
           dispatch(ChangeFlexSchemeAction(flexScheme: value.name)),
-      onToggleThemeMode: (value) =>
-          dispatch(ChangeThemeModeAction(themeMode: value.name)),
+      onToggleThemeMode: (value) => dispatch(
+        ChangeThemeModeAction(themeMode: value.name),
+      ),
     );
   }
 
@@ -87,6 +90,8 @@ class ThemeVm extends Equatable {
 
   final ValueChanged<FlexScheme> onChangeThemeScheme;
 
+  final bool usePlatformTheme;
+
   @override
-  List<Object?> get props => [themeMode, flexScheme, theme];
+  List<Object?> get props => [themeMode, flexScheme, theme, usePlatformTheme];
 }

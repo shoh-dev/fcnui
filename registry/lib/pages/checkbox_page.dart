@@ -28,7 +28,7 @@ class _WithLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FormCheckbox(
+    return const DefaultCheckbox(
       vm: CheckboxModel(
         name: "withLabel",
         items: [
@@ -49,7 +49,7 @@ class _Disabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FormCheckbox(
+    return const DefaultCheckbox(
       vm: CheckboxModel(
         name: "disabled",
         enabled: false,
@@ -75,7 +75,7 @@ class _Form extends StatelessWidget {
       children: [
         DefaultForm(
           vm: formModel,
-          child: FormCheckbox(
+          child: DefaultCheckbox(
             vm: CheckboxModel(
               title: "Sidebar",
               subtitle: "Select the items you want to display",
@@ -123,7 +123,7 @@ class _Card extends StatelessWidget {
     return const DefaultCard(
       decoration: CardDecoration(padding: EdgeInsets.all(16)),
       custom: CardCustom(
-          widget: FormCheckbox(
+          widget: DefaultCheckbox(
         vm: CheckboxModel(
           name: "settingsField",
           orientation: OptionsOrientation.vertical,
@@ -160,7 +160,7 @@ class _WithLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FormCheckbox(
+    return const DefaultCheckbox(
       vm: CheckboxModel(
         name: "withLabel",
         items: [
@@ -180,7 +180,7 @@ class _Disabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FormCheckbox(
+    return const DefaultCheckbox(
       vm: CheckboxModel(
         name: "disabled",
         enabled: false,
@@ -205,7 +205,7 @@ class _Form extends StatelessWidget {
       children: [
         DefaultForm(
           vm: formModel,
-          child: FormCheckbox(
+          child: DefaultCheckbox(
             vm: CheckboxModel(
               title: "Sidebar",
               subtitle: "Select the items you want to display",
@@ -252,7 +252,7 @@ class _Card extends StatelessWidget {
     return const DefaultCard(
       decoration: CardDecoration(padding: EdgeInsets.all(16)),
       custom: CardCustom(
-          widget: FormCheckbox(
+          widget: DefaultCheckbox(
         vm: CheckboxModel(
           name: "settingsField",
           orientation: OptionsOrientation.vertical,

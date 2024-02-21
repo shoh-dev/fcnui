@@ -2,13 +2,13 @@
 import 'package:example/components/button.dart';
 import 'package:example/components/card.dart';
 import 'package:example/components/checkbox.dart';
+import 'package:example/components/dropdown.dart';
 import 'package:example/components/form.dart';
 import 'package:example/components/input.dart';
 import 'package:example/components/save_button.dart';
 import 'package:example/components/with_label.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-
 import 'components/dp_item.dart';
 
 void main() {
@@ -76,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
               _DecoratedCard(),
 
               const _WithLabel(),
+
+              const _Search(),
             ],
           ).spaced(20),
         ),
@@ -178,5 +180,40 @@ class _DecoratedCard extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class _Search extends StatelessWidget {
+  const _Search({super.key});
+
+  final _items = const [
+    DropdownItem(items: [
+      DpItem(title: "Australia", id: "aus"),
+      DpItem(title: "Bangladesh", id: "bng"),
+      DpItem(title: "UK", id: "uk"),
+      DpItem(title: "USA", id: "usa"),
+      DpItem(title: "Uzbekistan", id: "uzb"),
+    ]),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return WithLabel(
+        labelVm: const LabelModel(text: "Search"),
+        child: DefaultDropdown(
+            variant: DropdownVariant(
+                name: "name",
+                decoration: const DpDecoration(
+                  hintText: "Select a country",
+                  hasSearchBox: true,
+                ),
+                form: DpForm(
+                    items: _items
+                        .map((e) => e.copyWith(
+                            items: e.items
+                                .map((e) => e.copyWith(icon: Icons.flag))
+                                .toList()))
+                        .toList(),
+                    onChanged: (p0) {}))));
   }
 }

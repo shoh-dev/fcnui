@@ -54,9 +54,9 @@ class CheckboxModel extends IFormModel {
       ];
 }
 
-class FormCheckbox extends StatelessWidget {
+class DefaultCheckbox extends StatelessWidget {
   final CheckboxModel vm;
-  const FormCheckbox({super.key, required this.vm});
+  const DefaultCheckbox({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {

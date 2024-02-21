@@ -167,7 +167,16 @@ class DefaultButton extends StatelessWidget {
   }
 
   Widget getChild(ThemeVm vm) {
-    return _getButtonWidgetType(vm.theme);
+    return Theme(
+        data: vm.theme.copyWith(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: _getButtonStyle(vm.theme),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: _getButtonStyle(vm.theme),
+          ),
+        ),
+        child: _getButtonWidgetType(vm.theme));
   }
 
   ButtonStyle _getButtonStyle(ThemeData theme) {
@@ -206,14 +215,12 @@ class DefaultButton extends StatelessWidget {
       case const (ErrorButtonVariant):
         if (variant.icon == null) {
           return ElevatedButton(
-            style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
             child: _getButtonChild(theme),
           );
         } else {
           if (variant.text != null && variant.text!.isNotEmpty) {
             return ElevatedButton.icon(
-              style: _getButtonStyle(theme),
               onPressed: _getOnPressed,
               label: _getButtonChild(theme),
               icon: variant.isLoading
@@ -222,7 +229,6 @@ class DefaultButton extends StatelessWidget {
             );
           }
           return ElevatedButton(
-            style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
             child: variant.isLoading
                 ? const _LoadingIndicator()
@@ -233,13 +239,11 @@ class DefaultButton extends StatelessWidget {
       case const (GhostButtonVariant):
         if (variant.icon == null) {
           return TextButton(
-            style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
             child: _getButtonChild(theme),
           );
         } else {
           return TextButton.icon(
-            style: _getButtonStyle(theme),
             onPressed: _getOnPressed,
             label: _getButtonChild(theme),
             icon: variant.isLoading
@@ -339,8 +343,8 @@ class _LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 20,
-      height: 20,
+      width: 20.w,
+      height: 20.h,
       child: CircularProgressIndicator(strokeWidth: 2.w),
     );
   }
