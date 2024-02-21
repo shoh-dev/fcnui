@@ -13,7 +13,7 @@ abstract class PageImpl extends StatelessWidget {
         clipBehavior: Clip.none,
         controller: controller,
         children: [
-          Center(child: preview()),
+          Center(child: SingleChildScrollView(child: preview())),
           Center(child: SingleChildScrollView(child: _codeWidget(context))),
         ],
       );
