@@ -70,13 +70,12 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Sheet
 - [ ] Skeleton
 - [ ] Slider
-- [ ] Switch 🚀 (WIP)
+- [ ] [Switch](https://fcnui.shoh.dev/docs/components/switch)
 - [ ] Table 🚀
 - [ ] Tabs 🚀
 - [ ] Textarea
 - [ ] Toast
-- [ ] Toggle 🚀 (WIP)
-- [ ] Toggle Group 🚀 (WIP)
+- [ ] ~~Toggle~~ -> [Switch](https://fcnui.shoh.dev/docs/components/switch).
 - [ ] Tooltip
 
 > 🚀 - Very Important
