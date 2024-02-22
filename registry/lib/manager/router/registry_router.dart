@@ -83,5 +83,16 @@ final registryRouter = GoRouter(
         return DropdownPage(variant: variant);
       },
     ),
+
+    //Switch
+    GoRoute(
+      path: "/switch",
+      builder: (context, state) {
+        final variant = SwitchVariant.values.firstWhere(
+            (e) => e.name == state.uri.queryParameters['variant'],
+            orElse: () => SwitchVariant.withTitle);
+        return SwitchPage(variant: variant);
+      },
+    ),
   ],
 );

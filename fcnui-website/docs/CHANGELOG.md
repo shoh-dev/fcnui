@@ -8,6 +8,11 @@ Full changelog of the project.
 - Base - `fcnui_base` package which is the core of `fcnui` package.
 - API - `fcnui` package API documentation which provides `json` format components.
 
+## 22.02.2024
+
+- [Registry] Add `switch` component.
+- [Homepage] Add `switch` documentation.
+
 ## 21.02.2024
 
 - [Registry] Add `dropdown` component.

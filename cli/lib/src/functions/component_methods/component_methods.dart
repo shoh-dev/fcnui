@@ -102,7 +102,8 @@ void _askUserToUpdateComponent(
     String componentDir) {
   logger(
       'Component ${component.name} already exists with a different version: ${component.version}. Old version: ${initJson.getComponentVersion(component.name)}');
-  logger('Do you want to update the component? (y/n): ');
+  logger(
+      'Do you want to update the component (Note your component will be overwritten)? (y/n): ');
   final answer = stdin.readLineSync();
   if (answer == 'y') {
     _updateComponent(componentDir, component, registryComponentData, initJson);
