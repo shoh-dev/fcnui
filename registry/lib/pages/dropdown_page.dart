@@ -515,7 +515,7 @@ class _Decorated extends StatelessWidget {
 }
 
 class _Disabled extends StatelessWidget {
-  const _Disabled({super.key});
+  const _Disabled();
 
   @override
   Widget build(BuildContext context) {
@@ -533,7 +533,7 @@ class _Disabled extends StatelessWidget {
 }
 
 class _DisabledItems extends StatelessWidget {
-  const _DisabledItems({super.key});
+  const _DisabledItems();
 
   @override
   Widget build(BuildContext context) {
@@ -542,7 +542,7 @@ class _DisabledItems extends StatelessWidget {
         child: DefaultDropdown(
             variant: DropdownVariant(
                 name: "name",
-                disabledItems: [
+                disabledItems: const [
                   "usa",
                   "uk",
                 ],
@@ -560,7 +560,7 @@ class _DisabledItems extends StatelessWidget {
 }
 
 class _WithIcons extends StatelessWidget {
-  const _WithIcons({super.key});
+  const _WithIcons();
 
   @override
   Widget build(BuildContext context) {
@@ -584,7 +584,7 @@ class _WithIcons extends StatelessWidget {
 }
 
 class _Search extends StatelessWidget {
-  const _Search({super.key});
+  const _Search();
 
   @override
   Widget build(BuildContext context) {

@@ -801,6 +801,7 @@
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/button_page.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/card_page.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/checkbox_page.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/dropdown_page.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/input_page.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/page_impl.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/pages/pages.dart
@@ -814,8 +815,10 @@
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/input.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/label.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/save_button.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/switch.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/with_label.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/layout/default_layout.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/snackbar.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/pubspec.yaml
 /Users/shoh/fvm/versions/3.16.9/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf
 /Users/shoh/fvm/versions/3.16.9/bin/cache/pkg/sky_engine/LICENSE
