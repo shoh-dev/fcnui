@@ -141,7 +141,7 @@ const config = {
                 theme: prismThemes.oneLight,
                 darkTheme: prismThemes.oneDark,
                 additionalLanguages: ['dart', 'yaml', 'bash'],
-            },
+            }
         }),
 };
 
