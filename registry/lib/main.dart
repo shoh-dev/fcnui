@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
+import 'package:registry/ui/default_components/radio.dart';
 import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/switch.dart';
 import 'package:registry/ui/default_components/with_label.dart';
@@ -64,49 +65,14 @@ class MyHomePage extends StatelessWidget {
                           text: "Use platform theme ${vm.usePlatformTheme}")),
                   ElevatedButton(
                       onPressed: () => context.go(Uri(
-                            path: "/switch",
+                            path: "/radio",
                             queryParameters: {
-                              "variant": "withTitle",
+                              "variant": "form",
                             },
                           ).toString()),
-                      child: const Text("Dropdown")),
-                  DefaultForm(
-                    vm: formModel,
-                    child: DefaultSwitch(
-                        vm: SwitchModel(
-                            name: "switch",
-                            decoration: const SwitchDecoration(
-                              subtitle: "subtitle",
-                              title: "Airplane mode",
-                              width: 100,
-                              height: 50,
-                              thumbActiveIcon: Icons.airplanemode_active,
-                              thumbInactiveIcon: Icons.airplanemode_inactive,
-                            ),
-                            form: SwitchForm(
-                              validator: FormBuilderValidators.equal(true),
-                            ))),
-                  ),
-                  SaveButton(vm: formModel, onSave: print),
-                  DefaultSwitch(
-                      vm: SwitchModel(
-                          name: "switch1",
-                          decoration: const SwitchDecoration(
-                            title: "Airplane mode",
-                            thumbActiveColor: Colors.red,
-                            thumbInactiveColor: Colors.blue,
-                            trackActiveColor: Colors.green,
-                            trackInactiveColor: Colors.yellow,
-                            thumbActiveIcon: Icons.airplanemode_active,
-                            thumbInactiveIcon: Icons.airplanemode_inactive,
-                          ),
-                          form: SwitchForm(
-                            validator: FormBuilderValidators.equal(true),
-                          ))),
-                  const DefaultSwitch(
-                      vm: SwitchModel(
-                    name: "switch2",
-                  )),
+                      child: const Text("Go to")),
+
+                  //   ------------------------------------------
                 ],
               ).spaced(20)),
         );

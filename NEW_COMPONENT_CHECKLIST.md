@@ -10,6 +10,7 @@
 - [ ] Add component docs to `fcnui-website` docs.
 - [ ] Add component to `CHANGELOG.md` in docs.
 - [ ] Add component to `index.json` in API.
+- [ ] Merge to main.
 - [ ] Release playground with new component.(use `releaseplay.sh`).
 - [ ] Release homepage with new component.
 - [ ] Update root `README` with new component and link.

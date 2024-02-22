@@ -12,6 +12,8 @@ Full changelog of the project.
 
 - [Registry] Add `switch` component.
 - [Homepage] Add `switch` documentation.
+- [Registry] Add `radio` component.
+- [Homepage] Add `radio` documentation.
 
 ## 21.02.2024
 

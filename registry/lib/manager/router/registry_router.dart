@@ -94,5 +94,16 @@ final registryRouter = GoRouter(
         return SwitchPage(variant: variant);
       },
     ),
+
+    //Radio
+    GoRoute(
+      path: "/radio",
+      builder: (context, state) {
+        final variant = RadioVariant.values.firstWhere(
+            (e) => e.name == state.uri.queryParameters['variant'],
+            orElse: () => RadioVariant.idle);
+        return RadioPage(variant: variant);
+      },
+    ),
   ],
 );
