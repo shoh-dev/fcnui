@@ -64,18 +64,18 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Navigation Menu
 - [ ] Pagination
 - [ ] Progress Bar
-- [ ] Radio 🚀 (WIP)
+- [x] [Radio](https://fcnui.shoh.dev/docs/components/radio)
 - [ ] Resizable
 - [ ] ~~Select~~ -> [Dropdown](https://fcnui.shoh.dev/docs/components/dropdown).
 - [ ] Sheet
 - [ ] Skeleton
 - [ ] Slider
-- [ ] [Switch](https://fcnui.shoh.dev/docs/components/switch)
+- [x] [Switch](https://fcnui.shoh.dev/docs/components/switch)
 - [ ] Table 🚀
 - [ ] Tabs 🚀
 - [ ] Textarea
 - [ ] Toast
-- [ ] ~~Toggle~~ -> [Switch](https://fcnui.shoh.dev/docs/components/switch).
+- [x] ~~Toggle~~ -> [Switch](https://fcnui.shoh.dev/docs/components/switch).
 - [ ] Tooltip
 
 > 🚀 - Very Important
