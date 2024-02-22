@@ -64,7 +64,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Navigation Menu
 - [ ] Pagination
 - [ ] Progress Bar
-- [ ] Radio Group 🚀
+- [ ] Radio 🚀 (WIP)
 - [ ] Resizable
 - [ ] ~~Select~~ -> [Dropdown](https://fcnui.shoh.dev/docs/components/dropdown).
 - [ ] Sheet
