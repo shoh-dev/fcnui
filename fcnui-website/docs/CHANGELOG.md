@@ -8,6 +8,11 @@ Full changelog of the project.
 - Base - `fcnui_base` package which is the core of `fcnui` package.
 - API - `fcnui` package API documentation which provides `json` format components.
 
+## 23.02.2024
+
+- [Base] Add `pluto_grid` package.
+
+
 ## 22.02.2024
 
 - [Registry] Add `switch` component.

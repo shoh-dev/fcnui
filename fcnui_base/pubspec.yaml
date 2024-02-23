@@ -20,6 +20,7 @@ dependencies:
   flutter_form_builder: ^9.2.0
   form_builder_validators: ^9.1.0
   dropdown_button2: ^2.3.9
+  pluto_grid: ^7.0.2
 
 dev_dependencies:
   flutter_test:
