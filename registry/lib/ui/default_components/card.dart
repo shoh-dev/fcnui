@@ -174,7 +174,7 @@ class DefaultCard extends StatelessWidget {
         ),
         child: custom == null
             ? Padding(
-                padding: decoration.padding ?? defaultPadding,
+                padding: decoration.padding?.w ?? defaultPadding,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: decoration.childrenCrossAxisAlignment,

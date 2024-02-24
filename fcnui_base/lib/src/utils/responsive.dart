@@ -22,8 +22,10 @@ extension ResponsiveSize on Size {
 
 extension ResponsiveEdgeInsets on EdgeInsets {
   EdgeInsets get w => _enabled ? this : this;
+}
 
-  EdgeInsets get r => _enabled ? this : this;
+extension ResponsiveEdgeInsetsGeometry on EdgeInsetsGeometry {
+  EdgeInsetsGeometry get w => _enabled ? this : this;
 }
 
 extension ResponsiveTextStyle on TextStyle {

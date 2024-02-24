@@ -1,5 +1,6 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+import 'package:registry/ui/default_components/card.dart';
 
 extension PlutoRowExtension on PlutoRow {
   DefaultRow toDefaultRow() {
@@ -123,6 +124,7 @@ class DefaultRow extends Equatable {
   List<Object> get props => [cells];
 }
 
+@immutable
 class DefaultCell extends Equatable {
   /// The key is the column key and must match
   final String key;
@@ -151,21 +153,102 @@ class DefaultCell extends Equatable {
 
 typedef GetTableController = void Function(TableController tableController);
 
+@immutable
 class TableVm extends Equatable {
   final List<DefaultColumn> columns;
   final List<DefaultRow> rows;
   final GetTableController getTableController;
+  final TableLocaleText localeText;
+  TableDecoration? decoration;
 
   TableVm({
     required this.columns,
     this.rows = const [],
+    this.localeText = const TableLocaleText(),
     required this.getTableController,
+    this.decoration,
   })  : assert(columns.isNotEmpty, 'Columns cannot be empty'),
         assert(columns.map((e) => e.key).toSet().length == columns.length,
-            'Column keys must be unique');
+            'Column keys must be unique') {
+    decoration ??= TableDecoration();
+  }
 
   @override
-  List<Object> get props => [columns, rows];
+  List<Object> get props => [columns, rows, localeText];
+}
+
+class TableLocaleText extends Equatable {
+  final String noRows;
+
+  const TableLocaleText({this.noRows = "No rows to display"});
+
+  TableLocaleText copyWith({String? noRows}) {
+    return TableLocaleText(noRows: noRows ?? this.noRows);
+  }
+
+  @override
+  List<Object?> get props => [noRows];
+}
+
+@immutable
+class TableDecoration extends Equatable {
+  CardDecoration? wrapperDecoration;
+  final bool isVerticalBorderVisible;
+  final bool isHorizontalBorderVisible;
+  final Color? checkedRowColor;
+  final Color? idleRowColor;
+  final Color? gridBackgroundColor;
+  final Color? gridBorderColor;
+  final TextStyle? columnTextStyle;
+  final TextStyle? cellTextStyle;
+  final Icon? sortAscendingIcon;
+  final Icon? sortDescendingIcon;
+  final double? defaultColumnHeight;
+  final double? defaultRowHeight;
+  final EdgeInsets? defaultCellPadding;
+  final EdgeInsets? defaultColumnTitlePadding;
+  final Color? evenRowColor;
+  final Color? oddRowColor;
+
+  TableDecoration({
+    this.wrapperDecoration,
+    this.isVerticalBorderVisible = false,
+    this.isHorizontalBorderVisible = true,
+    this.checkedRowColor,
+    this.idleRowColor,
+    this.gridBackgroundColor,
+    this.gridBorderColor,
+    this.columnTextStyle,
+    this.cellTextStyle,
+    this.sortAscendingIcon,
+    this.sortDescendingIcon,
+    this.defaultColumnHeight,
+    this.defaultRowHeight,
+    this.defaultCellPadding,
+    this.defaultColumnTitlePadding,
+    this.evenRowColor,
+    this.oddRowColor,
+  }) {
+    wrapperDecoration ??= const CardDecoration(
+      padding: EdgeInsets.all(0),
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        wrapperDecoration,
+        isVerticalBorderVisible,
+        isHorizontalBorderVisible,
+        checkedRowColor,
+        idleRowColor,
+        gridBackgroundColor,
+        gridBorderColor,
+        columnTextStyle,
+        cellTextStyle,
+        sortAscendingIcon,
+        sortDescendingIcon,
+      ];
 }
 
 class DefaultTable extends StatefulWidget {
@@ -200,10 +283,80 @@ class _DefaultTableState extends State<DefaultTable> {
 
     //Decoration related settings
     PlutoGridStyleConfig getStyle(ThemeData theme) {
+      final decoration = vm.decoration!;
+      final borderColor = decoration.gridBorderColor ?? Colors.black12;
       if (isDarkMode) {
-        return const PlutoGridStyleConfig.dark();
+        return PlutoGridStyleConfig.dark(
+          gridBorderRadius: decoration.wrapperDecoration!.borderRadius,
+          gridBorderColor: borderColor,
+          borderColor: borderColor,
+          inactivatedBorderColor: borderColor,
+          enableCellBorderHorizontal: decoration.isHorizontalBorderVisible,
+          enableCellBorderVertical: decoration.isVerticalBorderVisible,
+          enableColumnBorderHorizontal: decoration.isHorizontalBorderVisible,
+          enableColumnBorderVertical: decoration.isVerticalBorderVisible,
+          rowColor:
+              decoration.idleRowColor ?? theme.dividerColor.withOpacity(.5),
+          checkedColor: decoration.checkedRowColor ??
+              theme.colorScheme.primary.withOpacity(.1),
+          activatedBorderColor: theme.colorScheme.primary,
+          gridBackgroundColor: decoration.gridBackgroundColor ??
+              theme.dividerColor.withOpacity(.5),
+          activatedColor: decoration.gridBackgroundColor ??
+              theme.dividerColor.withOpacity(.5),
+          columnTextStyle: decoration.columnTextStyle ??
+              theme.textTheme.titleSmall!.copyWith(
+                  color: theme.colorScheme.onSurface.withOpacity(0.6)),
+          cellTextStyle:
+              decoration.cellTextStyle ?? theme.textTheme.bodyMedium!,
+          columnAscendingIcon: decoration.sortAscendingIcon ??
+              const Icon(Icons.keyboard_arrow_up_outlined),
+          columnDescendingIcon: decoration.sortDescendingIcon ??
+              const Icon(Icons.keyboard_arrow_down_outlined),
+          columnHeight: decoration.defaultColumnHeight ?? 42.h,
+          rowHeight: decoration.defaultRowHeight ?? 42.h,
+          defaultColumnTitlePadding: decoration.defaultColumnTitlePadding ??
+              EdgeInsets.symmetric(horizontal: 16.w),
+          defaultCellPadding: decoration.defaultCellPadding ??
+              EdgeInsets.symmetric(horizontal: 16.w),
+          evenRowColor: decoration.evenRowColor,
+          oddRowColor: decoration.oddRowColor,
+        );
       }
-      return const PlutoGridStyleConfig();
+      return PlutoGridStyleConfig(
+        gridBorderRadius: decoration.wrapperDecoration!.borderRadius,
+        gridBorderColor: borderColor,
+        borderColor: borderColor,
+        inactivatedBorderColor: borderColor,
+        enableCellBorderHorizontal: decoration.isHorizontalBorderVisible,
+        enableCellBorderVertical: decoration.isVerticalBorderVisible,
+        enableColumnBorderHorizontal: decoration.isHorizontalBorderVisible,
+        enableColumnBorderVertical: decoration.isVerticalBorderVisible,
+        rowColor: decoration.idleRowColor ?? theme.colorScheme.surface,
+        checkedColor: decoration.checkedRowColor ??
+            theme.colorScheme.primary.withOpacity(.1),
+        activatedBorderColor: theme.colorScheme.primary,
+        gridBackgroundColor:
+            decoration.gridBackgroundColor ?? theme.colorScheme.surface,
+        activatedColor:
+            decoration.gridBackgroundColor ?? theme.colorScheme.surface,
+        columnTextStyle: decoration.columnTextStyle ??
+            theme.textTheme.titleSmall!
+                .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6)),
+        cellTextStyle: decoration.cellTextStyle ?? theme.textTheme.bodyMedium!,
+        columnAscendingIcon: decoration.sortAscendingIcon ??
+            const Icon(Icons.keyboard_arrow_up_outlined),
+        columnDescendingIcon: decoration.sortDescendingIcon ??
+            const Icon(Icons.keyboard_arrow_down_outlined),
+        columnHeight: decoration.defaultColumnHeight ?? 42.h,
+        rowHeight: decoration.defaultRowHeight ?? 42.h,
+        defaultColumnTitlePadding: decoration.defaultColumnTitlePadding ??
+            EdgeInsets.symmetric(horizontal: 16.w),
+        defaultCellPadding: decoration.defaultCellPadding ??
+            EdgeInsets.symmetric(horizontal: 16.w),
+        evenRowColor: decoration.evenRowColor,
+        oddRowColor: decoration.oddRowColor,
+      );
     }
 
     PlutoGridScrollbarConfig getScrollbar(ThemeData theme) {
@@ -228,96 +381,123 @@ class _DefaultTableState extends State<DefaultTable> {
   Widget getNoRowsWidget(ThemeData theme) {
     return Center(
       child: Text(
-        'No rows',
-        style: theme.textTheme.titleMedium,
+        vm.localeText.noRows,
+        style: theme.textTheme.bodyLarge!.copyWith(
+          color: theme.colorScheme.onSurface.withOpacity(0.4),
+        ),
       ),
     );
   }
 
-  //TODO: Add the following features to the table:
-  // Hide context menu
-  // Off auto edit mode
-  // Off resize column and row
-  // Off drag column and row
-
-  @override
-  Widget build(BuildContext context) {
-    return ThemeProvider(builder: (context, themeVm) {
-      final theme = themeVm.theme;
-      final isDarkMode = themeVm.themeMode == ThemeMode.dark;
-      return SizedBox(
-        width: double.infinity,
-        height: 500,
+  Widget getTable(ThemeVm themeVm) {
+    final theme = themeVm.theme;
+    final isDarkMode = themeVm.themeMode == ThemeMode.dark;
+    return SizedBox(
+      width: double.infinity,
+      height: 500,
+      child: Theme(
+        data: theme,
         child: PlutoGrid(
           configuration: getConfig(themeVm),
           // createFooter: ,//todo:
           // createFooter: ,//todo:
-          // rowColorCallback: (rowColorContext) {},//todo:
+          // rowColorCallback: (rowColorContext) {
+          //   // if (rowColorContext.rowIdx.isEven) {
+          //   //   return vm.decoration!.evenRowColor ??
+          //   //       theme.colorScheme.surface.withOpacity(.05);
+          //   // }
+          //   // return vm.decoration!.oddRowColor ??
+          //   //     theme.colorScheme.surface.withOpacity(.05);
+          //   if (rowColorContext.rowIdx.isEven &&
+          //       vm.decoration!.evenRowColor != null) {
+          //     print('even row color ${rowColorContext.rowIdx.isEven}');
+          //     return vm.decoration!.evenRowColor!;
+          //   }
+          //   if (rowColorContext.rowIdx.isOdd &&
+          //       vm.decoration!.oddRowColor != null) {
+          //     return vm.decoration!.oddRowColor!;
+          //   }
+          //   return theme.colorScheme.surface.withOpacity(.05);
+          // },
           mode: PlutoGridMode.select,
           noRowsWidget: getNoRowsWidget(theme),
           columns: vm.columns.map((e) => e.plutoColumn).toList(),
           rows: vm.rows.map((e) => e.plutoRow).toList(),
-          onLoaded: (event) {
-            stateManager = event.stateManager;
-            vm.getTableController(TableController(
-              columns: vm.columns,
-              rows: vm.rows,
-              onAddRows: (row) {
-                stateManager.appendRows(row.map((e) => e.plutoRow).toList());
-              },
-              onRemoveRows: (rows) {
-                stateManager.removeRows(rows.map((e) => e.plutoRow).toList());
-              },
-              getSelectedRows: () {
-                return stateManager.checkedRows
-                    .map((e) => e.toDefaultRow())
-                    .toList();
-              },
-              onSortBy: (column, {isAscending}) {
-                if (isAscending == null) {
-                  if (column.plutoColumn.sort.isAscending) {
-                    stateManager.sortDescending(column.plutoColumn);
-                  } else {
-                    stateManager.sortAscending(column.plutoColumn);
-                  }
-                } else {
-                  if (isAscending) {
-                    stateManager.sortAscending(column.plutoColumn);
-                  } else {
-                    stateManager.sortDescending(column.plutoColumn);
-                  }
-                }
-              },
-              clearSort: () {
-                final column = stateManager.getSortedColumn;
-                if (column != null) {
-                  //if ascending, toggle 2 times to clear
-                  //if descending, toggle 1 time to clear
-                  if (column.sort.isAscending) {
-                    stateManager.toggleSortColumn(column);
-                    stateManager.toggleSortColumn(column);
-                  } else {
-                    stateManager.toggleSortColumn(column);
-                  }
-                }
-              },
-              selectAll: () {
-                stateManager.toggleAllRowChecked(true);
-              },
-              unselectAll: () {
-                stateManager.toggleAllRowChecked(false);
-              },
-              toggleSelectAll: () {
-                if (stateManager.hasCheckedRow) {
-                  stateManager.toggleAllRowChecked(false);
-                } else {
-                  stateManager.toggleAllRowChecked(true);
-                }
-              },
-            ));
-          },
+          onLoaded: handleOnLoadedEvent,
         ),
-      );
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeProvider(builder: (context, themeVm) {
+      if (vm.decoration!.wrapperDecoration != null) {
+        return DefaultCard(
+          decoration: vm.decoration!.wrapperDecoration!,
+          custom: CardCustom(widget: getTable(themeVm)),
+        );
+      } else {
+        return getTable(themeVm);
+      }
     });
+  }
+
+  void handleOnLoadedEvent(PlutoGridOnLoadedEvent event) {
+    stateManager = event.stateManager;
+    vm.getTableController(TableController(
+      columns: vm.columns,
+      rows: vm.rows,
+      onAddRows: (row) {
+        stateManager.appendRows(row.map((e) => e.plutoRow).toList());
+      },
+      onRemoveRows: (rows) {
+        stateManager.removeRows(rows.map((e) => e.plutoRow).toList());
+      },
+      getSelectedRows: () {
+        return stateManager.checkedRows.map((e) => e.toDefaultRow()).toList();
+      },
+      onSortBy: (column, {isAscending}) {
+        if (isAscending == null) {
+          if (column.plutoColumn.sort.isAscending) {
+            stateManager.sortDescending(column.plutoColumn);
+          } else {
+            stateManager.sortAscending(column.plutoColumn);
+          }
+        } else {
+          if (isAscending) {
+            stateManager.sortAscending(column.plutoColumn);
+          } else {
+            stateManager.sortDescending(column.plutoColumn);
+          }
+        }
+      },
+      clearSort: () {
+        final column = stateManager.getSortedColumn;
+        if (column != null) {
+          //if ascending, toggle 2 times to clear
+          //if descending, toggle 1 time to clear
+          if (column.sort.isAscending) {
+            stateManager.toggleSortColumn(column);
+            stateManager.toggleSortColumn(column);
+          } else {
+            stateManager.toggleSortColumn(column);
+          }
+        }
+      },
+      selectAll: () {
+        stateManager.toggleAllRowChecked(true);
+      },
+      unselectAll: () {
+        stateManager.toggleAllRowChecked(false);
+      },
+      toggleSelectAll: () {
+        if (stateManager.hasCheckedRow) {
+          stateManager.toggleAllRowChecked(false);
+        } else {
+          stateManager.toggleAllRowChecked(true);
+        }
+      },
+    ));
   }
 }

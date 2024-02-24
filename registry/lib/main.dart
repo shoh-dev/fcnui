@@ -170,6 +170,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   DefaultTable(
                     vm: TableVm(
+                      // decoration: TableDecoration(
+                      //   evenRowColor: Colors.red,
+                      //   oddRowColor: Colors.green,
+                      // ),
                       columns: columns,
                       rows: rows,
                       getTableController: (tableController) {
