@@ -1,16 +1,9 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/button.dart';
-import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
-import 'package:registry/ui/default_components/radio.dart';
-import 'package:registry/ui/default_components/save_button.dart';
-import 'package:registry/ui/default_components/switch.dart';
 import 'package:registry/ui/default_components/table.dart';
-import 'package:registry/ui/default_components/with_label.dart';
 import 'manager/manager.dart';
-import 'ui/default_components/dropdown.dart';
 import 'ui/layout/default_layout.dart';
 
 void main() async {
