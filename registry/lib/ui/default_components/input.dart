@@ -18,10 +18,12 @@ class InputModel extends IFormModel {
   final String? helperText;
   final ValueTransformer<String?>? valueTransformer;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   const InputModel({
     required super.name,
     this.initialValue,
+    this.focusNode,
     this.controller,
     this.onChanged,
     this.valueTransformer,
@@ -48,6 +50,7 @@ class InputModel extends IFormModel {
         validators,
         inputFormatters,
         controller,
+        focusNode,
       ];
 }
 
@@ -74,7 +77,7 @@ class DefaultInput extends StatelessWidget {
             hoverColor: Colors.transparent,
             //Border when tapped and focused
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8).r,
+                borderRadius: BorderRadius.circular(4).r,
                 borderSide: BorderSide(
                         color: theme.colorScheme.primary,
                         width: 2,
@@ -82,28 +85,28 @@ class DefaultInput extends StatelessWidget {
                     .w),
             //Idle state border
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius: BorderRadius.circular(4).r,
               borderSide: BorderSide(
                       color: theme.dividerColor,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius: BorderRadius.circular(4).r,
               borderSide: const BorderSide(
                       color: Colors.red,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius: BorderRadius.circular(4).r,
               borderSide: BorderSide(
                       color: theme.dividerColor.withOpacity(0.6),
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius: BorderRadius.circular(4).r,
               borderSide: const BorderSide(
                       color: Colors.red,
                       width: 2,
@@ -126,6 +129,7 @@ class DefaultInput extends StatelessWidget {
           ),
         ),
         child: FormBuilderTextField(
+          focusNode: vm.focusNode,
           controller: vm.controller,
           style: theme.textTheme.bodyLarge!
               .copyWith(

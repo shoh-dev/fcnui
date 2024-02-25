@@ -77,6 +77,7 @@ That's it! You're now ready to leverage the power of `fcnui` in your projects. H
 - [ ] Toast
 - [x] ~~Toggle~~ -> [Switch](https://fcnui.shoh.dev/docs/components/switch).
 - [ ] Tooltip
+- [ ] Menu Bar 🚀
 
 > 🚀 - Very Important
 >

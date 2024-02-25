@@ -70,8 +70,17 @@ abstract class ButtonVariant extends Equatable {
             "text, child, or icon must be provided");
 
   @override
-  List<Object?> get props =>
-      [onPressed, text, child, isLoading, icon, iconSize];
+  List<Object?> get props => [
+        onPressed,
+        text,
+        child,
+        isLoading,
+        icon,
+        iconSize,
+        minimumSize,
+        backgroundColor,
+        foregroundColor,
+      ];
 }
 
 class PrimaryButtonVariant extends ButtonVariant {
@@ -152,6 +161,18 @@ class GhostButtonVariant extends ButtonVariant {
       super.foregroundColor});
 }
 
+class IconButtonVariant extends ButtonVariant {
+  const IconButtonVariant(
+      {super.onPressed,
+      super.child,
+      super.isLoading,
+      required super.icon,
+      super.iconSize,
+      super.minimumSize,
+      super.backgroundColor,
+      super.foregroundColor});
+}
+
 class DefaultButton extends StatelessWidget {
   final ButtonVariant variant;
 
@@ -173,6 +194,9 @@ class DefaultButton extends StatelessWidget {
             style: _getButtonStyle(vm.theme),
           ),
           textButtonTheme: TextButtonThemeData(
+            style: _getButtonStyle(vm.theme),
+          ),
+          iconButtonTheme: IconButtonThemeData(
             style: _getButtonStyle(vm.theme),
           ),
         ),
@@ -251,6 +275,11 @@ class DefaultButton extends StatelessWidget {
                 : Icon(variant.icon, size: variant.iconSize.w),
           );
         }
+      case const (IconButtonVariant):
+        return IconButton(
+          onPressed: _getOnPressed,
+          icon: Icon(variant.icon, size: variant.iconSize.w),
+        );
       default:
         return const SizedBox();
     }
@@ -321,7 +350,7 @@ class DefaultButton extends StatelessWidget {
   BorderSide? _getBorder(ThemeData theme) {
     switch (variant.runtimeType) {
       case const (OutlineButtonVariant):
-        return BorderSide(color: theme.colorScheme.outline).w;
+        return BorderSide(color: theme.dividerColor.withOpacity(0.6)).w;
       default:
         return null;
     }

@@ -1,5 +1,7 @@
 //v0.0.1
 
+import 'dart:developer';
+
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'disabled.dart';
@@ -232,11 +234,16 @@ class CustomCheckbox extends StatelessWidget {
   }
 
   void onCheckboxChanged(bool? value) {
-    if (value == true) {
-      field.didChange([...(field.value ?? []), item.id]);
-    } else {
-      field.didChange(field.value?.where((e) => e != item.id).toList());
+    try {
+      if (value == true) {
+        field.didChange([...(field.value ?? []), item.id]);
+      } else {
+        field.didChange(field.value?.where((e) => e != item.id).toList() ?? []);
+      }
+      vm.onChanged?.call(field.value);
+    } catch (e, st) {
+      log(e.toString());
+      log(st.toString());
     }
-    vm.onChanged?.call(field.value);
   }
 }

@@ -96,6 +96,9 @@ class DpDecoration extends Equatable {
   final Color? foregroundColor;
   final String? helperText;
   final bool hasSearchBox;
+  final bool hasBorder;
+  final Widget? customWidget;
+  final double? defaultMenuItemWidth;
 
   const DpDecoration({
     this.hintText,
@@ -107,6 +110,9 @@ class DpDecoration extends Equatable {
     this.foregroundColor,
     this.helperText,
     this.hasSearchBox = false,
+    this.customWidget,
+    this.hasBorder = true,
+    this.defaultMenuItemWidth,
   });
 
   @override
@@ -119,7 +125,10 @@ class DpDecoration extends Equatable {
         backgroundColor,
         foregroundColor,
         helperText,
-        hasSearchBox
+        hasSearchBox,
+        customWidget,
+        hasBorder,
+        defaultMenuItemWidth,
       ];
 }
 
@@ -149,10 +158,10 @@ class DefaultDropdown extends StatelessWidget {
 }
 
 class _DropdownSelect extends StatefulWidget {
-  final FormFieldState<String> state;
+  final FormFieldState<String>? state;
   final DropdownVariant variant;
 
-  const _DropdownSelect({required this.state, required this.variant});
+  const _DropdownSelect({this.state, required this.variant});
 
   @override
   State<_DropdownSelect> createState() => __DropdownSelectState();
@@ -163,20 +172,20 @@ class __DropdownSelectState extends State<_DropdownSelect> {
 
   DropdownVariant get variant => widget.variant;
 
-  FormFieldState<String> get state => widget.state;
+  FormFieldState<String>? get state => widget.state;
 
-  String? get errorText => state.errorText;
+  String? get errorText => state?.errorText;
 
   DpItem? get selectedItem => variant.form.items
       .expand((element) => element.items)
-      .firstWhereOrNull((element) => element.id == state.value);
+      .firstWhereOrNull((element) => element.id == state?.value);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (variant.form.initialValue != null) {
-        state.didChange(variant.form.initialValue);
+        state?.didChange(variant.form.initialValue);
       }
     });
   }
@@ -191,44 +200,55 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     return theme.inputDecorationTheme.copyWith(
       contentPadding: const EdgeInsets.all(0),
       //Border when tapped and focused
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4).r,
-          borderSide: BorderSide(
-                  color: variant.decoration.foregroundColor ??
-                      theme.dividerColor.withOpacity(0.6),
-                  width: 1,
-                  strokeAlign: BorderSide.strokeAlignOutside)
-              .w),
+      focusedBorder: !variant.decoration.hasBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4).r,
+              borderSide: BorderSide(
+                      color: variant.decoration.foregroundColor ??
+                          theme.dividerColor,
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignOutside)
+                  .w),
       //Idle state border
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: BorderSide(
-                color: variant.decoration.foregroundColor ??
-                    theme.dividerColor.withOpacity(0.6),
-                strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: const BorderSide(
-                color: Colors.red, strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: BorderSide(
-                color: theme.dividerColor.withOpacity(0.6),
-                strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1,
-                strokeAlign: BorderSide.strokeAlignOutside)
-            .w,
-      ),
+      enabledBorder: !variant.decoration.hasBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4).r,
+              borderSide: BorderSide(
+                      color: variant.decoration.foregroundColor ??
+                          theme.dividerColor,
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+      errorBorder: !variant.decoration.hasBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4).r,
+              borderSide: const BorderSide(
+                      color: Colors.red,
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+      disabledBorder: !variant.decoration.hasBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4).r,
+              borderSide: BorderSide(
+                      color: theme.dividerColor,
+                      strokeAlign: BorderSide.strokeAlignInside)
+                  .w,
+            ),
+      focusedErrorBorder: !variant.decoration.hasBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4).r,
+              borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignOutside)
+                  .w,
+            ),
       focusColor: Colors.transparent,
       hoverColor: Colors.transparent,
       filled: true,
@@ -241,9 +261,8 @@ class __DropdownSelectState extends State<_DropdownSelect> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isError = state.hasError;
-    final String? errorText = state.errorText;
-
+    final bool isError = state?.hasError == true;
+    final String? errorText = state?.errorText;
     return ThemeProvider(builder: (context, themeVm) {
       final ThemeData theme = themeVm.theme;
       return Theme(
@@ -252,7 +271,6 @@ class __DropdownSelectState extends State<_DropdownSelect> {
         ),
         child: DropdownButtonFormField2<DpItem>(
           items: _getItems(themeVm.theme),
-          isExpanded: true,
           value: selectedItem,
           hint: variant.decoration.hintText != null
               ? Text(
@@ -260,7 +278,8 @@ class __DropdownSelectState extends State<_DropdownSelect> {
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.normal,
-                      color: variant.decoration.foregroundColor),
+                      color: variant.decoration.foregroundColor ??
+                          theme.colorScheme.onSurface.withOpacity(0.4)),
                 )
               : null,
           dropdownSearchData: variant.decoration.hasSearchBox
@@ -296,6 +315,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
                 )
               : null,
           decoration: InputDecoration(
+              filled: false,
               errorText: isError ? errorText : null,
               errorStyle:
                   theme.textTheme.bodyMedium!.copyWith(color: Colors.red),
@@ -306,8 +326,9 @@ class __DropdownSelectState extends State<_DropdownSelect> {
           onChanged: variant.form.onChanged == null
               ? null
               : (value) {
-                  state.didChange(value?.id);
+                  state?.didChange(value?.id);
                 },
+          customButton: variant.decoration.customWidget,
           dropdownStyleData: _getDropdownStyle(theme),
           iconStyleData: _getIconStyle(theme),
           menuItemStyleData: _getMenuItemStyle(theme),
@@ -366,6 +387,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     ];
     return DropdownStyleData(
       maxHeight: 300.h,
+      width: variant.decoration.defaultMenuItemWidth?.w,
       padding: const EdgeInsets.all(8).w,
       elevation: 0,
       offset: const Offset(0, -4).w,
@@ -386,7 +408,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
           if (states.contains(MaterialState.hovered)) {
             return variant.decoration.hoverColor ??
                 variant.decoration.backgroundColor ??
-                theme.dividerColor.withOpacity(0.4);
+                theme.dividerColor.withOpacity(0.2);
           }
           return null;
         }),
