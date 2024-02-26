@@ -1,6 +1,7 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/ui/default_components/button.dart';
+import 'package:registry/ui/default_components/card.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/default_components/table.dart';
@@ -139,11 +140,24 @@ class _MyHomePageState extends State<MyHomePage> {
       key: "actions",
       name: "Actions",
       type: ColumnType.text,
-      titleTextAlign: TextAlign.center,
-      cellTextAlign: TextAlign.right,
+      titleTextAlign: TextAlign.left,
+      cellTextAlign: TextAlign.left,
       width: 10,
       hasSort: false,
       cellWidget: (cell, rowIndex) {
+        return DefaultSelect<String>(
+          form: SelectForm(name: "actions${cell.key}"),
+          decoration: const SelectDecoration(
+              dropdownMenuSize: Size.fromWidth(100),
+              customWidget: Icon(Icons.more_vert_rounded)),
+          options: SelectOptions(
+              onOptionSelected: (selectedOptions) {},
+              options: const [
+                ValueItem(label: "View", value: "view"),
+                ValueItem(label: "Edit", value: "edit"),
+                ValueItem(label: "Delete", value: "delete"),
+              ]),
+        );
         return PopupMenuButton(
           tooltip: "",
           offset: const Offset(0, 40).w,
@@ -194,39 +208,9 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   late final TableController tableController;
-  final list = [
-    ValueItem(
-      label: "label",
-      value: "label",
-    ),
-    ValueItem(
-      label: "label1",
-      value: "label1",
-    ),
-    ValueItem(
-      label: "label2",
-      value: "label2",
-      // subtitle: "subtitle",
-    ),
-    ValueItem(
-      label: "label3",
-      value: "label3",
-      // subtitle: "subtitle",
-    ),
-    ValueItem(
-      label: "label4",
-      value: "label4",
-      // subtitle: "subtitle",
-    ),
-    ValueItem(
-      label: "label5label5label5label5label5label5label5label5label5label5",
-      value: "label5",
-      // subtitle: "subtitle",
-    ),
-  ];
 
-  final MultiSelectController<String> multiSelectController =
-      MultiSelectController<String>();
+  final SelectController<String> multiSelectController =
+      SelectController<String>();
 
   @override
   Widget build(BuildContext context) {
@@ -380,67 +364,54 @@ class _MyHomePageState extends State<MyHomePage> {
                   //       ],
                   //     ).spaced(12)),
 
-                  SelectDropdown<String>.network(
-                    networkConfig: DropdownNetwork(
-                      networkConfig: NetworkConfig(
-                        url: "https://dummyjson.com/products",
-                        method: RequestMethod.get,
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      ),
-                      responseParser: (p0) {
-                        final list = (p0['products'] as List<dynamic>).map((e) {
-                          final item = e as Map<String, dynamic>;
-                          return ValueItem(
-                              label: item['title'],
-                              value: item['id'].toString(),
-                              subtitle: "\$${item['price']}");
-                        }).toList();
-
-                        return Future.value(list);
-                      },
-                      responseErrorBuilder: (p0, p1) {
-                        return Text("Error $p1");
-                      },
-                    ),
-                    decoration: DropdownDecoration(
-                      controller: multiSelectController,
-                      labelText: "Favorite Color",
-                      hintText: "Select your favorite color",
-                      selectionType: SelectionType.single,
-                    ),
-                    form: const DropdownForm(name: "dp"),
-                  ),
-
-                  Text(multiSelectController
-                          .selectedOptions.firstOrNull?.label ??
-                      ""),
-
-                  DefaultButton(
-                      variant: PrimaryButtonVariant(
-                    text: "Submit",
-                    onPressed: () {
-                      // formModel.saveAndValidate();
-                      // print(formModel.getValues());
-                    },
-                  ))
-                  //   ------------------------------------------
-
-                  // DefaultTable(
-                  //   vm: TableVm(
-                  //     decoration: TableDecoration(
-                  //       defaultRowHeight: 56,
-                  //       defaultColumnTitlePadding: const EdgeInsets.all(8),
+                  // SelectDropdown<String>.network(
+                  //   networkConfig: DropdownNetwork(
+                  //     networkConfig: NetworkConfig(
+                  //       url: "https://dummyjson.com/products",
+                  //       method: RequestMethod.get,
+                  //       headers: {
+                  //         'Content-Type': 'application/json',
+                  //       },
                   //     ),
-                  //     columns: columns,
-                  //     rows: rows,
-                  //     getTableController: (tableController) {
-                  //       this.tableController = tableController;
-                  //       setState(() {});
+                  //     responseParser: (p0) {
+                  //       final list = (p0['products'] as List<dynamic>).map((e) {
+                  //         final item = e as Map<String, dynamic>;
+                  //         return ValueItem(
+                  //             label: item['title'],
+                  //             value: item['id'].toString(),
+                  //             subtitle: "\$${item['price']}");
+                  //       }).toList();
+                  //
+                  //       return Future.value(list);
+                  //     },
+                  //     responseErrorBuilder: (p0, p1) {
+                  //       return Text("Error $p1");
                   //     },
                   //   ),
+                  //   decoration: DropdownDecoration(
+                  //     controller: multiSelectController,
+                  //     labelText: "Favorite Color",
+                  //     hintText: "Select your favorite color",
+                  //     selectionType: SelectionType.single,
+                  //   ),
+                  //   form: const DropdownForm(name: "dp"),
                   // ),
+
+                  DefaultTable(
+                    vm: TableVm(
+                      decoration: TableDecoration(
+                        wrapperDecoration: CardDecoration(),
+                        defaultRowHeight: 56,
+                        defaultColumnTitlePadding: const EdgeInsets.all(8),
+                      ),
+                      columns: columns,
+                      rows: rows,
+                      getTableController: (tableController) {
+                        this.tableController = tableController;
+                        setState(() {});
+                      },
+                    ),
+                  ),
                 ],
               ).spaced(20)),
         );

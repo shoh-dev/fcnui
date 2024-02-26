@@ -6,6 +6,7 @@ abstract class FcnuiDefaultSizes {
   static const double paddingVertical = 16.0;
   static const double paddingHorizontal = 16.0;
   static const double borderWidth = 1.0;
+  static const double selectedBorderWidth = 2.0;
   static const double iconSize = 16.0;
 
   static const itemSpacing = 4.0;

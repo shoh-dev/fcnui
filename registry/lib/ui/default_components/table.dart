@@ -1,6 +1,7 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:registry/ui/default_components/select.dart';
 
 import 'checkbox.dart';
 import 'dp_item.dart';
@@ -580,7 +581,9 @@ class _DefaultTableState extends State<DefaultTable> {
   }
 
   void handleOnLoadedEvent(PlutoGridOnLoadedEvent event) {
-    stateManager = event.stateManager;
+    this.stateManager = event.stateManager;
+    final stateManager = event.stateManager;
+
     stateManager.setPageSize(10);
     stateManager.addListener(() {
       setState(() {});
@@ -649,6 +652,7 @@ class _DefaultTableState extends State<DefaultTable> {
         stateManager.hideColumn(column.plutoColumn, !column.plutoColumn.hide);
       },
     ));
+    setState(() {});
   }
 }
 
@@ -669,16 +673,14 @@ class _HeaderState extends State<_Header> {
 
   @override
   void initState() {
+    columns.addAll(stateManager.columns);
+    setState(() {});
     super.initState();
     focusNode = FocusNode(onKey: (node, event) {
       if (event is RawKeyUpEvent) {
         return KeyEventResult.handled;
       }
       return stateManager.keyManager!.eventResult.skip(KeyEventResult.ignored);
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      columns.addAll(stateManager.columns);
     });
   }
 
@@ -720,7 +722,7 @@ class _HeaderState extends State<_Header> {
           popupMenuTheme: getPopupMenuTheme(theme),
         ),
         child: SizedBox(
-          height: 56,
+          height: 68,
           child: Padding(
             padding: const EdgeInsets.all(8).w,
             child: Row(
@@ -751,53 +753,100 @@ class _HeaderState extends State<_Header> {
                   ),
                 ).w,
 
-                PopupMenuButton(
-                  tooltip: "",
-                  offset: const Offset(0, 4).w,
-                  onSelected: (value) {
-                    stateManager.hideColumn(value, !value.hide);
-                  },
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context) {
-                    return [
-                      for (var col in columns)
-                        PopupMenuItem(
-                          value: col,
-                          height: 40,
-                          child: DefaultCheckbox(
-                              vm: CheckboxModel(
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      if (value.isNotEmpty) {
-                                        stateManager.hideColumn(col, false);
-                                      } else {
-                                        stateManager.hideColumn(col, true);
-                                      }
-                                    }
-                                  },
-                                  name: "${col.field}_hide",
-                                  initialValues: [
-                                if (!col.hide) col.field
-                              ],
-                                  items: [
-                                DpItem(id: col.field, title: col.title)
-                              ])),
-                        ),
-                    ];
-                  },
-                  child: AbsorbPointer(
-                    child: DefaultButton(
-                        variant: OutlineButtonVariant(
-                      text: "Columns",
-                      minimumSize: const Size(100, double.maxFinite),
-                      icon: Icons.arrow_drop_down,
-                      backgroundColor: theme.colorScheme.surface,
-                      onPressed: () {
-                        //do nothing, just to show the enabled button
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.15,
+                  child: DefaultSelect<PlutoColumn>(
+                    form: const SelectForm(name: "columns"),
+                    decoration: SelectDecoration(
+                      showSelectedValuesContent: false,
+                      labelText: "Columns",
+                      hintText: columns.length == stateManager.columns.length
+                          ? "All"
+                          : columns.every((element) => element.hide)
+                              ? "None"
+                              : "${columns.where((element) => element.hide == false).length} selected",
+                      selectionType: SelectionType.multi,
+                    ),
+                    options: SelectOptions(
+                      onOptionRemoved: (index, option) {
+                        if (option.value != null) {
+                          stateManager.hideColumn(option.value!, true);
+                        }
                       },
-                    )),
+                      onOptionSelected: (selectedOptions) {
+                        if (selectedOptions.isNotEmpty) {
+                          for (var col in selectedOptions) {
+                            if (col.value != null) {
+                              stateManager.hideColumn(col.value!, false);
+                            }
+                          }
+                        }
+                      },
+                      selectedOptions: [
+                        for (var col in columns)
+                          ValueItem(
+                            label: col.title,
+                            value: col,
+                          )
+                      ],
+                      options: [
+                        for (var col in columns)
+                          ValueItem(
+                            label: col.title,
+                            value: col,
+                          )
+                      ],
+                    ),
                   ),
                 )
+
+                // PopupMenuButton(
+                //   tooltip: "",
+                //   offset: const Offset(0, 4).w,
+                //   onSelected: (value) {
+                //     stateManager.hideColumn(value, !value.hide);
+                //   },
+                //   padding: EdgeInsets.zero,
+                //   itemBuilder: (context) {
+                //     return [
+                //       for (var col in columns)
+                //         PopupMenuItem(
+                //           value: col,
+                //           height: 40,
+                //           child: DefaultCheckbox(
+                //               vm: CheckboxModel(
+                //                   onChanged: (value) {
+                //                     if (value != null) {
+                //                       if (value.isNotEmpty) {
+                //                         stateManager.hideColumn(col, false);
+                //                       } else {
+                //                         stateManager.hideColumn(col, true);
+                //                       }
+                //                     }
+                //                   },
+                //                   name: "${col.field}_hide",
+                //                   initialValues: [
+                //                 if (!col.hide) col.field
+                //               ],
+                //                   items: [
+                //                 DpItem(id: col.field, title: col.title)
+                //               ])),
+                //         ),
+                //     ];
+                //   },
+                //   child: AbsorbPointer(
+                //     child: DefaultButton(
+                //         variant: OutlineButtonVariant(
+                //       text: "Columns",
+                //       minimumSize: const Size(100, double.maxFinite),
+                //       icon: Icons.arrow_drop_down,
+                //       backgroundColor: theme.colorScheme.surface,
+                //       onPressed: () {
+                //         //do nothing, just to show the enabled button
+                //       },
+                //     )),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -875,31 +924,28 @@ class __Footer extends State<_Footer> {
           children: [
             //Page size changer
             SizedBox(
-              height: 80.h,
               width: MediaQuery.sizeOf(context).width * 0.2,
-              child: WithLabel(
-                labelVm: const LabelModel(text: "Rows per page"),
-                child: DefaultDropdown(
-                  variant: DropdownVariant(
-                    name: "table_page_size",
-                    form: DpForm(
-                      initialValue: stateManager.pageSize.toString(),
-                      items: [
-                        DropdownItem(items: [
-                          for (var ps in [10, 50, 100])
-                            DpItem(
-                              id: ps.toString(),
-                              title: ps.toString(),
-                            ),
-                        ]),
-                      ],
-                      onChanged: (value) {
-                        if (value != null) {
-                          changePageSize(int.parse(value));
-                        }
-                      },
-                    ),
-                  ),
+              child: DefaultSelect<int>(
+                form: const SelectForm(name: "table_page_size"),
+                decoration: const SelectDecoration(labelText: 'Rows per page'),
+                options: SelectOptions(
+                  onOptionSelected: (newList) {
+                    if (newList.isNotEmpty) {
+                      changePageSize(newList.first.value!);
+                    }
+                  },
+                  options: [
+                    for (var ps in [10, 50, 100])
+                      ValueItem(
+                        label: ps.toString(),
+                        value: ps,
+                      )
+                  ],
+                  selectedOptions: [
+                    ValueItem(
+                        label: "${stateManager.pageSize}",
+                        value: stateManager.pageSize)
+                  ],
                 ),
               ),
             ),

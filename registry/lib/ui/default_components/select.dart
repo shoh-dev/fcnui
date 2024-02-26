@@ -2,53 +2,53 @@ import 'dart:convert';
 
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/ui/default_components/disabled.dart';
 
+import 'disabled.dart';
 import 'form.dart';
 import 'input.dart';
 import 'theme.dart';
 
-class SelectDropdown<T> extends StatefulWidget {
-  final DropdownOptions<T> options;
-  final DropdownForm<T> form;
-  final DropdownDecoration<T> decoration;
-  final DropdownNetwork<T>? networkConfig;
+class DefaultSelect<T> extends StatefulWidget {
+  final SelectOptions<T> options;
+  final SelectForm<T> form;
+  final SelectDecoration<T> decoration;
+  final SelectNetwork<T>? networkConfig;
 
-  const SelectDropdown({
+  const DefaultSelect({
     super.key,
-    this.options = const DropdownOptions(),
+    this.options = const SelectOptions(),
     required this.form,
     this.networkConfig,
-    this.decoration = const DropdownDecoration(),
+    this.decoration = const SelectDecoration(),
   });
 
-  /// Constructor for SelectDropdown that fetches the options from a network call.
+  /// Constructor for DefaultSelect that fetches the options from a network call.
   /// [networkConfig] is the configuration for the network call.
   /// [responseParser] is the parser that is used to parse the response from the network call.
   /// [responseErrorBuilder] is the builder that is used to build the error widget when the network call fails.
 
-  const SelectDropdown.network({
+  const DefaultSelect.network({
     super.key,
     required this.form,
-    this.options = const DropdownOptions(),
+    this.options = const SelectOptions(),
     required this.networkConfig,
-    this.decoration = const DropdownDecoration(),
+    this.decoration = const SelectDecoration(),
   });
 
   @override
-  State<SelectDropdown<T>> createState() => _SelectDropdownState<T>();
+  State<DefaultSelect<T>> createState() => _DefaultSelectState<T>();
 }
 
-class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
-  DropdownDecoration<T> get decoration => widget.decoration;
+class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
+  SelectDecoration<T> get decoration => widget.decoration;
 
-  DropdownOptions<T> get dpOptions => widget.options;
+  SelectOptions<T> get dpOptions => widget.options;
 
   List<ValueItem<T>> get options => widget.options.options;
 
-  DropdownForm<T> get form => widget.form;
+  SelectForm<T> get form => widget.form;
 
-  DropdownNetwork<T>? get networkConfig => widget.networkConfig;
+  SelectNetwork<T>? get networkConfig => widget.networkConfig;
 
   /// Options list that is used to display the options.
   final List<ValueItem<T>> _options = [];
@@ -71,7 +71,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   dynamic _reponseBody;
 
   /// value notifier that is used for controller.
-  late MultiSelectController<T> _controller;
+  late SelectController<T> _controller;
 
   /// search field focus node
   FocusNode? _searchFocusNode;
@@ -79,7 +79,14 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   bool get isMultiSelection => decoration.selectionType == SelectionType.multi;
 
   double get dropdownHeight {
-    return decoration.dropdownMenuMaxHeight ?? 200;
+    double height = 0;
+    for (final option in _options) {
+      height += 43;
+      if (option.subtitle != null) {
+        height += 11;
+      }
+    }
+    return height;
   }
 
   @override
@@ -89,7 +96,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
       await _initialize();
     });
     _focusNode = FocusNode();
-    _controller = decoration.controller ?? MultiSelectController<T>();
+    _controller = decoration.controller ?? SelectController<T>();
   }
 
   /// Initializes the options, selected options and disabled options.
@@ -115,7 +122,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant SelectDropdown<T> oldWidget) {
+  void didUpdateWidget(covariant DefaultSelect<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (_options != options) {
       _options.clear();
@@ -194,13 +201,15 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
 
     if (decoration.customWidget != null) {
       return [
-        decoration.dropdownMenuMaxHeight ?? const Size.fromWidth(300),
+        decoration.dropdownMenuMaxHeight ??
+            decoration.dropdownMenuSize ??
+            const Size.fromWidth(300),
         availableHeight < dropdownHeight,
       ];
     }
 
     return [
-      decoration.dropdownMenuMaxHeight ?? size,
+      decoration.dropdownMenuMaxHeight ?? decoration.dropdownMenuSize ?? size,
       availableHeight < dropdownHeight,
     ];
   }
@@ -258,7 +267,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   }
 
   /// Clear the selected options.
-  /// [MultiSelectController] is used to clear the selected options.
+  /// [SelectController] is used to clear the selected options.
   void clear() {
     if (!_controller._isDisposed) {
       _controller.clearAllSelection();
@@ -445,13 +454,15 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
                                                     width: FcnuiDefaultSizes
                                                         .itemSpacing)
                                                 .w,
-                                            InkWell(
-                                                onTap: () => clear(),
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  size: FcnuiDefaultSizes
-                                                      .iconSize,
-                                                )),
+                                            if (isMultiSelection &&
+                                                decoration.showClearIcon)
+                                              InkWell(
+                                                  onTap: () => clear(),
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    size: FcnuiDefaultSizes
+                                                        .iconSize,
+                                                  )),
                                             const SizedBox(
                                                     width: FcnuiDefaultSizes
                                                         .itemSpacing)
@@ -524,7 +535,8 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
       );
     }
 
-    if (_selectedOptions.isEmpty) {
+    if (_selectedOptions.isEmpty ||
+        decoration.showSelectedValuesContent == false) {
       return column(decoration.hintText, null, isGrey: true);
     }
 
@@ -541,14 +553,18 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   /// Container decoration for the dropdown.
   Decoration _getContainerDecoration(ThemeData theme, bool hasError) {
     return BoxDecoration(
-      color: theme.dividerColor.withOpacity(.4),
+      color: decoration.isColorful
+          ? theme.colorScheme.primary.withOpacity(.1)
+          : theme.dividerColor.withOpacity(.4),
       borderRadius: BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
       border: Border.all(
               strokeAlign: BorderSide.strokeAlignOutside,
               color: hasError
                   ? FcnuiDefaultColor(context).errorColor
                   : (_selectionMode ? theme.primaryColor : Colors.transparent),
-              width: _selectionMode ? 2 : FcnuiDefaultSizes.borderWidth)
+              width: _selectionMode
+                  ? FcnuiDefaultSizes.selectedBorderWidth
+                  : FcnuiDefaultSizes.borderWidth)
           .w,
     );
   }
@@ -601,13 +617,15 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   }
 
   /// Get the selectedItem icon for the dropdown
-  Widget? _getSelectedIcon(bool isSelected, Color primaryColor) {
+  Widget? _getSelectedIcon(bool isSelected, ThemeData theme) {
     return AnimatedOpacity(
       opacity: isSelected ? 1 : 0,
       duration: const Duration(milliseconds: 150),
       child: Icon(
         Icons.check,
-        color: primaryColor,
+        color: decoration.isColorful
+            ? theme.primaryColor
+            : theme.colorScheme.onSurface,
         size: FcnuiDefaultSizes.iconSize,
       ),
     );
@@ -650,7 +668,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
                   showOnTop ? Alignment.topLeft : Alignment.bottomLeft,
               followerAnchor:
                   showOnTop ? Alignment.bottomLeft : Alignment.topLeft,
-              offset: const Offset(0, 5).w,
+              offset: Offset(0, showOnTop ? -5 : 5).w,
               child: Material(
                   color: theme.colorScheme.surface,
                   elevation: 4,
@@ -715,6 +733,8 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
                                             setState(() {
                                               _selectedOptions.remove(option);
                                             });
+                                            dpOptions.onOptionRemoved
+                                                ?.call(index, option);
                                           } else {
                                             final bool hasReachMax =
                                                 dpOptions.maxItems == null
@@ -852,7 +872,8 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
       titleTextStyle: theme.textTheme.bodyMedium,
       subtitleTextStyle: theme.textTheme.bodySmall!
           .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6)),
-      selectedColor: primaryColor,
+      selectedColor:
+          decoration.isColorful ? primaryColor : theme.colorScheme.onSurface,
       selected: isSelected,
       autofocus: true,
       dense: true,
@@ -861,10 +882,12 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
           borderRadius:
               BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r),
       tileColor: theme.colorScheme.surface,
-      selectedTileColor: FcnuiDefaultColor(context).borderColor,
+      selectedTileColor: decoration.isColorful
+          ? theme.primaryColor.withOpacity(.1)
+          : FcnuiDefaultColor(context).borderColor,
       enabled: enabled,
       onTap: onTap,
-      trailing: _getSelectedIcon(isSelected, primaryColor),
+      trailing: _getSelectedIcon(isSelected, theme),
       leading: option.icon,
     );
   }
@@ -1059,7 +1082,7 @@ class ValueItem<T> extends Equatable {
 
 typedef OnOptionSelected<T> = void Function(List<ValueItem<T>> selectedOptions);
 
-class DropdownDecoration<T> extends Equatable {
+class SelectDecoration<T> extends Equatable {
   final String? hintText;
 
   final String? labelText;
@@ -1072,7 +1095,7 @@ class DropdownDecoration<T> extends Equatable {
 
   /// Controller for the dropdown
   /// [controller] is the controller for the dropdown. It can be used to programmatically open and close the dropdown.
-  final MultiSelectController<T>? controller;
+  final SelectController<T>? controller;
 
   /// Enable search
   /// [searchEnabled] is the flag to enable search in dropdown. It is used to show search bar in dropdown.
@@ -1102,10 +1125,18 @@ class DropdownDecoration<T> extends Equatable {
 
   final WrapType wrapType;
 
-  const DropdownDecoration({
+  final bool showSelectedValuesContent;
+
+  final bool showClearIcon;
+
+  final bool isColorful;
+
+  const SelectDecoration({
     this.hintText,
     this.selectionType = SelectionType.single,
     this.dropdownHeight,
+    this.showClearIcon = false,
+    this.showSelectedValuesContent = true,
     this.controller,
     this.searchEnabled = false,
     this.dropdownMenuSize,
@@ -1115,6 +1146,7 @@ class DropdownDecoration<T> extends Equatable {
     this.wrapType = WrapType.scroll,
     this.disabled = false,
     this.labelText,
+    this.isColorful = false,
   });
 
   @override
@@ -1130,11 +1162,14 @@ class DropdownDecoration<T> extends Equatable {
         wrapType,
         disabled,
         labelText,
+        showSelectedValuesContent,
+        showClearIcon,
+        isColorful,
       ];
 }
 
-class DropdownForm<T> extends IFormModel {
-  const DropdownForm({
+class SelectForm<T> extends IFormModel {
+  const SelectForm({
     required super.name,
     this.validator,
   });
@@ -1146,7 +1181,7 @@ class DropdownForm<T> extends IFormModel {
   List<Object?> get props => [name, validator];
 }
 
-class DropdownOptions<T> extends Equatable {
+class SelectOptions<T> extends Equatable {
   final List<ValueItem<T>> options;
   final List<ValueItem<T>> selectedOptions;
   final List<ValueItem<T>> disabledOptions;
@@ -1166,7 +1201,7 @@ class DropdownOptions<T> extends Equatable {
   /// Maximum number of items that can be selected
   final int? maxItems;
 
-  const DropdownOptions({
+  const SelectOptions({
     this.options = const [],
     this.selectedOptions = const [],
     this.disabledOptions = const [],
@@ -1184,8 +1219,8 @@ class DropdownOptions<T> extends Equatable {
       ];
 }
 
-class DropdownNetwork<T> extends Equatable {
-  const DropdownNetwork({
+class SelectNetwork<T> extends Equatable {
+  const SelectNetwork({
     required this.networkConfig,
     required this.responseParser,
     this.responseErrorBuilder,
@@ -1201,20 +1236,19 @@ class DropdownNetwork<T> extends Equatable {
 }
 
 /// MultiSelect Controller class.
-/// This class is used to control the state of the MultiSelectDropdown widget.
-/// This is just base class. The implementation of this class is in the MultiSelectController class.
+/// This class is used to control the state of the MultiDefaultSelect widget.
+/// This is just base class. The implementation of this class is in the SelectController class.
 /// The implementation of this class is hidden from the user.
-class _MultiSelectController<T> {
+class _SelectController<T> {
   final List<ValueItem<T>> _disabledOptions = [];
   final List<ValueItem<T>> _options = [];
   final List<ValueItem<T>> _selectedOptions = [];
   bool _isDropdownOpen = false;
 }
 
-/// implementation of the MultiSelectController class.
-class MultiSelectController<T>
-    extends ValueNotifier<_MultiSelectController<T>> {
-  MultiSelectController() : super(_MultiSelectController());
+/// implementation of the SelectController class.
+class SelectController<T> extends ValueNotifier<_SelectController<T>> {
+  SelectController() : super(_SelectController());
 
   bool _isDisposed = false;
 
@@ -1228,14 +1262,14 @@ class MultiSelectController<T>
   }
 
   /// Clear the selected options.
-  /// [MultiSelectController] is used to clear the selected options.
+  /// [SelectController] is used to clear the selected options.
   void clearAllSelection() {
     value._selectedOptions.clear();
     notifyListeners();
   }
 
   /// clear specific selected option
-  /// [MultiSelectController] is used to clear specific selected option.
+  /// [SelectController] is used to clear specific selected option.
   void clearSelection(ValueItem<T> option) {
     if (!value._selectedOptions.contains(option)) return;
 
@@ -1253,7 +1287,7 @@ class MultiSelectController<T>
   }
 
   /// select the options
-  /// [MultiSelectController] is used to select the options.
+  /// [SelectController] is used to select the options.
   void setSelectedOptions(List<ValueItem<T>> options) {
     if (options.any((element) => value._disabledOptions.contains(element))) {
       throw Exception('Cannot select disabled options');
@@ -1269,7 +1303,7 @@ class MultiSelectController<T>
   }
 
   /// add selected option
-  /// [MultiSelectController] is used to add selected option.
+  /// [SelectController] is used to add selected option.
   void addSelectedOption(ValueItem<T> option) {
     if (value._disabledOptions.contains(option)) {
       throw Exception('Cannot select disabled option');
@@ -1284,7 +1318,7 @@ class MultiSelectController<T>
   }
 
   /// set disabled options
-  /// [MultiSelectController] is used to set disabled options.
+  /// [SelectController] is used to set disabled options.
   void setDisabledOptions(List<ValueItem<T>> disabledOptions) {
     if (disabledOptions.any((element) => !value._options.contains(element))) {
       throw Exception(
@@ -1297,7 +1331,7 @@ class MultiSelectController<T>
   }
 
   /// setDisabledOption method
-  /// [MultiSelectController] is used to set disabled option.
+  /// [SelectController] is used to set disabled option.
   void setDisabledOption(ValueItem<T> disabledOption) {
     if (!value._options.contains(disabledOption)) {
       throw Exception('Cannot disable option that is not in the options list');
@@ -1308,7 +1342,7 @@ class MultiSelectController<T>
   }
 
   /// set options
-  /// [MultiSelectController] is used to set options.
+  /// [SelectController] is used to set options.
   void setOptions(List<ValueItem<T>> options) {
     value._options.clear();
     value._options.addAll(options);
@@ -1333,7 +1367,7 @@ class MultiSelectController<T>
   bool get isDropdownOpen => value._isDropdownOpen;
 
   /// show dropdown
-  /// [MultiSelectController] is used to show dropdown.
+  /// [SelectController] is used to show dropdown.
   void showDropdown() {
     if (value._isDropdownOpen) return;
     value._isDropdownOpen = true;
@@ -1341,7 +1375,7 @@ class MultiSelectController<T>
   }
 
   /// hide dropdown
-  /// [MultiSelectController] is used to hide dropdown.
+  /// [SelectController] is used to hide dropdown.
   void hideDropdown() {
     if (!value._isDropdownOpen) return;
     value._isDropdownOpen = false;
