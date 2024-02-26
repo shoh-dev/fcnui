@@ -198,20 +198,36 @@ class _MyHomePageState extends State<MyHomePage> {
     ValueItem(
       label: "label",
       value: "label",
-      subtitle: "subtitle",
     ),
     ValueItem(
       label: "label1",
       value: "label1",
-      subtitle: "subtitle1",
     ),
     ValueItem(
       label: "label2",
       value: "label2",
-      icon: Icon(Icons.ac_unit),
+      // subtitle: "subtitle",
+    ),
+    ValueItem(
+      label: "label3",
+      value: "label3",
+      // subtitle: "subtitle",
+    ),
+    ValueItem(
+      label: "label4",
+      value: "label4",
+      // subtitle: "subtitle",
+    ),
+    ValueItem(
+      label: "label5label5label5label5label5label5label5label5label5label5",
+      value: "label5",
       // subtitle: "subtitle",
     ),
   ];
+
+  final MultiSelectController<String> multiSelectController =
+      MultiSelectController<String>();
+
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
@@ -332,40 +348,81 @@ class _MyHomePageState extends State<MyHomePage> {
                   //           tableController.columns[1]);
                   //     },
                   //     child: const Text("toggle age column")),
-                  DefaultForm(
-                      vm: formModel,
-                      child: Column(
-                        children: [
-                          Theme(
-                            data: vm.theme,
-                            child: SelectDropdown<String>(
-                              decoration: DropdownDecoration(
-                                labelText: "Favorite Color",
-                                hintText: "Select your favorite color",
-                              ),
-                              options: DropdownOptions(
-                                options: list,
-                                // onOptionSelected: (selectedOptions) {},
-                              ),
-                              form: DropdownForm(
-                                name: "dp",
-                                validator: (p0) {
-                                  if (p0.length <= 2) {
-                                    return "Length must be greater than 2";
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ).spaced(12)),
+                  // DefaultForm(
+                  //     vm: formModel,
+                  //     child: Column(
+                  //       children: [
+                  //         Theme(
+                  //           data: vm.theme,
+                  //           child: SelectDropdown<String>(
+                  //             decoration: DropdownDecoration(
+                  //               controller: multiSelectController,
+                  //               labelText: "Favorite Color",
+                  //               hintText: "Select your favorite color",
+                  //               selectionType: SelectionType.single,
+                  //             ),
+                  //             options: DropdownOptions(
+                  //               options: list,
+                  //               onOptionSelected: (selectedOptions) {
+                  //                 setState(() {});
+                  //               },
+                  //             ),
+                  //             form: DropdownForm(
+                  //               name: "dp",
+                  //               validator: (p0) {
+                  //                 if (p0.length <= 2) {
+                  //                   return "Length must be greater than 2";
+                  //                 }
+                  //               },
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ).spaced(12)),
+
+                  SelectDropdown<String>.network(
+                    networkConfig: DropdownNetwork(
+                      networkConfig: NetworkConfig(
+                        url: "https://dummyjson.com/products",
+                        method: RequestMethod.get,
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      ),
+                      responseParser: (p0) {
+                        final list = (p0['products'] as List<dynamic>).map((e) {
+                          final item = e as Map<String, dynamic>;
+                          return ValueItem(
+                              label: item['title'],
+                              value: item['id'].toString(),
+                              subtitle: "\$${item['price']}");
+                        }).toList();
+
+                        return Future.value(list);
+                      },
+                      responseErrorBuilder: (p0, p1) {
+                        return Text("Error $p1");
+                      },
+                    ),
+                    decoration: DropdownDecoration(
+                      controller: multiSelectController,
+                      labelText: "Favorite Color",
+                      hintText: "Select your favorite color",
+                      selectionType: SelectionType.single,
+                    ),
+                    form: const DropdownForm(name: "dp"),
+                  ),
+
+                  Text(multiSelectController
+                          .selectedOptions.firstOrNull?.label ??
+                      ""),
 
                   DefaultButton(
                       variant: PrimaryButtonVariant(
                     text: "Submit",
                     onPressed: () {
-                      formModel.saveAndValidate();
-                      print(formModel.getValues());
+                      // formModel.saveAndValidate();
+                      // print(formModel.getValues());
                     },
                   ))
                   //   ------------------------------------------

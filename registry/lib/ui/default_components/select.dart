@@ -16,7 +16,7 @@ class SelectDropdown<T> extends StatefulWidget {
 
   const SelectDropdown({
     super.key,
-    required this.options,
+    this.options = const DropdownOptions(),
     required this.form,
     this.networkConfig,
     this.decoration = const DropdownDecoration(),
@@ -30,7 +30,7 @@ class SelectDropdown<T> extends StatefulWidget {
   const SelectDropdown.network({
     super.key,
     required this.form,
-    required this.options,
+    this.options = const DropdownOptions(),
     required this.networkConfig,
     this.decoration = const DropdownDecoration(),
   });
@@ -85,8 +85,8 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _initialize();
     });
     _focusNode = FocusNode();
     _controller = decoration.controller ?? MultiSelectController<T>();
@@ -95,9 +95,9 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   /// Initializes the options, selected options and disabled options.
   /// If the options are fetched from the network, then the network call is made.
   /// If the options are passed as a parameter, then the options are initialized.
-  void _initialize() async {
+  Future<void> _initialize() async {
     if (!mounted) return;
-    if (widget.networkConfig?.networkConfig != null) {
+    if (networkConfig?.networkConfig != null) {
       await _fetchNetwork();
     } else {
       _options.addAll(_controller.options.isNotEmpty == true
@@ -159,9 +159,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   /// Handles the focus change to show/hide the dropdown.
   void _handleFocusChange() {
     if (_focusNode.hasFocus && mounted) {
-      _overlayEntry = _reponseBody != null && widget.networkConfig != null
-          ? _buildNetworkErrorOverlayEntry()
-          : _buildOverlayEntry();
+      _overlayEntry = _buildOverlayEntry();
       Overlay.of(context).insert(_overlayEntry!);
       _updateSelection();
       return;
@@ -312,9 +310,14 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
     }
   }
 
+  bool isLoading = false;
+
   /// Make a request to the provided url.
   /// The response then is parsed to a list of ValueItem objects.
   Future<void> _fetchNetwork() async {
+    setState(() {
+      isLoading = true;
+    });
     final result = await _performNetworkRequest();
     get(Uri.parse(networkConfig!.networkConfig!.url));
     if (result.statusCode == 200) {
@@ -326,6 +329,9 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
     } else {
       _reponseBody = result.body;
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   /// Perform the network request according to the provided configuration.
@@ -374,7 +380,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
         data: themeVm.theme,
         child: DefaultDisabled(
           vm: DisabledVm(
-              disabled: decoration.disabled,
+              disabled: isLoading || decoration.disabled,
               child: Semantics(
                 button: true,
                 enabled: true,
@@ -441,7 +447,11 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
                                                 .w,
                                             InkWell(
                                                 onTap: () => clear(),
-                                                child: const Icon(Icons.close)),
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  size: FcnuiDefaultSizes
+                                                      .iconSize,
+                                                )),
                                             const SizedBox(
                                                     width: FcnuiDefaultSizes
                                                         .itemSpacing)
@@ -499,19 +509,23 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
               decoration.labelText!,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          if (value != null)
+          if (isLoading)
+            const Center(child: LinearProgressIndicator())
+          else if (value != null)
             Text(
               value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: isGrey ? FcnuiDefaultColor(context).greyColor : null),
             ),
           if (child != null) child,
         ],
-      ).spaced(4);
+      );
     }
 
     if (_selectedOptions.isEmpty) {
-      return column(decoration.hintText ?? "Select", null, isGrey: true);
+      return column(decoration.hintText, null, isGrey: true);
     }
 
     if (decoration.selectionType == SelectionType.single) {
@@ -542,19 +556,22 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   /// Build the selected items for the dropdown.
   Widget _buildSelectedItems() {
     if (decoration.wrapType == WrapType.scroll) {
-      return ListView.separated(
-        separatorBuilder: (context, index) => _getTextSeparator(),
-        scrollDirection: Axis.horizontal,
-        itemCount: _selectedOptions.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final option = _selectedOptions[index];
-          return _buildSelectedItem(
-            option,
-            !_disabledOptions.contains(_selectedOptions[index]),
-            index == _selectedOptions.length - 1,
-          );
-        },
+      return Expanded(
+        child: ListView.separated(
+          separatorBuilder: (context, index) => _getTextSeparator(),
+          scrollDirection: Axis.horizontal,
+          itemCount: _selectedOptions.length,
+          itemBuilder: (context, index) {
+            final option = _selectedOptions[index];
+            return Center(
+              child: _buildSelectedItem(
+                option,
+                !_disabledOptions.contains(_selectedOptions[index]),
+                index == _selectedOptions.length - 1,
+              ),
+            );
+          },
+        ),
       );
     }
     return Wrap(
@@ -574,10 +591,12 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
   }
 
   /// Build the selected item chip.
-  Widget _buildSelectedItem(ValueItem<T> item, isEnabled, bool isLast) {
+  Widget _buildSelectedItem(ValueItem<T> item, bool isEnabled, bool isLast) {
     return Text(
       "${item.label}${isLast ? "" : ","}",
-      style: TextStyle(fontWeight: FontWeight.normal),
+      style: const TextStyle(fontWeight: FontWeight.normal),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
     );
   }
 
@@ -589,6 +608,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
       child: Icon(
         Icons.check,
         color: primaryColor,
+        size: FcnuiDefaultSizes.iconSize,
       ),
     );
   }
@@ -634,114 +654,130 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
               child: Material(
                   color: theme.colorScheme.surface,
                   elevation: 4,
-                  clipBehavior: Clip.antiAlias,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(FcnuiDefaultSizes.borderRadius.r),
                     ),
-                    side: BorderSide(
-                            color: theme.dividerColor.withOpacity(.6), width: 1)
-                        .w,
+                    side: const BorderSide(color: Colors.transparent, width: 0),
                   ),
-                  shadowColor: Colors.black26,
+                  shadowColor: Colors.black54,
                   child: Container(
                     decoration: BoxDecoration(
-                      backgroundBlendMode: BlendMode.dstATop,
-                      color: theme.colorScheme.surface,
+                      color: theme.dividerColor.withOpacity(.2),
                     ),
                     constraints: decoration.searchEnabled
                         ? BoxConstraints.loose(
                             Size(size.width, dropdownHeight + 50))
                         : BoxConstraints.loose(
                             Size(size.width, dropdownHeight)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (decoration.searchEnabled)
-                          ..._buildSearchField(theme, dropdownState, options),
-                        Expanded(
-                          child: ListView.separated(
-                            physics: const ClampingScrollPhysics(),
-                            separatorBuilder: (_, __) =>
-                                SizedBox(height: isMultiSelection ? 2 : 0).w,
-                            padding: const EdgeInsets.all(8).w,
-                            itemCount: options.length,
-                            itemBuilder: (context, index) {
-                              final option = options[index];
-                              final isSelected =
-                                  selectedOptions.contains(option);
+                    child: _reponseBody != null && widget.networkConfig != null
+                        ? Center(
+                            child: networkConfig!.responseErrorBuilder!(
+                                context, _reponseBody),
+                          )
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (decoration.searchEnabled)
+                                ..._buildSearchField(
+                                    theme, dropdownState, options),
+                              if (_options.isEmpty)
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      "No options available",
+                                      style: theme.textTheme.bodyMedium,
+                                    ),
+                                  ),
+                                )
+                              else
+                                Expanded(
+                                  child: ListView.separated(
+                                    physics: const ClampingScrollPhysics(),
+                                    separatorBuilder: (_, __) => SizedBox(
+                                            height: isMultiSelection ? 2 : 0)
+                                        .w,
+                                    padding: const EdgeInsets.all(4).w,
+                                    itemCount: options.length,
+                                    itemBuilder: (context, index) {
+                                      final option = options[index];
+                                      final isSelected =
+                                          selectedOptions.contains(option);
 
-                              onTap() {
-                                if (decoration.selectionType ==
-                                    SelectionType.multi) {
-                                  if (isSelected) {
-                                    dropdownState(() {
-                                      selectedOptions.remove(option);
-                                    });
-                                    setState(() {
-                                      _selectedOptions.remove(option);
-                                    });
-                                  } else {
-                                    final bool hasReachMax =
-                                        dpOptions.maxItems == null
-                                            ? false
-                                            : (_selectedOptions.length + 1) >
-                                                dpOptions.maxItems!;
-                                    if (hasReachMax) return;
+                                      onTap() {
+                                        if (decoration.selectionType ==
+                                            SelectionType.multi) {
+                                          if (isSelected) {
+                                            dropdownState(() {
+                                              selectedOptions.remove(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.remove(option);
+                                            });
+                                          } else {
+                                            final bool hasReachMax =
+                                                dpOptions.maxItems == null
+                                                    ? false
+                                                    : (_selectedOptions.length +
+                                                            1) >
+                                                        dpOptions.maxItems!;
+                                            if (hasReachMax) return;
 
-                                    dropdownState(() {
-                                      selectedOptions.add(option);
-                                    });
-                                    setState(() {
-                                      _selectedOptions.add(option);
-                                    });
-                                  }
-                                } else {
-                                  dropdownState(() {
-                                    selectedOptions.clear();
-                                    selectedOptions.add(option);
-                                  });
-                                  setState(() {
-                                    _selectedOptions.clear();
-                                    _selectedOptions.add(option);
-                                  });
-                                  _focusNode.unfocus();
-                                }
+                                            dropdownState(() {
+                                              selectedOptions.add(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.add(option);
+                                            });
+                                          }
+                                        } else {
+                                          dropdownState(() {
+                                            selectedOptions.clear();
+                                            selectedOptions.add(option);
+                                          });
+                                          setState(() {
+                                            _selectedOptions.clear();
+                                            _selectedOptions.add(option);
+                                          });
+                                          _focusNode.unfocus();
+                                        }
 
-                                _controller.value._selectedOptions.clear();
-                                _controller.value._selectedOptions
-                                    .addAll(_selectedOptions);
+                                        _controller.value._selectedOptions
+                                            .clear();
+                                        _controller.value._selectedOptions
+                                            .addAll(_selectedOptions);
 
-                                dpOptions.onOptionSelected
-                                    ?.call(_selectedOptions);
-                              }
+                                        dpOptions.onOptionSelected
+                                            ?.call(_selectedOptions);
+                                      }
 
-                              if (decoration.optionBuilder != null) {
-                                return InkWell(
-                                  onTap: onTap,
-                                  splashFactory: NoSplash.splashFactory,
-                                  child: decoration.optionBuilder!(
-                                      context, option, isSelected),
-                                );
-                              }
+                                      if (decoration.optionBuilder != null) {
+                                        return InkWell(
+                                          onTap: onTap,
+                                          splashFactory: NoSplash.splashFactory,
+                                          child: decoration.optionBuilder!(
+                                              context, option, isSelected),
+                                        );
+                                      }
 
-                              final primaryColor =
-                                  Theme.of(context).primaryColor;
+                                      final primaryColor =
+                                          Theme.of(context).primaryColor;
 
-                              return _buildOption(
-                                option: option,
-                                primaryColor: primaryColor,
-                                isSelected: isSelected,
-                                dropdownState: dropdownState,
-                                onTap: onTap,
-                                selectedOptions: selectedOptions,
-                                theme: Theme.of(context),
-                              );
-                            },
+                                      return _buildOption(
+                                        option: option,
+                                        primaryColor: primaryColor,
+                                        isSelected: isSelected,
+                                        dropdownState: dropdownState,
+                                        onTap: onTap,
+                                        selectedOptions: selectedOptions,
+                                        theme: Theme.of(context),
+                                      );
+                                    },
+                                  ),
+                                ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
                   )),
             ),
           ],
@@ -825,7 +861,7 @@ class _SelectDropdownState<T> extends State<SelectDropdown<T>> {
           borderRadius:
               BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r),
       tileColor: theme.colorScheme.surface,
-      selectedTileColor: theme.dividerColor.withOpacity(.2),
+      selectedTileColor: FcnuiDefaultColor(context).borderColor,
       enabled: enabled,
       onTap: onTap,
       trailing: _getSelectedIcon(isSelected, primaryColor),
@@ -1068,7 +1104,7 @@ class DropdownDecoration<T> extends Equatable {
 
   const DropdownDecoration({
     this.hintText,
-    this.selectionType = SelectionType.multi,
+    this.selectionType = SelectionType.single,
     this.dropdownHeight,
     this.controller,
     this.searchEnabled = false,
@@ -1076,7 +1112,7 @@ class DropdownDecoration<T> extends Equatable {
     this.dropdownMenuMaxHeight,
     this.customWidget,
     this.optionBuilder,
-    this.wrapType = WrapType.wrap,
+    this.wrapType = WrapType.scroll,
     this.disabled = false,
     this.labelText,
   });
@@ -1131,7 +1167,7 @@ class DropdownOptions<T> extends Equatable {
   final int? maxItems;
 
   const DropdownOptions({
-    required this.options,
+    this.options = const [],
     this.selectedOptions = const [],
     this.disabledOptions = const [],
     this.onOptionSelected,
