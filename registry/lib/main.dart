@@ -1,11 +1,8 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:registry/ui/default_components/button.dart';
-import 'package:registry/ui/default_components/card.dart';
-import 'package:registry/ui/default_components/dp_item.dart';
-import 'package:registry/ui/default_components/dropdown.dart';
 import 'package:registry/ui/default_components/form.dart';
+import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/default_components/table.dart';
 import 'manager/manager.dart';
 import 'ui/layout/default_layout.dart';
@@ -197,7 +194,24 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   late final TableController tableController;
-
+  final list = [
+    ValueItem(
+      label: "label",
+      value: "label",
+      subtitle: "subtitle",
+    ),
+    ValueItem(
+      label: "label1",
+      value: "label1",
+      subtitle: "subtitle1",
+    ),
+    ValueItem(
+      label: "label2",
+      value: "label2",
+      icon: Icon(Icons.ac_unit),
+      // subtitle: "subtitle",
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
@@ -318,23 +332,58 @@ class _MyHomePageState extends State<MyHomePage> {
                   //           tableController.columns[1]);
                   //     },
                   //     child: const Text("toggle age column")),
+                  DefaultForm(
+                      vm: formModel,
+                      child: Column(
+                        children: [
+                          Theme(
+                            data: vm.theme,
+                            child: SelectDropdown<String>(
+                              decoration: DropdownDecoration(
+                                labelText: "Favorite Color",
+                                hintText: "Select your favorite color",
+                              ),
+                              options: DropdownOptions(
+                                options: list,
+                                // onOptionSelected: (selectedOptions) {},
+                              ),
+                              form: DropdownForm(
+                                name: "dp",
+                                validator: (p0) {
+                                  if (p0.length <= 2) {
+                                    return "Length must be greater than 2";
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ).spaced(12)),
 
+                  DefaultButton(
+                      variant: PrimaryButtonVariant(
+                    text: "Submit",
+                    onPressed: () {
+                      formModel.saveAndValidate();
+                      print(formModel.getValues());
+                    },
+                  ))
                   //   ------------------------------------------
 
-                  DefaultTable(
-                    vm: TableVm(
-                      decoration: TableDecoration(
-                        defaultRowHeight: 56,
-                        defaultColumnTitlePadding: const EdgeInsets.all(8),
-                      ),
-                      columns: columns,
-                      rows: rows,
-                      getTableController: (tableController) {
-                        this.tableController = tableController;
-                        setState(() {});
-                      },
-                    ),
-                  ),
+                  // DefaultTable(
+                  //   vm: TableVm(
+                  //     decoration: TableDecoration(
+                  //       defaultRowHeight: 56,
+                  //       defaultColumnTitlePadding: const EdgeInsets.all(8),
+                  //     ),
+                  //     columns: columns,
+                  //     rows: rows,
+                  //     getTableController: (tableController) {
+                  //       this.tableController = tableController;
+                  //       setState(() {});
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ).spaced(20)),
         );

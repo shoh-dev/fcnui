@@ -80,7 +80,7 @@ class DefaultInput extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4).r,
                 borderSide: BorderSide(
                         color: theme.colorScheme.primary,
-                        width: 2,
+                        width: 1,
                         strokeAlign: BorderSide.strokeAlignOutside)
                     .w),
             //Idle state border
@@ -109,7 +109,7 @@ class DefaultInput extends StatelessWidget {
               borderRadius: BorderRadius.circular(4).r,
               borderSide: const BorderSide(
                       color: Colors.red,
-                      width: 2,
+                      width: 1,
                       strokeAlign: BorderSide.strokeAlignOutside)
                   .w,
             ),

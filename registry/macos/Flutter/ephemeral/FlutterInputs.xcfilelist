@@ -1003,10 +1003,13 @@
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/form.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/input.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/label.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/pagination.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/radio.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/save_button.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/select.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/switch.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/table.dart
+/Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/theme.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/default_components/with_label.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/layout/default_layout.dart
 /Users/shoh/Documents/GitHub/shoh_personal_projects/flutter_cn_ui/registry/lib/ui/snackbar.dart

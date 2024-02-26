@@ -196,69 +196,6 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     super.dispose();
   }
 
-  InputDecorationTheme _getInputDecoration(ThemeData theme) {
-    return theme.inputDecorationTheme.copyWith(
-      contentPadding: const EdgeInsets.all(0),
-      //Border when tapped and focused
-      focusedBorder: !variant.decoration.hasBorder
-          ? InputBorder.none
-          : OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
-              borderSide: BorderSide(
-                      color: variant.decoration.foregroundColor ??
-                          theme.dividerColor,
-                      width: 1,
-                      strokeAlign: BorderSide.strokeAlignOutside)
-                  .w),
-      //Idle state border
-      enabledBorder: !variant.decoration.hasBorder
-          ? InputBorder.none
-          : OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
-              borderSide: BorderSide(
-                      color: variant.decoration.foregroundColor ??
-                          theme.dividerColor,
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-      errorBorder: !variant.decoration.hasBorder
-          ? InputBorder.none
-          : OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
-              borderSide: const BorderSide(
-                      color: Colors.red,
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-      disabledBorder: !variant.decoration.hasBorder
-          ? InputBorder.none
-          : OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
-              borderSide: BorderSide(
-                      color: theme.dividerColor,
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-      focusedErrorBorder: !variant.decoration.hasBorder
-          ? InputBorder.none
-          : OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
-              borderSide: const BorderSide(
-                      color: Colors.red,
-                      width: 1,
-                      strokeAlign: BorderSide.strokeAlignOutside)
-                  .w,
-            ),
-      focusColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      filled: true,
-      fillColor:
-          variant.decoration.backgroundColor ?? theme.colorScheme.surface,
-      errorMaxLines: 2,
-      helperMaxLines: 2,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isError = state?.hasError == true;
@@ -266,9 +203,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     return ThemeProvider(builder: (context, themeVm) {
       final ThemeData theme = themeVm.theme;
       return Theme(
-        data: theme.copyWith(
-          inputDecorationTheme: _getInputDecoration(theme),
-        ),
+        data: theme,
         child: DropdownButtonFormField2<DpItem>(
           items: _getItems(themeVm.theme),
           value: selectedItem,
