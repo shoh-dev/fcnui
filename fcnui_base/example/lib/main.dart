@@ -184,7 +184,7 @@ class _DecoratedCard extends StatelessWidget {
 }
 
 class _Search extends StatelessWidget {
-  const _Search({super.key});
+  const _Search();
 
   final _items = const [
     DropdownItem(items: [

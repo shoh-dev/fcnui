@@ -1,6 +1,6 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/ui/default_components/button.dart';
+import 'package:go_router/go_router.dart';
 import 'package:registry/ui/default_components/card.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/select.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -382,12 +382,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   //   form: const DropdownForm(name: "dp"),
                   // ),
 
+                  ElevatedButton(
+                      onPressed: () => context.go("/select"),
+                      child: const Text("Go to select page")),
+
                   DefaultTable(
                     vm: TableVm(
-                      decoration: TableDecoration(
+                      decoration: const TableDecoration(
                         wrapperDecoration: CardDecoration(),
                         defaultRowHeight: 56,
-                        defaultColumnTitlePadding: const EdgeInsets.all(8),
+                        defaultColumnTitlePadding: EdgeInsets.all(8),
                       ),
                       columns: columns,
                       rows: rows,

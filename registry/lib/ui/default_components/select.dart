@@ -86,7 +86,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
         height += 11;
       }
     }
-    return height;
+    return decoration.dropdownMenuMaxHeight ?? height;
   }
 
   @override
@@ -95,6 +95,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _initialize();
     });
+
     _focusNode = FocusNode();
     _controller = decoration.controller ?? SelectController<T>();
   }
@@ -124,10 +125,10 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
   @override
   void didUpdateWidget(covariant DefaultSelect<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_options != options) {
-      _options.clear();
-      _options.addAll(options);
-    }
+    // if (_options != options) {
+    //   _options.clear();
+    //   _options.addAll(options);
+    // }
   }
 
   void _initializeOverlay() {
@@ -175,12 +176,16 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     if ((_searchFocusNode == null || _searchFocusNode?.hasFocus == false) &&
         _overlayEntry != null) {
       _overlayEntry?.remove();
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      _controller.notifyListeners();
     }
 
     if (mounted) _updateSelection();
 
     _controller.value._isDropdownOpen =
         _focusNode.hasFocus || _searchFocusNode?.hasFocus == true;
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _controller.notifyListeners();
   }
 
   void _updateSelection() {
@@ -198,18 +203,15 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     var offset = renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
 
     final availableHeight = MediaQuery.of(context).size.height - offset.dy;
-
     if (decoration.customWidget != null) {
       return [
-        decoration.dropdownMenuMaxHeight ??
-            decoration.dropdownMenuSize ??
-            const Size.fromWidth(300),
+        decoration.dropdownMenuSize ?? const Size.fromWidth(300),
         availableHeight < dropdownHeight,
       ];
     }
 
     return [
-      decoration.dropdownMenuMaxHeight ?? decoration.dropdownMenuSize ?? size,
+      decoration.dropdownMenuSize ?? size,
       availableHeight < dropdownHeight,
     ];
   }
@@ -430,7 +432,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                 child: decoration.customWidget ??
                                     AnimatedContainer(
                                       duration:
-                                          const Duration(milliseconds: 150),
+                                          const Duration(milliseconds: 200),
                                       height:
                                           decoration.wrapType == WrapType.wrap
                                               ? null
@@ -499,12 +501,14 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
   Widget _buildSuffixIcon() {
     return AnimatedRotation(
       turns: _selectionMode ? 0.5 : 0,
-      duration: const Duration(milliseconds: 150),
-      child: Icon(
-        Icons.keyboard_arrow_down_outlined,
-        size: FcnuiDefaultSizes.iconSize,
-        color: FcnuiDefaultColor(context).greyColor,
-      ),
+      duration: const Duration(milliseconds: 200),
+      child: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Icon(
+              Icons.keyboard_arrow_down_outlined,
+              size: FcnuiDefaultSizes.iconSize,
+              color: FcnuiDefaultColor(context).greyColor,
+            ),
     );
   }
 
@@ -520,9 +524,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
               decoration.labelText!,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          if (isLoading)
-            const Center(child: LinearProgressIndicator())
-          else if (value != null)
+          if (value != null)
             Text(
               value,
               maxLines: 1,
@@ -555,7 +557,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     return BoxDecoration(
       color: decoration.isColorful
           ? theme.colorScheme.primary.withOpacity(.1)
-          : theme.dividerColor.withOpacity(.4),
+          : FcnuiDefaultColor(context).borderColor,
       borderRadius: BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
       border: Border.all(
               strokeAlign: BorderSide.strokeAlignOutside,
@@ -571,23 +573,16 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
 
   /// Build the selected items for the dropdown.
   Widget _buildSelectedItems() {
-    if (decoration.wrapType == WrapType.scroll) {
-      return Expanded(
-        child: ListView.separated(
-          separatorBuilder: (context, index) => _getTextSeparator(),
-          scrollDirection: Axis.horizontal,
-          itemCount: _selectedOptions.length,
-          itemBuilder: (context, index) {
-            final option = _selectedOptions[index];
-            return Center(
-              child: _buildSelectedItem(
-                option,
-                !_disabledOptions.contains(_selectedOptions[index]),
-                index == _selectedOptions.length - 1,
-              ),
-            );
-          },
-        ),
+    if (decoration.wrapType == WrapType.ellipsis) {
+      final List<String> texts = [];
+      for (final item in _selectedOptions) {
+        texts.add(item.label);
+      }
+      return Text(
+        texts.join(", "),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.bodyMedium,
       );
     }
     return Wrap(
@@ -599,11 +594,6 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
               !_disabledOptions.contains(_selectedOptions[index]),
               index == _selectedOptions.length - 1);
         }).toList());
-  }
-
-  /// Get the chip separator.
-  Widget _getTextSeparator() {
-    return const SizedBox(width: FcnuiDefaultSizes.itemSpacing).w;
   }
 
   /// Build the selected item chip.
@@ -620,7 +610,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
   Widget? _getSelectedIcon(bool isSelected, ThemeData theme) {
     return AnimatedOpacity(
       opacity: isSelected ? 1 : 0,
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 200),
       child: Icon(
         Icons.check,
         color: decoration.isColorful
@@ -670,19 +660,23 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                   showOnTop ? Alignment.bottomLeft : Alignment.topLeft,
               offset: Offset(0, showOnTop ? -5 : 5).w,
               child: Material(
+                  elevation: 1,
                   color: theme.colorScheme.surface,
-                  elevation: 4,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(FcnuiDefaultSizes.borderRadius.r),
                     ),
-                    side: const BorderSide(color: Colors.transparent, width: 0),
+                    side: BorderSide(
+                        strokeAlign: BorderSide.strokeAlignInside,
+                        color: FcnuiDefaultColor(context).borderColor,
+                        width: FcnuiDefaultSizes.borderWidth),
                   ),
-                  shadowColor: Colors.black54,
+                  shadowColor: Colors.black12,
                   child: Container(
                     decoration: BoxDecoration(
                       color: theme.dividerColor.withOpacity(.2),
+                      borderRadius: BorderRadius.circular(
+                          FcnuiDefaultSizes.borderRadius.r),
                     ),
                     constraints: decoration.searchEnabled
                         ? BoxConstraints.loose(
@@ -697,14 +691,44 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                         : Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (decoration.searchEnabled)
-                                ..._buildSearchField(
-                                    theme, dropdownState, options),
-                              if (_options.isEmpty)
+                              if (decoration.searchEnabled) ...[
+                                ColoredBox(
+                                  color: theme.dividerColor.withOpacity(.1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0).w,
+                                    child: DefaultInput(
+                                      vm: InputModel(
+                                        name: "search",
+                                        focusNode: _searchFocusNode,
+                                        onChanged: (value) {
+                                          if (value == null) return;
+                                          dropdownState(() {
+                                            options = _options.where((element) {
+                                              final label =
+                                                  element.label.toLowerCase();
+                                              final search =
+                                                  value.toLowerCase();
+                                              final subtitle = element.subtitle
+                                                      ?.toLowerCase() ??
+                                                  "";
+                                              return label.contains(search) ||
+                                                  subtitle.contains(search);
+                                            }).toList();
+                                          });
+                                        },
+                                        hintText:
+                                            decoration.hintText ?? "Search",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Divider(height: 1.h),
+                              ],
+                              if (_options.isEmpty || options.isEmpty)
                                 Expanded(
                                   child: Center(
                                     child: Text(
-                                      "No options available",
+                                      "Not found",
                                       style: theme.textTheme.bodyMedium,
                                     ),
                                   ),
@@ -752,14 +776,24 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                             });
                                           }
                                         } else {
-                                          dropdownState(() {
-                                            selectedOptions.clear();
-                                            selectedOptions.add(option);
-                                          });
-                                          setState(() {
-                                            _selectedOptions.clear();
-                                            _selectedOptions.add(option);
-                                          });
+                                          if (isSelected) {
+                                            dropdownState(() {
+                                              selectedOptions.clear();
+                                              selectedOptions.add(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.clear();
+                                            });
+                                          } else {
+                                            dropdownState(() {
+                                              selectedOptions.clear();
+                                              selectedOptions.add(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.clear();
+                                              _selectedOptions.add(option);
+                                            });
+                                          }
                                           _focusNode.unfocus();
                                         }
 
@@ -806,37 +840,6 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     });
   }
 
-  List<Widget> _buildSearchField(
-      ThemeData theme, StateSetter dropdownState, List<ValueItem<T>> options) {
-    return [
-      ColoredBox(
-        color: theme.colorScheme.surface,
-        child: Padding(
-          padding: const EdgeInsets.all(4.0).w,
-          child: DefaultInput(
-            vm: InputModel(
-              name: "search",
-              focusNode: _searchFocusNode,
-              onChanged: (value) {
-                if (value == null) return;
-                dropdownState(() {
-                  options = _options.where((element) {
-                    final label = element.label.toLowerCase();
-                    final search = value.toLowerCase();
-                    final subtitle = element.subtitle?.toLowerCase() ?? "";
-                    return label.contains(search) || subtitle.contains(search);
-                  }).toList();
-                });
-              },
-              hintText: decoration.hintText ?? "Search",
-            ),
-          ),
-        ),
-      ),
-      Divider(height: 1.h),
-    ];
-  }
-
   Widget _buildOption(
       {required ValueItem<T> option,
       required Color primaryColor,
@@ -861,6 +864,19 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
         enabled = false;
       }
     }
+
+    if (dpOptions.optionItemBuilder != null) {
+      return DefaultDisabled(
+          vm: DisabledVm(
+        disabled: !enabled,
+        child: InkWell(
+          onTap: onTap,
+          splashFactory: NoSplash.splashFactory,
+          child: dpOptions.optionItemBuilder!(context, option, isSelected),
+        ),
+      ));
+    }
+
     return ListTile(
       key: ValueKey(option.value),
       splashColor: Colors.transparent,
@@ -892,58 +908,6 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     );
   }
 
-  /// Builds overlay entry for showing error when fetching data from network fails.
-  OverlayEntry _buildNetworkErrorOverlayEntry() {
-    final values = _calculateOffsetSize();
-    final size = values[0] as Size;
-    final showOnTop = values[1] as bool;
-
-    // final offsetY = showOnTop ? -(size.height + 5) : size.height + 5;
-
-    return OverlayEntry(builder: (context) {
-      return StatefulBuilder(builder: ((context, dropdownState) {
-        return Stack(
-          children: [
-            Positioned.fill(
-                child: GestureDetector(
-              onTap: _onOutSideTap,
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                color: Colors.transparent,
-              ),
-            )),
-            CompositedTransformFollower(
-                link: _layerLink,
-                targetAnchor:
-                    showOnTop ? Alignment.topLeft : Alignment.bottomLeft,
-                followerAnchor:
-                    showOnTop ? Alignment.bottomLeft : Alignment.topLeft,
-                offset: const Offset(0, 5),
-                child: Material(
-                    elevation: 4,
-                    child: Container(
-                        width: size.width,
-                        constraints: BoxConstraints.loose(
-                            Size(size.width, dropdownHeight)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            networkConfig!.responseErrorBuilder != null
-                                ? networkConfig!.responseErrorBuilder!(
-                                    context, _reponseBody)
-                                : Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                        'Error fetching data: $_reponseBody'),
-                                  ),
-                          ],
-                        ))))
-          ],
-        );
-      }));
-    });
-  }
-
   // get the container padding.
   EdgeInsetsGeometry _getContainerPadding() {
     if (decoration.selectionType == SelectionType.single) {
@@ -971,7 +935,7 @@ enum SelectionType {
 /// WrapType enum for the wrap type of the selected items.
 /// * [WrapType.scroll]: scroll the selected items horizontally
 /// * [WrapType.wrap]: wrap the selected items in both directions
-enum WrapType { scroll, wrap }
+enum WrapType { ellipsis, wrap }
 
 /// [RequestMethod]
 /// RequestMethod enum for the request method of the dropdown items.
@@ -1146,7 +1110,7 @@ class SelectDecoration<T> extends Equatable {
     this.dropdownMenuMaxHeight,
     this.customWidget,
     this.optionBuilder,
-    this.wrapType = WrapType.scroll,
+    this.wrapType = WrapType.ellipsis,
     this.disabled = false,
     this.labelText,
     this.isColorful = false,
@@ -1205,6 +1169,9 @@ class SelectOptions<T> extends Equatable {
   /// Maximum number of items that can be selected
   final int? maxItems;
 
+  final Widget Function(BuildContext context, ValueItem<T>, bool isSelected)?
+      optionItemBuilder;
+
   const SelectOptions({
     this.options = const [],
     this.selectedOptions = const [],
@@ -1212,6 +1179,7 @@ class SelectOptions<T> extends Equatable {
     this.onOptionSelected,
     this.onOptionRemoved,
     this.maxItems,
+    this.optionItemBuilder,
   });
 
   @override
@@ -1370,17 +1338,17 @@ class SelectController<T> extends ValueNotifier<_SelectController<T>> {
   /// get is dropdown open
   bool get isDropdownOpen => value._isDropdownOpen;
 
-  /// show dropdown
-  /// [SelectController] is used to show dropdown.
-  void showDropdown() {
+  /// open dropdown
+  /// [SelectController] is used to open dropdown.
+  void openDropdown() {
     if (value._isDropdownOpen) return;
     value._isDropdownOpen = true;
     notifyListeners();
   }
 
-  /// hide dropdown
-  /// [SelectController] is used to hide dropdown.
-  void hideDropdown() {
+  /// close dropdown
+  /// [SelectController] is used to close dropdown.
+  void closeDropdown() {
     if (!value._isDropdownOpen) return;
     value._isDropdownOpen = false;
     notifyListeners();

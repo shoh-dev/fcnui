@@ -6,3 +6,4 @@ export 'checkbox_page.dart';
 export 'dropdown_page.dart';
 export 'switch_page.dart';
 export 'radio_page.dart';
+export 'select_page.dart';

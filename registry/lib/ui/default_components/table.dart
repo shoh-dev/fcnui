@@ -77,7 +77,7 @@ class TableController extends Equatable {
   DefaultColumn getColumnOfCell(DefaultCell cell) {
     try {
       return columns.firstWhere((element) => element.key == cell.key);
-    } catch (e, st) {
+    } catch (e) {
       throw Exception('Column not found');
     }
   }
@@ -274,20 +274,18 @@ class TableVm extends Equatable {
   final TableLocaleText localeText;
   final bool selectWithOneTap;
 
-  TableDecoration? decoration;
+  final TableDecoration decoration;
 
   TableVm({
     required this.columns,
     this.rows = const [],
     this.localeText = const TableLocaleText(),
     required this.getTableController,
-    this.decoration,
+    this.decoration = const TableDecoration(),
     this.selectWithOneTap = true,
   })  : assert(columns.isNotEmpty, 'Columns cannot be empty'),
         assert(columns.map((e) => e.key).toSet().length == columns.length,
-            'Column keys must be unique') {
-    decoration ??= TableDecoration();
-  }
+            'Column keys must be unique');
 
   @override
   List<Object?> get props =>
@@ -310,7 +308,7 @@ class TableLocaleText extends Equatable {
 @immutable
 class TableDecoration extends Equatable {
   final bool enableWrapper;
-  CardDecoration? wrapperDecoration;
+  final CardDecoration wrapperDecoration;
   final bool isVerticalBorderVisible;
   final bool isHorizontalBorderVisible;
   final Color? checkedRowColor;
@@ -334,8 +332,11 @@ class TableDecoration extends Equatable {
   final bool enableHeader;
   final bool enableFooter;
 
-  TableDecoration({
-    this.wrapperDecoration,
+  const TableDecoration({
+    this.wrapperDecoration = const CardDecoration(
+      padding: EdgeInsets.all(0),
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+    ),
     this.isVerticalBorderVisible = false,
     this.isHorizontalBorderVisible = true,
     this.checkedRowColor,
@@ -355,12 +356,7 @@ class TableDecoration extends Equatable {
     this.enableHeader = true,
     this.enableFooter = true,
     this.enableWrapper = true,
-  }) {
-    wrapperDecoration ??= const CardDecoration(
-      padding: EdgeInsets.all(0),
-      borderRadius: BorderRadius.all(Radius.circular(16)),
-    );
-  }
+  });
 
   @override
   List<Object?> get props => [
@@ -398,7 +394,7 @@ class DefaultTable extends StatefulWidget {
 class _DefaultTableState extends State<DefaultTable> {
   TableVm get vm => widget.vm;
 
-  TableDecoration get decoration => vm.decoration!;
+  TableDecoration get decoration => vm.decoration;
 
   late final PlutoGridStateManager stateManager;
 
@@ -424,7 +420,7 @@ class _DefaultTableState extends State<DefaultTable> {
           decoration.gridBorderColor ?? Colors.grey.withOpacity(.1);
       if (isDarkMode) {
         return PlutoGridStyleConfig.dark(
-          gridBorderRadius: decoration.wrapperDecoration!.borderRadius,
+          gridBorderRadius: decoration.wrapperDecoration.borderRadius,
           gridBorderColor: borderColor,
           borderColor: borderColor,
           inactivatedBorderColor: borderColor,
@@ -461,7 +457,7 @@ class _DefaultTableState extends State<DefaultTable> {
         );
       }
       return PlutoGridStyleConfig(
-        gridBorderRadius: decoration.wrapperDecoration!.borderRadius,
+        gridBorderRadius: decoration.wrapperDecoration.borderRadius,
         gridBorderColor: borderColor,
         borderColor: borderColor,
         inactivatedBorderColor: borderColor,
@@ -563,9 +559,9 @@ class _DefaultTableState extends State<DefaultTable> {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(builder: (context, themeVm) {
-      if (vm.decoration!.enableWrapper) {
+      if (vm.decoration.enableWrapper) {
         return DefaultCard(
-          decoration: vm.decoration!.wrapperDecoration!,
+          decoration: vm.decoration.wrapperDecoration,
           custom: CardCustom(widget: getTable(themeVm)),
         );
       } else {
