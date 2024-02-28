@@ -1,14 +1,9 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:registry/ui/default_components/select.dart';
 
-import 'checkbox.dart';
-import 'dp_item.dart';
-import 'dropdown.dart';
+import 'select.dart';
 import 'pagination.dart';
-import 'with_label.dart';
-import 'button.dart';
 import 'card.dart';
 import 'input.dart';
 
@@ -533,7 +528,6 @@ class _DefaultTableState extends State<DefaultTable> {
 
   Widget getTable(ThemeVm themeVm) {
     final theme = themeVm.theme;
-    final isDarkMode = themeVm.themeMode == ThemeMode.dark;
     return SizedBox(
       width: double.infinity,
       height: 700,
@@ -659,7 +653,7 @@ class _DefaultTableState extends State<DefaultTable> {
 class _Header extends StatefulWidget {
   final PlutoGridStateManager stateManager;
 
-  const _Header({super.key, required this.stateManager});
+  const _Header({required this.stateManager});
 
   @override
   State<_Header> createState() => _HeaderState();
@@ -722,9 +716,9 @@ class _HeaderState extends State<_Header> {
           popupMenuTheme: getPopupMenuTheme(theme),
         ),
         child: SizedBox(
-          height: 68,
+          height: 70,
           child: Padding(
-            padding: const EdgeInsets.all(8).w,
+            padding: const EdgeInsets.all(10).w,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -754,7 +748,7 @@ class _HeaderState extends State<_Header> {
                 ).w,
 
                 SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.15,
+                  width: MediaQuery.sizeOf(context).width * 0.3,
                   child: DefaultSelect<PlutoColumn>(
                     form: const SelectForm(name: "columns"),
                     decoration: SelectDecoration(
@@ -799,54 +793,6 @@ class _HeaderState extends State<_Header> {
                     ),
                   ),
                 )
-
-                // PopupMenuButton(
-                //   tooltip: "",
-                //   offset: const Offset(0, 4).w,
-                //   onSelected: (value) {
-                //     stateManager.hideColumn(value, !value.hide);
-                //   },
-                //   padding: EdgeInsets.zero,
-                //   itemBuilder: (context) {
-                //     return [
-                //       for (var col in columns)
-                //         PopupMenuItem(
-                //           value: col,
-                //           height: 40,
-                //           child: DefaultCheckbox(
-                //               vm: CheckboxModel(
-                //                   onChanged: (value) {
-                //                     if (value != null) {
-                //                       if (value.isNotEmpty) {
-                //                         stateManager.hideColumn(col, false);
-                //                       } else {
-                //                         stateManager.hideColumn(col, true);
-                //                       }
-                //                     }
-                //                   },
-                //                   name: "${col.field}_hide",
-                //                   initialValues: [
-                //                 if (!col.hide) col.field
-                //               ],
-                //                   items: [
-                //                 DpItem(id: col.field, title: col.title)
-                //               ])),
-                //         ),
-                //     ];
-                //   },
-                //   child: AbsorbPointer(
-                //     child: DefaultButton(
-                //         variant: OutlineButtonVariant(
-                //       text: "Columns",
-                //       minimumSize: const Size(100, double.maxFinite),
-                //       icon: Icons.arrow_drop_down,
-                //       backgroundColor: theme.colorScheme.surface,
-                //       onPressed: () {
-                //         //do nothing, just to show the enabled button
-                //       },
-                //     )),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -858,11 +804,8 @@ class _HeaderState extends State<_Header> {
 
 class _Footer extends StatefulWidget {
   final PlutoGridStateManager stateManager;
-  final void Function(int page, int pageSize)? fetch;
   const _Footer({
-    super.key,
     required this.stateManager,
-    this.fetch,
   });
 
   @override
@@ -897,9 +840,6 @@ class __Footer extends State<_Footer> {
     });
     stateManager.setPageSize(size);
     stateManager.setPage(1);
-    if (widget.fetch != null) {
-      widget.fetch!(1, size);
-    }
   }
 
   void changePageNumber(int number) {
@@ -907,18 +847,15 @@ class __Footer extends State<_Footer> {
       pageNumber = number;
     });
     stateManager.setPage(number);
-    if (widget.fetch != null) {
-      widget.fetch!(number, pageSize);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     //"Total ${(stateManager.rows.length * stateManager.totalPage).toString()} rows"),
     return SizedBox(
-      height: 90.h,
+      height: 70.h,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0).w,
+        padding: const EdgeInsets.all(10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -961,152 +898,3 @@ class __Footer extends State<_Footer> {
     );
   }
 }
-
-// mixin TableFocusNodeMixin<T extends StatefulWidget, MD, MD1> on State<T> {
-//   bool enableLoading = true;
-//
-//   late final FocusNode focusNode;
-//   late final FocusNode focusNode1;
-//
-//   PlutoGridStateManager? stateManager;
-//   PlutoGridStateManager? stateManager1;
-//
-//   List<PlutoColumn> columns = [];
-//   List<PlutoColumn> columns1 = [];
-//
-//   List<PlutoRow> get rows => stateManager == null ? [] : stateManager!.rows;
-//
-//   void updateUI() {
-//     if (mounted) {
-//       setState(() {});
-//     }
-//   }
-//
-//   @override
-//   void initState() {
-//     focusNode = FocusNode(onKey: (node, event) {
-//       if (event is RawKeyUpEvent) {
-//         return KeyEventResult.handled;
-//       }
-//
-//       return stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
-//     });
-//     super.initState();
-//   }
-//
-//   @override
-//   void dispose() {
-//     stateManager?.gridFocusNode.removeListener(handleFocus);
-//     stateManager1?.gridFocusNode.removeListener(handleFocus1);
-//     super.dispose();
-//   }
-//
-//   PlutoGridStateManager setRows(PlutoGridStateManager sm, List<PlutoRow> rs) {
-//     sm.removeAllRows();
-//     sm.appendRows(rs);
-//     final sortedColumn = sm.getSortedColumn;
-//     if (sortedColumn != null) {
-//       if (sortedColumn.sort.isAscending) {
-//         sm.sortAscending(sortedColumn);
-//       } else if (sortedColumn.sort.isDescending) {
-//         sm.sortDescending(sortedColumn);
-//       }
-//     }
-//
-//     final filterrows = stateManager?.filterRows ?? [];
-//     if (stateManager?.hasFilter == true) {
-//       stateManager?.setFilterWithFilterRows(filterrows);
-//     }
-//     return sm;
-//   }
-//
-//   void onDidChange(List<MD>? prev, List<MD> current) {
-//     final oldItems = prev;
-//     final newItems = current;
-//     if (oldItems != newItems) {
-//       setRows(stateManager!, newItems.map((e) => buildRow(e)).toList());
-//     }
-//   }
-//
-//   void handleFocus() {
-//     stateManager?.setKeepFocus(!focusNode.hasFocus);
-//   }
-//
-//   void handleFocus1() {
-//     stateManager1?.setKeepFocus(!focusNode1.hasFocus);
-//   }
-//
-//   // Future<A> loading<A>(Future<A> Function() callback) async {
-//   //   if (GlobalConstants.enableLoadingIndicator && enableLoading) {
-//   //     stateManager!.setShowLoading(true);
-//   //   }
-//   //   final res = await callback();
-//   //
-//   //   if (GlobalConstants.enableLoadingIndicator && enableLoading) {
-//   //     stateManager!.setShowLoading(false);
-//   //   }
-//   //   return res;
-//   // }
-//
-//   PlutoRow buildRow(MD model) {
-//     throw UnimplementedError("Please override buildRow method");
-//   }
-//
-//   void onLoaded(PlutoGridOnLoadedEvent event) async {
-//     // stateManager = event.stateManager;
-//     // // stateManager!.setPageSize(GlobalConstants.pageSizes.first);
-//     // stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
-//     // final list = await loading<List<MD>?>(() async => await fetch());
-//     // // stateManager!.gridFocusNode.addListener(handleFocus);
-//     // if (list != null) {
-//     //   setRows(stateManager!, list.map((e) => buildRow(e)).toList());
-//     // }
-//   }
-//
-//   Future<List<MD>?> fetch() {
-//     return Future.value(null);
-//   }
-//
-// //
-// // Future<void> onDelete(Future<bool> Function() callback,
-// //     {bool showError = true}) async {
-// //   try {
-// //     context.futureLoading(() async {
-// //       final success = await callback();
-// //       if (success) {
-// //         final l = await fetch();
-// //         setRows(stateManager!, l!.map((e) => buildRow(e)).toList());
-// //         context.showSuccess("Deleted successfully!");
-// //       } else {
-// //         if (showError) context.showError("Cannot delete!");
-// //       }
-// //     });
-// //   } catch (e) {
-// //     if (showError) context.showError(e.toString());
-// //   }
-// // }
-// //
-// // Future<void> onEdit(Widget Function(MD?) child, MD? model,
-// //     {bool showSuccess = true}) async {
-// //   if (stateManager!.hasFocus) {
-// //     stateManager?.gridFocusNode.removeListener(handleFocus);
-// //   }
-// //   final res = await DependencyManager.instance.navigation.showCustomDialog(
-// //       context: context,
-// //       builder: (context) {
-// //         return child(model);
-// //       });
-// //
-// //   if (res != null && res == true) {
-// //     final l = await loading<List<MD>?>(() async => await fetch());
-// //     setRows(stateManager!, l!.map((e) => buildRow(e)).toList());
-// //     if (showSuccess) {
-// //       context.showSuccess("");
-// //       // context.showSuccess(
-// //       //     "${model == null ? "Created" : "Updated"} successfully!");
-// //     }
-// //   }
-// // }
-// //
-// //
-// }

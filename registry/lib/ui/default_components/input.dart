@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+import 'package:registry/ui/default_components/theme.dart';
 import 'form.dart';
 import 'disabled.dart';
 
@@ -77,39 +78,47 @@ class DefaultInput extends StatelessWidget {
             hoverColor: Colors.transparent,
             //Border when tapped and focused
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4).r,
+                borderRadius:
+                    BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
                 borderSide: BorderSide(
                         color: theme.colorScheme.primary,
-                        width: 1,
+                        width: FcnuiDefaultSizes.selectedBorderWidth,
                         strokeAlign: BorderSide.strokeAlignOutside)
                     .w),
             //Idle state border
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: BorderSide(
                       color: theme.dividerColor,
+                      width: FcnuiDefaultSizes.borderWidth,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: const BorderSide(
                       color: Colors.red,
+                      width: FcnuiDefaultSizes.borderWidth,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: BorderSide(
+                      width: FcnuiDefaultSizes.borderWidth,
                       color: theme.dividerColor.withOpacity(0.6),
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: const BorderSide(
                       color: Colors.red,
-                      width: 1,
+                      width: FcnuiDefaultSizes.selectedBorderWidth,
                       strokeAlign: BorderSide.strokeAlignOutside)
                   .w,
             ),

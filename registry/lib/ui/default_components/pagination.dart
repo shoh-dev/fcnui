@@ -1,5 +1,6 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+import 'package:registry/ui/default_components/theme.dart';
 
 import 'button.dart';
 
@@ -29,10 +30,10 @@ class DefaultPagination extends StatelessWidget {
     // If list of numbers are less than 8, then show all numbers;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8).w,
       decoration: BoxDecoration(
-        color: Theme.of(context).dividerColor.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(12.0),
+        color: FcnuiDefaultColor(context).borderColor,
+        borderRadius: BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -202,6 +203,7 @@ class DefaultPagination extends StatelessWidget {
   Widget _isSelectedBtn() {
     return DefaultButton(
       variant: PrimaryButtonVariant(
+        minimumSize: const Size(50, 50),
         text: currentPage.toString(),
         onPressed: () {},
       ),
@@ -211,6 +213,7 @@ class DefaultPagination extends StatelessWidget {
   Widget _isUnSelectedBtn(int i) {
     return DefaultButton(
       variant: GhostButtonVariant(
+        minimumSize: const Size(50, 50),
         text: i.toString(),
         onPressed: () => _onNumberTap(i),
       ),

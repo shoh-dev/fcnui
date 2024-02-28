@@ -203,7 +203,21 @@ class DefaultButton extends StatelessWidget {
         child: _getButtonWidgetType(vm.theme));
   }
 
+  ButtonStyle _getIconButtonStyle(ThemeData theme) {
+    return IconButton.styleFrom(
+      padding: _getPadding(theme),
+      minimumSize: variant.minimumSize?.w,
+      disabledMouseCursor: SystemMouseCursors.forbidden,
+      splashFactory: NoSplash.splashFactory,
+      backgroundColor: _getBackgroundColor(theme),
+      foregroundColor: _getForegroundColor(theme),
+    );
+  }
+
   ButtonStyle _getButtonStyle(ThemeData theme) {
+    if (variant is IconButtonVariant) {
+      return _getIconButtonStyle(theme);
+    }
     return ElevatedButton.styleFrom(
       disabledBackgroundColor: _getBackgroundColor(theme)?.withOpacity(0.5),
       disabledForegroundColor: _getForegroundColor(theme)?.withOpacity(0.5),

@@ -158,21 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ValueItem(label: "Delete", value: "delete"),
               ]),
         );
-        return PopupMenuButton(
-          tooltip: "",
-          offset: const Offset(0, 40).w,
-          itemBuilder: (context) {
-            //View
-            //Edit
-            //Delete
-            return const [
-              PopupMenuItem(value: "view", child: Text("View")),
-              PopupMenuItem(value: "edit", child: Text("Edit")),
-              PopupMenuItem(value: "delete", child: Text("Delete")),
-            ];
-          },
-          child: const Icon(Icons.more_vert_rounded, color: Colors.grey),
-        );
       },
     ),
   ];

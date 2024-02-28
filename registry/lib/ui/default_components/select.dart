@@ -422,7 +422,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                               InkWell(
                                 splashFactory: NoSplash.splashFactory,
                                 overlayColor: MaterialStatePropertyAll(
-                                    themeVm.theme.dividerColor.withOpacity(.5)),
+                                    FcnuiDefaultColor(context).borderColor),
                                 radius: FcnuiDefaultSizes.borderRadius,
                                 borderRadius: BorderRadius.circular(
                                     FcnuiDefaultSizes.borderRadius),
@@ -434,11 +434,11 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                       height:
                                           decoration.wrapType == WrapType.wrap
                                               ? null
-                                              : 52.h,
+                                              : decoration.height?.h ?? 50.h,
                                       constraints: BoxConstraints(
                                         minWidth:
                                             MediaQuery.of(context).size.width,
-                                        minHeight: 52.h,
+                                        minHeight: decoration.height?.h ?? 50.h,
                                       ),
                                       padding: _getContainerPadding(),
                                       decoration: _getContainerDecoration(
@@ -1131,10 +1131,13 @@ class SelectDecoration<T> extends Equatable {
 
   final bool isColorful;
 
+  final double? height;
+
   const SelectDecoration({
     this.hintText,
     this.selectionType = SelectionType.single,
     this.dropdownHeight,
+    this.height,
     this.showClearIcon = false,
     this.showSelectedValuesContent = true,
     this.controller,
@@ -1165,6 +1168,7 @@ class SelectDecoration<T> extends Equatable {
         showSelectedValuesContent,
         showClearIcon,
         isColorful,
+        height,
       ];
 }
 
