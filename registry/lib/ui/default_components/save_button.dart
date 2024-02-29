@@ -23,29 +23,40 @@ class SaveButton extends StatelessWidget {
           valueListenable: vm.isValidFormNotifier,
           builder: (context, value, child) {
             return DefaultButton(
-              variant: PrimaryButtonVariant(
-                text: text,
-                onPressed: value
-                    ? () {
-                        vm.formKey.currentState?.saveAndValidate();
-                        onSave?.call(vm.formKey.currentState?.value
-                            as Map<String, dynamic>);
-                      }
-                    : null,
-              ),
+              decorationBuilder: (context, type) {
+                return ButtonDecoration(context,
+                    type: type,
+                    child: ButtonChild(context, text: text),
+                    action: ButtonAction(
+                      context,
+                      onPressed: value
+                          ? () {
+                              vm.formKey.currentState?.saveAndValidate();
+                              onSave?.call(vm.formKey.currentState?.value
+                                  as Map<String, dynamic>);
+                            }
+                          : null,
+                    ));
+              },
             );
           });
     } else {
       return DefaultButton(
-        variant: PrimaryButtonVariant(
-            text: text,
-            onPressed: onSave == null
-                ? null
-                : () {
-                    vm.formKey.currentState?.saveAndValidate();
-                    onSave!(
-                        vm.formKey.currentState?.value as Map<String, dynamic>);
-                  }),
+        decorationBuilder: (context, type) {
+          return ButtonDecoration(context,
+              type: type,
+              child: ButtonChild(context, text: text),
+              action: ButtonAction(
+                context,
+                onPressed: onSave == null
+                    ? null
+                    : () {
+                        vm.formKey.currentState?.saveAndValidate();
+                        onSave?.call(vm.formKey.currentState?.value
+                            as Map<String, dynamic>);
+                      },
+              ));
+        },
       );
     }
   }

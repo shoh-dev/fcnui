@@ -204,21 +204,31 @@ class DefaultPagination extends StatelessWidget {
 
   Widget _isSelectedBtn() {
     return DefaultButton(
-      variant: PrimaryButtonVariant(
-        minimumSize: const Size(50, 50),
-        text: currentPage.toString(),
-        onPressed: () {},
-      ),
+      type: ButtonType.primary,
+      decorationBuilder: (context, type) {
+        return ButtonDecoration(
+          context,
+          type: type,
+          size: ButtonSize(context, type, minimumSize: const Size(50, 50)),
+          child: ButtonChild(context, text: currentPage.toString()),
+          action: ButtonAction(context, onPressed: () {}),
+        );
+      },
     );
   }
 
   Widget _isUnSelectedBtn(int i) {
     return DefaultButton(
-      variant: GhostButtonVariant(
-        minimumSize: const Size(50, 50),
-        text: i.toString(),
-        onPressed: () => _onNumberTap(i),
-      ),
+      type: ButtonType.ghost,
+      decorationBuilder: (context, type) {
+        return ButtonDecoration(
+          context,
+          type: type,
+          size: ButtonSize(context, type, minimumSize: const Size(50, 50)),
+          child: ButtonChild(context, text: i.toString()),
+          action: ButtonAction(context, onPressed: () => _onNumberTap(i)),
+        );
+      },
     );
   }
 
@@ -258,19 +268,29 @@ class _PreviousNextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isNext) {
       return DefaultButton(
-        variant: IconButtonVariant(
-          iconSize: 12,
-          icon: Icons.arrow_forward_ios,
-          onPressed: onTap,
-        ),
+        type: ButtonType.icon,
+        decorationBuilder: (context, type) {
+          return ButtonDecoration(
+            context,
+            type: type,
+            size: ButtonSize(context, type, minimumSize: const Size(50, 50)),
+            child: ButtonChild(context, icon: Icons.arrow_forward_ios),
+            action: ButtonAction(context, onPressed: onTap),
+          );
+        },
       );
     }
     return DefaultButton(
-      variant: IconButtonVariant(
-        iconSize: 12,
-        icon: Icons.arrow_back_ios,
-        onPressed: onTap,
-      ),
+      type: ButtonType.icon,
+      decorationBuilder: (context, type) {
+        return ButtonDecoration(
+          context,
+          type: type,
+          size: ButtonSize(context, type, minimumSize: const Size(50, 50)),
+          child: ButtonChild(context, icon: Icons.arrow_back_ios),
+          action: ButtonAction(context, onPressed: onTap),
+        );
+      },
     );
   }
 }

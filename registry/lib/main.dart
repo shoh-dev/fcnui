@@ -6,6 +6,7 @@ import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/default_components/table.dart';
 import 'manager/manager.dart';
+import 'ui/default_components/theme.dart';
 import 'ui/layout/default_layout.dart';
 
 void main() async {
@@ -199,6 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const DefaultAppBar(),
+      body: TextButton(
+        onPressed: () => context.go("/button"),
+        child: const Text("Go to button page"),
+      ),
+    );
     return ThemeProvider(
       builder: (context, vm) {
         return Scaffold(

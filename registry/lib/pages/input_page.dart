@@ -20,7 +20,7 @@ class InputPage extends PageImpl {
   });
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     if (isDisabled) {
       return const _Disabled();
     }

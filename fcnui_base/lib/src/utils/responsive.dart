@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 //todo: add responsive
 
-bool get _enabled =>
-    fcnGetIt.get<Store<AppState>>().state.utilityState.isScreenUtilEnabled;
+bool get _enabled => fcnStore.state.utilityState.isScreenUtilEnabled;
 
 extension ResponsiveDouble on num {
   double get w => (_enabled ? this : this).toDouble();

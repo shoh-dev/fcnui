@@ -2,349 +2,398 @@
 
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+import 'package:registry/ui/default_components/theme.dart';
 
-/// [ButtonVariant] is the base class for all button variants
-///
-/// Can use these variants:
-/// - [PrimaryButtonVariant]
-/// - [SecondaryButtonVariant]
-/// - [TertiaryButtonVariant]
-/// - [ErrorButtonVariant]
-/// - [OutlineButtonVariant]
-/// - [GhostButtonVariant]
-abstract class ButtonVariant extends Equatable {
+class ButtonDecoration extends DecorationImpl {
+  final ButtonType type;
+
+  ButtonDecoration(
+    super.context, {
+    required this.type,
+    ButtonColor? colorTheme,
+    ButtonChild? child,
+    ButtonAction? action,
+    ButtonState? state,
+    ButtonSize? size,
+    ButtonBorder? border,
+  }) : super(colorTheme: colorTheme) {
+    super.colorTheme = colorTheme ??= ButtonColor(context, type: type);
+    super.childTheme = child ?? ButtonChild(context);
+    super.actionThemeState = action ?? ButtonAction(context);
+    super.stateTheme = state ?? ButtonState(context);
+    super.sizeTheme = size ?? ButtonSize(context, type);
+    super.borderTheme = border ?? ButtonBorder(context, type);
+
+    assert(
+        sizeTheme.iconSize >= 0, "iconSize must be greater than or equal to 0");
+    assert(
+        childTheme.text != null ||
+            childTheme.child != null ||
+            childTheme.icon != null,
+        "text, child, or icon must be provided");
+  }
+
+  @override
+  ButtonColor get colorTheme => super.colorTheme as ButtonColor;
+
+  @override
+  ButtonChild get childTheme => super.childTheme as ButtonChild;
+
+  @override
+  ButtonAction get actionThemeState => super.actionThemeState as ButtonAction;
+
+  @override
+  ButtonState get stateTheme => super.stateTheme as ButtonState;
+
+  @override
+  ButtonSize get sizeTheme => super.sizeTheme as ButtonSize;
+
+  @override
+  ButtonBorder get borderTheme => super.borderTheme as ButtonBorder;
+}
+
+class ButtonColor extends ColorImpl {
+  final ButtonType type;
+
+  ButtonColor(
+    super.theme, {
+    required this.type,
+    Color? background,
+    Color? foreground,
+    Color? disabledBackground,
+    Color? disabledForeground,
+    Color? hoverColor,
+    Color? highlightColor,
+    Color? focusColor,
+  }) {
+    void setBackground() {
+      if (background == null) this.background = background;
+      switch (type) {
+        case ButtonType.primary:
+          this.background = primary;
+        case ButtonType.secondary:
+          this.background = secondary;
+        case ButtonType.tertiary:
+          this.background = tertiary;
+        case ButtonType.error:
+          this.background = theme.colorScheme.error;
+        default:
+          return;
+      }
+    }
+
+    void setForeground() {
+      if (foreground != null) this.foreground = foreground;
+      switch (type) {
+        case ButtonType.primary:
+        case ButtonType.error:
+          this.foreground = onPrimary;
+        case ButtonType.secondary:
+          this.foreground = onSecondary;
+        case ButtonType.tertiary:
+          this.foreground = onTertiary;
+        case ButtonType.outline:
+        case ButtonType.ghost:
+          this.foreground = onSurface;
+        default:
+          return;
+      }
+    }
+
+    void setDisabledBackground() {
+      this.disabledBackground =
+          disabledBackground ?? background?.withOpacity(0.5);
+    }
+
+    void setDisabledForeground() {
+      this.disabledForeground =
+          disabledForeground ?? foreground?.withOpacity(0.5);
+    }
+
+    void setHoverColor() {
+      this.hoverColor =
+          hoverColor ?? theme.colorScheme.primary.withOpacity(0.1);
+    }
+
+    void setHighlightColor() {
+      this.highlightColor =
+          highlightColor ?? theme.colorScheme.primary.withOpacity(0.2);
+    }
+
+    void setFocusColor() {
+      this.focusColor = focusColor ?? this.highlightColor;
+    }
+
+    setBackground();
+    setForeground();
+    setDisabledBackground();
+    setDisabledForeground();
+    setHoverColor();
+    setHighlightColor();
+    setFocusColor();
+  }
+
+  Color? background;
+
+  Color? foreground;
+
+  Color? disabledBackground;
+
+  Color? disabledForeground;
+
+  Color? hoverColor;
+
+  Color? highlightColor;
+
+  Color? focusColor;
+}
+
+class ButtonAction extends ActionImpl {
   /// If [onPressed] is null, the button will be disabled
-  final VoidCallback? onPressed;
+  ButtonAction(super.context, {super.onPressed});
 
+  bool get isDisabled => onPressed == null;
+}
+
+class ButtonChild extends ChildImpl {
   final String? text;
+
+  final IconData? icon;
 
   /// If [child] is provided, [text] will be ignored
   ///
   /// [child] will be used as the button's child
-  final Widget? child;
+  ///
+  /// Icon of the button
+  ///
+  /// If [isLoading] is true, icon will be replaced with loading indicator
+  ButtonChild(super.context, {super.child, this.text, this.icon});
+}
 
+class ButtonState extends StateImpl {
   /// If true, it will show a loading indicator
   ///
   /// If [icon] is provided, icon will be replaced with loading indicator
   ///
   /// [onPressed] will be disabled if [isLoading] is true
-  final bool isLoading;
+  ButtonState(super.context, {super.isLoading});
+}
 
-  /// Icon of the button
-  ///
-  /// If [isLoading] is true, icon will be replaced with loading indicator
-  final IconData? icon;
+class ButtonSize extends SizeImpl {
+  final ButtonType type;
+
+  final double iconSize;
+
+  final Size? minimumSize;
+
+  late final TextStyle textStyle;
+
+  late final EdgeInsetsGeometry padding;
 
   /// Size of the icon
   ///
   /// Default is 18px
-  final double iconSize;
-
+  ///
   /// Minimum size of the button
   ///
   /// Default is 88px x 40px
-  final Size? minimumSize;
-
-  ///Custom background color
   ///
-  /// It will override the default background color if provided
-  final Color? backgroundColor;
-
-  ///Custom foreground color
+  /// Text style of the button
   ///
-  /// It will override the default foreground color if provided
-  final Color? foregroundColor;
-
-  const ButtonVariant(
-      {this.onPressed,
-      this.text,
-      this.backgroundColor,
-      this.foregroundColor,
-      this.iconSize = 18,
-      this.child,
-      this.isLoading = false,
+  /// Default is bodyMedium
+  ButtonSize(super.context, this.type,
+      {this.iconSize = 18,
       this.minimumSize,
-      this.icon})
-      : assert(iconSize >= 0, "iconSize must be greater than or equal to 0"),
-        assert(text != null || child != null || icon != null,
-            "text, child, or icon must be provided");
+      TextStyle? textStyle,
+      EdgeInsetsGeometry? padding}) {
+    void setTextStyle() {
+      this.textStyle = textStyle ?? theme.textTheme.bodyMedium!.sp;
+    }
 
-  @override
-  List<Object?> get props => [
-        onPressed,
-        text,
-        child,
-        isLoading,
-        icon,
-        iconSize,
-        minimumSize,
-        backgroundColor,
-        foregroundColor,
-      ];
+    void setPadding() {
+      this.padding =
+          padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8).w;
+    }
+
+    setTextStyle();
+    setPadding();
+  }
 }
 
-class PrimaryButtonVariant extends ButtonVariant {
-  const PrimaryButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
+class ButtonBorder extends BorderImpl {
+  final ButtonType type;
+
+  ButtonBorder(super.context, this.type,
+      {BorderSide? borderSide, BorderRadius? borderRadius}) {
+    void setBorderSide() {
+      this.borderSide = borderSide ??
+          BorderSide(color: theme.dividerColor.withOpacity(0.6)).w;
+    }
+
+    void setBorderRadius() {
+      this.borderRadius = borderRadius ?? BorderRadius.circular(6).r;
+    }
+
+    setBorderSide();
+    setBorderRadius();
+  }
 }
 
-class SecondaryButtonVariant extends ButtonVariant {
-  const SecondaryButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
-}
+typedef DecorationBuilder = ButtonDecoration Function(
+    BuildContext context, ButtonType type);
 
-class TertiaryButtonVariant extends ButtonVariant {
-  const TertiaryButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
-}
-
-class ErrorButtonVariant extends ButtonVariant {
-  const ErrorButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
-}
-
-class OutlineButtonVariant extends ButtonVariant {
-  const OutlineButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
-}
-
-class GhostButtonVariant extends ButtonVariant {
-  const GhostButtonVariant(
-      {super.onPressed,
-      super.text,
-      super.child,
-      super.isLoading,
-      super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
-}
-
-class IconButtonVariant extends ButtonVariant {
-  const IconButtonVariant(
-      {super.onPressed,
-      super.child,
-      super.isLoading,
-      required super.icon,
-      super.iconSize,
-      super.minimumSize,
-      super.backgroundColor,
-      super.foregroundColor});
+enum ButtonType {
+  primary,
+  secondary,
+  tertiary,
+  error,
+  outline,
+  ghost,
+  icon,
 }
 
 class DefaultButton extends StatelessWidget {
-  final ButtonVariant variant;
+  final ButtonType type;
+  final DecorationBuilder? decorationBuilder;
 
-  const DefaultButton({super.key, required this.variant});
+  const DefaultButton(
+      {super.key, this.decorationBuilder, this.type = ButtonType.primary});
 
   @override
   Widget build(BuildContext context) {
-    return ThemeProvider(
-      builder: (context, vm) {
-        return getChild(vm);
-      },
-    );
+    final ButtonDecoration decorationTheme =
+        decorationBuilder?.call(context, type) ??
+            ButtonDecoration(context, type: type);
+
+    return getChild(decorationTheme);
   }
 
-  Widget getChild(ThemeVm vm) {
+  Widget getChild(ButtonDecoration decoration) {
+    final vm = decoration.themeVm;
     return Theme(
         data: vm.theme.copyWith(
           elevatedButtonTheme: ElevatedButtonThemeData(
-            style: _getButtonStyle(vm.theme),
+            style: _getButtonStyle(decoration),
           ),
           textButtonTheme: TextButtonThemeData(
-            style: _getButtonStyle(vm.theme),
+            style: _getButtonStyle(decoration),
           ),
           iconButtonTheme: IconButtonThemeData(
-            style: _getButtonStyle(vm.theme),
+            style: _getButtonStyle(decoration),
           ),
         ),
-        child: _getButtonWidgetType(vm.theme));
+        child: _getButtonWidgetType(decoration));
   }
 
-  ButtonStyle _getIconButtonStyle(ThemeData theme) {
+  ButtonStyle _getIconButtonStyle(ButtonDecoration decoration) {
     return IconButton.styleFrom(
-      padding: _getPadding(theme),
-      minimumSize: variant.minimumSize?.w,
+      minimumSize: decoration.sizeTheme.minimumSize?.w,
       disabledMouseCursor: SystemMouseCursors.forbidden,
+      backgroundColor: decoration.colorTheme.background,
+      foregroundColor: decoration.colorTheme.foreground,
+      hoverColor: decoration.colorTheme.hoverColor,
+      disabledBackgroundColor: decoration.colorTheme.disabledBackground,
+      disabledForegroundColor: decoration.colorTheme.disabledForeground,
+      highlightColor: decoration.colorTheme.highlightColor,
+      focusColor: decoration.colorTheme.focusColor,
+      padding: decoration.sizeTheme.padding,
       splashFactory: NoSplash.splashFactory,
-      backgroundColor: _getBackgroundColor(theme),
-      foregroundColor: _getForegroundColor(theme),
     );
   }
 
-  ButtonStyle _getButtonStyle(ThemeData theme) {
-    if (variant is IconButtonVariant) {
-      return _getIconButtonStyle(theme);
+  ButtonStyle _getButtonStyle(ButtonDecoration decoration) {
+    if (type == ButtonType.icon) {
+      return _getIconButtonStyle(decoration);
     }
     return ElevatedButton.styleFrom(
-      disabledBackgroundColor: _getBackgroundColor(theme)?.withOpacity(0.5),
-      disabledForegroundColor: _getForegroundColor(theme)?.withOpacity(0.5),
-      backgroundColor: _getBackgroundColor(theme),
-      foregroundColor: _getForegroundColor(theme),
-      shape: _getShape(theme),
-      side: _getBorder(theme),
-      padding: _getPadding(theme),
-      minimumSize: variant.minimumSize?.w,
+      disabledBackgroundColor: decoration.colorTheme.disabledBackground,
+      disabledForegroundColor: decoration.colorTheme.disabledForeground,
+      backgroundColor: decoration.colorTheme.background,
+      foregroundColor: decoration.colorTheme.foreground,
+      shape: _getShape(decoration),
+      side: _getBorder(decoration),
+      padding: decoration.sizeTheme.padding,
+      minimumSize: decoration.sizeTheme.minimumSize?.w,
       splashFactory: NoSplash.splashFactory,
       disabledMouseCursor: SystemMouseCursors.forbidden,
-      surfaceTintColor: theme.colorScheme.surface,
-      textStyle: _getTextStyle(theme),
+      textStyle: _getTextStyle(decoration),
     );
   }
 
-  TextStyle _getTextStyle(ThemeData theme) {
-    return theme.textTheme.bodyMedium!.sp;
+  TextStyle _getTextStyle(ButtonDecoration decoration) {
+    return decoration.sizeTheme.textStyle;
   }
 
-  EdgeInsetsGeometry _getPadding(ThemeData theme) {
-    switch (variant.runtimeType) {
-      default:
-        return const EdgeInsets.symmetric(horizontal: 16, vertical: 8).w;
-    }
-  }
+  Widget _getButtonWidgetType(ButtonDecoration decoration) {
+    bool isDisabled = decoration.actionThemeState.isDisabled;
 
-  Widget _getButtonWidgetType(ThemeData theme) {
-    switch (variant.runtimeType) {
-      case const (PrimaryButtonVariant):
-      case const (SecondaryButtonVariant):
-      case const (TertiaryButtonVariant):
-      case const (ErrorButtonVariant):
-        if (variant.icon == null) {
+    switch (type) {
+      case ButtonType.primary:
+      case ButtonType.secondary:
+      case ButtonType.tertiary:
+      case ButtonType.error:
+        if (decoration.childTheme.icon == null) {
           return ElevatedButton(
-            onPressed: _getOnPressed,
-            child: _getButtonChild(theme),
+            onPressed:
+                isDisabled ? null : decoration.actionThemeState.onPressed,
+            child: _getButtonChild(decoration),
           );
         } else {
-          if (variant.text != null && variant.text!.isNotEmpty) {
+          if (decoration.childTheme.text != null &&
+              decoration.childTheme.text!.isNotEmpty) {
             return ElevatedButton.icon(
-              onPressed: _getOnPressed,
-              label: _getButtonChild(theme),
-              icon: variant.isLoading
+              onPressed:
+                  isDisabled ? null : decoration.actionThemeState.onPressed,
+              label: _getButtonChild(decoration),
+              icon: decoration.stateTheme.isLoading
                   ? const _LoadingIndicator()
-                  : Icon(variant.icon, size: variant.iconSize.w),
+                  : Icon(decoration.childTheme.icon,
+                      size: decoration.sizeTheme.iconSize.w),
             );
           }
           return ElevatedButton(
-            onPressed: _getOnPressed,
-            child: variant.isLoading
+            onPressed:
+                isDisabled ? null : decoration.actionThemeState.onPressed,
+            child: decoration.stateTheme.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon, size: variant.iconSize.w),
+                : Icon(decoration.childTheme.icon,
+                    size: decoration.sizeTheme.iconSize.w),
           );
         }
-      case const (OutlineButtonVariant):
-      case const (GhostButtonVariant):
-        if (variant.icon == null) {
+      case ButtonType.outline:
+      case ButtonType.ghost:
+        if (decoration.childTheme.icon == null) {
           return TextButton(
-            onPressed: _getOnPressed,
-            child: _getButtonChild(theme),
+            onPressed:
+                isDisabled ? null : decoration.actionThemeState.onPressed,
+            child: _getButtonChild(decoration),
           );
         } else {
           return TextButton.icon(
-            onPressed: _getOnPressed,
-            label: _getButtonChild(theme),
-            icon: variant.isLoading
+            onPressed:
+                isDisabled ? null : decoration.actionThemeState.onPressed,
+            label: _getButtonChild(decoration),
+            icon: decoration.stateTheme.isLoading
                 ? const _LoadingIndicator()
-                : Icon(variant.icon, size: variant.iconSize.w),
+                : Icon(decoration.childTheme.icon,
+                    size: decoration.sizeTheme.iconSize.w),
           );
         }
-      case const (IconButtonVariant):
+      case ButtonType.icon:
         return IconButton(
-          onPressed: _getOnPressed,
-          icon: Icon(variant.icon, size: variant.iconSize.w),
+          onPressed: isDisabled ? null : decoration.actionThemeState.onPressed,
+          icon: Icon(decoration.childTheme.icon,
+              size: decoration.sizeTheme.iconSize),
         );
       default:
         return const SizedBox();
     }
   }
 
-  VoidCallback? get _getOnPressed {
-    switch (variant.runtimeType) {
-      default:
-        if (variant.isLoading) return null;
-        return variant.onPressed;
-    }
-  }
-
-  Color? _getBackgroundColor(ThemeData theme) {
-    if (variant.backgroundColor != null) return variant.backgroundColor;
-    switch (variant.runtimeType) {
-      case const (PrimaryButtonVariant):
-        return theme.colorScheme.primary;
-      case const (SecondaryButtonVariant):
-        return theme.colorScheme.secondary;
-      case const (TertiaryButtonVariant):
-        return theme.colorScheme.tertiary;
-      case const (ErrorButtonVariant):
-        return theme.colorScheme.error;
-      default:
-        return null;
-    }
-  }
-
-  Color? _getForegroundColor(ThemeData theme) {
-    if (variant.foregroundColor != null) return variant.foregroundColor;
-    switch (variant.runtimeType) {
-      case const (PrimaryButtonVariant):
-      case const (ErrorButtonVariant):
-        return theme.colorScheme.onPrimary;
-      case const (SecondaryButtonVariant):
-        return theme.colorScheme.onSecondary;
-      case const (TertiaryButtonVariant):
-        return theme.colorScheme.onTertiary;
-      case const (OutlineButtonVariant):
-      case const (GhostButtonVariant):
-        return theme.colorScheme.onSurface;
-      default:
-        return null;
-    }
-  }
-
-  Widget _getButtonChild(ThemeData theme) {
-    final ch = variant.child ?? Text(_getText());
-    if (variant.icon == null) {
-      if (variant.isLoading) {
+  Widget _getButtonChild(ButtonDecoration decoration) {
+    final ch = decoration.childTheme.child ?? Text(_getText(decoration));
+    if (decoration.childTheme.icon == null) {
+      if (decoration.stateTheme.isLoading) {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -357,26 +406,19 @@ class DefaultButton extends StatelessWidget {
     return ch;
   }
 
-  String _getText() {
-    return variant.text ?? 'Button';
+  String _getText(ButtonDecoration decoration) {
+    return decoration.childTheme.text ?? 'Button';
   }
 
-  BorderSide? _getBorder(ThemeData theme) {
-    switch (variant.runtimeType) {
-      case const (OutlineButtonVariant):
-        return BorderSide(color: theme.dividerColor.withOpacity(0.6)).w;
-      default:
-        return null;
-    }
+  BorderSide? _getBorder(ButtonDecoration decoration) {
+    if (type == ButtonType.ghost) return BorderSide.none;
+    return decoration.borderTheme.borderSide;
   }
 
-  OutlinedBorder? _getShape(ThemeData theme) {
-    switch (variant.runtimeType) {
-      default:
-        return RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6).r,
-        );
-    }
+  OutlinedBorder? _getShape(ButtonDecoration decoration) {
+    return RoundedRectangleBorder(
+      borderRadius: decoration.borderTheme.borderRadius!,
+    );
   }
 }
 

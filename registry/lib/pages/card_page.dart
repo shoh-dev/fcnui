@@ -19,7 +19,7 @@ class CardPage extends PageImpl {
   });
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     if (isCustom) {
       return const _CustomCard();
     } else if (isDecorated) {
@@ -293,10 +293,14 @@ class _DefaultCardWithForm extends StatelessWidget {
         footer: CardFooter(
           footer: [
             DefaultButton(
-              variant: OutlineButtonVariant(
-                onPressed: () {},
-                text: "Cancel",
-              ),
+              decorationBuilder: (context, type) {
+                return ButtonDecoration(
+                  context,
+                  type: type,
+                  child: ButtonChild(context, text: "Cancel"),
+                  action: ButtonAction(context, onPressed: () {}),
+                );
+              },
             ),
             SaveButton(
                 vm: formModel,
@@ -361,15 +365,21 @@ class _CustomCard extends StatelessWidget {
             ).spaced(10)),
           ),
           const SizedBox(height: 20),
-          DefaultButton(
-              variant: PrimaryButtonVariant(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            minimumSize: const Size(double.infinity, 48),
-            onPressed: () {},
-            text: "Mark all as read",
-            icon: Icons.check,
-          )),
+          DefaultButton(decorationBuilder: (context, type) {
+            return ButtonDecoration(
+              context,
+              type: type,
+              child: ButtonChild(context,
+                  text: "Mark all as read", icon: Icons.check),
+              action: ButtonAction(context, onPressed: () {}),
+              colorTheme: ButtonColor(context,
+                  type: type,
+                  background: Colors.white,
+                  foreground: Colors.black),
+              size: ButtonSize(context, type,
+                  minimumSize: const Size(double.infinity, 48)),
+            );
+          }),
         ]),
       ),
     );
@@ -430,12 +440,14 @@ class _DecoratedCard extends StatelessWidget {
           ),
           footer: CardFooter(
             footer: [
-              DefaultButton(
-                variant: OutlineButtonVariant(
-                  onPressed: () {},
-                  text: "Cancel",
-                ),
-              ),
+              DefaultButton(decorationBuilder: (context, type) {
+                return ButtonDecoration(
+                  context,
+                  type: type,
+                  child: ButtonChild(context, text: "Cancel"),
+                  action: ButtonAction(context, onPressed: () {}),
+                );
+              }),
               SaveButton(
                   vm: formModel,
                   text: "Deploy",

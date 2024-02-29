@@ -386,7 +386,7 @@ class CustomButton extends StatelessWidget {
   }
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     return SizedBox(
         width: 300,
         child: switch (variant) {
@@ -616,9 +616,15 @@ class _ControlledState extends State<Controlled> {
                 ),
               ),
             ),
-            DefaultButton(
-                variant: PrimaryButtonVariant(
-                    onPressed: controller.openDropdown, text: "Open"))
+            DefaultButton(decorationBuilder: (context, type) {
+              return ButtonDecoration(
+                context,
+                type: type,
+                child: ButtonChild(context, text: "Open"),
+                action:
+                    ButtonAction(context, onPressed: controller.openDropdown),
+              );
+            })
           ],
         ).spaced(8),
         Text(

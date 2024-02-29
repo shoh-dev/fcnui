@@ -230,7 +230,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       (SwitchVariant.withTitle) => const _WithTitle(),
       (SwitchVariant.decorated) => const _Decorated(),
@@ -420,17 +420,22 @@ class _Form extends StatelessWidget {
                       },
                     ))),
             const SizedBox(height: 20),
-            DefaultButton(
-                variant: PrimaryButtonVariant(
-              minimumSize: const Size(double.infinity, 48),
-              onPressed: () {
-                formModel.saveAndValidate();
-                if (!formModel.formKey.currentState!.validate()) return;
-                showSnackbar(context, formModel.getValues());
-              },
-              text: "Mark all as read",
-              icon: Icons.check,
-            )),
+            DefaultButton(decorationBuilder: (context, type) {
+              return ButtonDecoration(
+                context,
+                type: type,
+                colorTheme: ButtonColor(context, type: type),
+                action: ButtonAction(context, onPressed: () {
+                  formModel.saveAndValidate();
+                  if (!formModel.formKey.currentState!.validate()) return;
+                  showSnackbar(context, formModel.getValues());
+                }),
+                child: ButtonChild(context,
+                    icon: Icons.check, text: "Mark all as read"),
+                size: ButtonSize(context, type,
+                    minimumSize: const Size(double.infinity, 48)),
+              );
+            }),
           ]),
         ),
       ),

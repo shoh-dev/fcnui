@@ -145,7 +145,7 @@ class _Card extends StatelessWidget {
   }
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       (CheckboxVariant.withLabel) => const _WithLabel(),
       (CheckboxVariant.disabled) => const _Disabled(),

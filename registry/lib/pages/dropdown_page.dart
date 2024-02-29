@@ -341,7 +341,7 @@ class _Group extends StatelessWidget {
   }
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       DpVariant.form => _Form(),
       DpVariant.decorated => const _Decorated(),

@@ -18,8 +18,7 @@ class FcnuiDefaultColor {
   FcnuiDefaultColor(this.context);
 
   ThemeData get theme {
-    final ThemeVm themeVm =
-        ThemeVm.fromStore(fcnGetIt.get<Store<AppState>>(), context);
+    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
     return themeVm.theme;
   }
 
