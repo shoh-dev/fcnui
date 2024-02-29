@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fcnui_base/fcnui_base.dart';
+
+import 'theme.dart';
 import 'form.dart';
 import 'disabled.dart';
 
@@ -18,10 +20,12 @@ class InputModel extends IFormModel {
   final String? helperText;
   final ValueTransformer<String?>? valueTransformer;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   const InputModel({
     required super.name,
     this.initialValue,
+    this.focusNode,
     this.controller,
     this.onChanged,
     this.valueTransformer,
@@ -48,6 +52,7 @@ class InputModel extends IFormModel {
         validators,
         inputFormatters,
         controller,
+        focusNode,
       ];
 }
 
@@ -74,39 +79,47 @@ class DefaultInput extends StatelessWidget {
             hoverColor: Colors.transparent,
             //Border when tapped and focused
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8).r,
+                borderRadius:
+                    BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
                 borderSide: BorderSide(
                         color: theme.colorScheme.primary,
-                        width: 2,
+                        width: FcnuiDefaultSizes.selectedBorderWidth,
                         strokeAlign: BorderSide.strokeAlignOutside)
                     .w),
             //Idle state border
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: BorderSide(
                       color: theme.dividerColor,
+                      width: FcnuiDefaultSizes.borderWidth,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: const BorderSide(
                       color: Colors.red,
+                      width: FcnuiDefaultSizes.borderWidth,
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: BorderSide(
+                      width: FcnuiDefaultSizes.borderWidth,
                       color: theme.dividerColor.withOpacity(0.6),
                       strokeAlign: BorderSide.strokeAlignInside)
                   .w,
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8).r,
+              borderRadius:
+                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
               borderSide: const BorderSide(
                       color: Colors.red,
-                      width: 2,
+                      width: FcnuiDefaultSizes.selectedBorderWidth,
                       strokeAlign: BorderSide.strokeAlignOutside)
                   .w,
             ),
@@ -126,6 +139,7 @@ class DefaultInput extends StatelessWidget {
           ),
         ),
         child: FormBuilderTextField(
+          focusNode: vm.focusNode,
           controller: vm.controller,
           style: theme.textTheme.bodyLarge!
               .copyWith(

@@ -1,7 +1,9 @@
+//v0.0.1
+
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/ui/default_components/theme.dart';
 
+import 'theme.dart';
 import 'button.dart';
 
 class DefaultPagination extends StatelessWidget {

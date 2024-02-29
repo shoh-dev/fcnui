@@ -10,6 +10,7 @@ import 'package:example/components/with_label.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'components/dp_item.dart';
+import 'components/select.dart';
 
 void main() {
   /// 1. Wrap your app with [DefaultStoreProvider]
@@ -78,9 +79,32 @@ class _MyHomePageState extends State<MyHomePage> {
               const _WithLabel(),
 
               const _Search(),
+
+              const Basic(),
             ],
           ).spaced(20),
         ),
+      ),
+    );
+  }
+}
+
+class Basic extends StatelessWidget {
+  const Basic({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultSelect(
+      form: const SelectForm(name: "animal"),
+      decoration: const SelectDecoration(
+        labelText: "Favorite Animal",
+        hintText: "Select an animal",
+      ),
+      options: SelectOptions(
+        options: [
+          "cat",
+          "dog",
+        ].map((e) => ValueItem(label: e, value: e)).toList(),
       ),
     );
   }

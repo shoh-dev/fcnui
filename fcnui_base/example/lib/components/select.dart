@@ -86,7 +86,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
         height += 11;
       }
     }
-    return height;
+    return height.h;
   }
 
   @override
@@ -203,6 +203,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     var offset = renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
 
     final availableHeight = MediaQuery.of(context).size.height - offset.dy;
+
     if (decoration.customWidget != null) {
       return [
         decoration.dropdownMenuSize ?? const Size.fromWidth(300),
@@ -679,10 +680,15 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                           FcnuiDefaultSizes.borderRadius.r),
                     ),
                     constraints: decoration.searchEnabled
-                        ? BoxConstraints.loose(Size(size.width,
-                            (decoration.dropdownMenuMaxHeight ?? 200) + 50))
-                        : BoxConstraints.loose(Size(size.width,
-                            (decoration.dropdownMenuMaxHeight ?? 200))),
+                        ? BoxConstraints.loose(Size(
+                            size.width,
+                            (decoration.dropdownMenuMaxHeight ??
+                                    dropdownHeight) +
+                                50))
+                        : BoxConstraints.loose(Size(
+                            size.width,
+                            (decoration.dropdownMenuMaxHeight ??
+                                dropdownHeight))),
                     child: _reponseBody != null && widget.networkConfig != null
                         ? Center(
                             child: networkConfig!.responseErrorBuilder!(
@@ -776,26 +782,16 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                             });
                                           }
                                         } else {
-                                          if (isSelected) {
-                                            dropdownState(() {
-                                              selectedOptions.clear();
-                                              selectedOptions.add(option);
-                                            });
-                                            setState(() {
-                                              _selectedOptions.clear();
-                                            });
-                                          } else {
-                                            dropdownState(() {
-                                              selectedOptions.clear();
-                                              selectedOptions.add(option);
-                                            });
-                                            setState(() {
-                                              _selectedOptions.clear();
-                                              _selectedOptions.add(option);
-                                            });
-                                          }
-                                          _focusNode.unfocus();
+                                          dropdownState(() {
+                                            selectedOptions.clear();
+                                            selectedOptions.add(option);
+                                          });
+                                          setState(() {
+                                            _selectedOptions.clear();
+                                            _selectedOptions.add(option);
+                                          });
                                         }
+                                        _focusNode.unfocus();
 
                                         _controller.value._selectedOptions
                                             .clear();

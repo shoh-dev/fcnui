@@ -29,6 +29,7 @@ enum SelectVariant {
   controlled,
   customItems,
   network,
+  customButton,
 }
 
 class SelectPage extends PageImpl {
@@ -359,6 +360,27 @@ class Network extends StatelessWidget {
   }
 }
 """;
+      case SelectVariant.customButton:
+        code = """
+class CustomButton extends StatelessWidget {
+  const CustomButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultSelect<String>(
+      form: const SelectForm(name: "animal"),
+      decoration: const SelectDecoration(
+        labelText: "Favorite Animal",
+        hintText: "Select an animal",
+        customWidget: Icon(Icons.more_vert),
+      ),
+      options: SelectOptions(
+        options: animals.map((e) => ValueItem(label: e, value: e)).toList(),
+      ),
+    );
+  }
+}
+""";
     }
     return code;
   }
@@ -378,6 +400,7 @@ class Network extends StatelessWidget {
           SelectVariant.controlled => const Controlled(),
           SelectVariant.customItems => const CustomItems(),
           SelectVariant.network => const Network(),
+          SelectVariant.customButton => const CustomButton(),
         });
   }
 }
@@ -519,7 +542,7 @@ class Colorful extends StatelessWidget {
       form: const SelectForm(name: "animal"),
       decoration: const SelectDecoration(
         labelText: "Favorite Animal",
-        hintText: "Select an animal",
+        hintText: "Try changing the theme",
         isColorful: true,
         selectionType: SelectionType.multi,
         showClearIcon: true,
@@ -617,6 +640,7 @@ class CustomItems extends StatelessWidget {
       decoration: const SelectDecoration(
         labelText: "Favorite Animal",
         hintText: "Select an animal",
+        selectionType: SelectionType.multi,
       ),
       options: SelectOptions(
         options: animals
@@ -671,12 +695,30 @@ class Network extends StatelessWidget {
         },
       ),
       decoration: const SelectDecoration(
-        dropdownMenuMaxHeight: 300,
         hintText: "Select a product",
         selectionType: SelectionType.single,
         labelText: "Product",
       ),
       form: const SelectForm(name: "dp"),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultSelect<String>(
+      form: const SelectForm(name: "animal"),
+      decoration: const SelectDecoration(
+        labelText: "Favorite Animal",
+        hintText: "Select an animal",
+        customWidget: Icon(Icons.more_vert),
+      ),
+      options: SelectOptions(
+        options: animals.map((e) => ValueItem(label: e, value: e)).toList(),
+      ),
     );
   }
 }

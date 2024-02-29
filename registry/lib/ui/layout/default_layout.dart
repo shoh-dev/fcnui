@@ -23,7 +23,11 @@ class _DefaultLayoutState extends State<DefaultLayout>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(tabController: tabController),
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+              color: Theme.of(context).colorScheme.onSurface, width: 1),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: widget.child(tabController),
       ),
