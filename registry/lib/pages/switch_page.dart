@@ -461,7 +461,7 @@ class _Form extends StatelessWidget {
                         return ButtonDecoration(
                           context,
                           type: type,
-                          colorTheme: ButtonColor(context, type: type),
+                          color: ButtonColor(context, type: type),
                           action: ButtonAction(context, onPressed: () {
                             formModel.saveAndValidate();
                             if (!formModel.formKey.currentState!.validate())

@@ -264,35 +264,30 @@ class _DefaultCardWithForm extends StatelessWidget {
             subtitle: const CardSubtitle(
                 subtitle: "Deploy your new project in one-click"),
             content: CardContent(
-              content: DefaultForm(
-                vm: formModel,
-                child: Column(
-                  children: [
-                    WithLabel(
-                      labelVm: const LabelModel(text: "Name", isRequired: true),
-                      child: DefaultInput(
-                        vm: InputModel(
-                          name: "name",
-                          validators: [
-                            FormBuilderValidators.required(),
-                          ],
-                          hintText: "Name of the project",
-                        ),
-                      ),
-                    ),
-                    const WithLabel(
-                      labelVm: LabelModel(text: "Description"),
-                      child: DefaultInput(
-                        vm: InputModel(
-                          name: "description",
-                          hintText: "Description of the project",
-                        ),
-                      ),
-                    ),
-                  ],
-                ).spaced(20),
-              ),
-            ),
+                content: DefaultForm(
+                    vm: formModel,
+                    child: Column(children: [
+                      WithLabel(
+                          labelVm:
+                              const LabelModel(text: "Name", isRequired: true),
+                          child: DefaultInput(
+                              decorationBuilder: (context) => InputDecor(
+                                  context,
+                                  child: InputChild(context,
+                                      name: "name",
+                                      hintText: "Name of the project"),
+                                  value: InputValue(context, validators: [
+                                    FormBuilderValidators.required()
+                                  ])))),
+                      WithLabel(
+                          labelVm: const LabelModel(text: "Description"),
+                          child: DefaultInput(
+                              decorationBuilder: (context) => InputDecor(
+                                  context,
+                                  child: InputChild(context,
+                                      name: "description",
+                                      hintText: "Description of the project"))))
+                    ]).spaced(20))),
             footer: CardFooter(
               footer: [
                 DefaultButton(
@@ -391,7 +386,7 @@ class _CustomCard extends StatelessWidget {
                           child: ButtonChild(context,
                               text: "Mark all as read", icon: Icons.check),
                           action: ButtonAction(context, onPressed: () {}),
-                          colorTheme: ButtonColor(context,
+                          color: ButtonColor(context,
                               type: type,
                               background: Colors.white,
                               foreground: Colors.black),
@@ -431,36 +426,32 @@ class _DecoratedCard extends StatelessWidget {
                 subtitle: const CardSubtitle(
                     subtitle: "Deploy your new project in one-click"),
                 content: CardContent(
-                  content: DefaultForm(
-                    vm: formModel,
-                    child: Column(
-                      children: [
-                        WithLabel(
-                          labelVm:
-                              const LabelModel(text: "Name", isRequired: true),
-                          child: DefaultInput(
-                            vm: InputModel(
-                              name: "name",
-                              validators: [
-                                FormBuilderValidators.required(),
-                              ],
-                              hintText: "Name of the project",
-                            ),
-                          ),
-                        ),
-                        const WithLabel(
-                          labelVm: LabelModel(text: "Description"),
-                          child: DefaultInput(
-                            vm: InputModel(
-                              name: "description",
-                              hintText: "Description of the project",
-                            ),
-                          ),
-                        ),
-                      ],
-                    ).spaced(20),
-                  ),
-                ),
+                    content: DefaultForm(
+                        vm: formModel,
+                        child: Column(children: [
+                          WithLabel(
+                              labelVm: const LabelModel(
+                                  text: "Name", isRequired: true),
+                              child: DefaultInput(
+                                  decorationBuilder: (context) => InputDecor(
+                                      context,
+                                      child: InputChild(context,
+                                          name: "name",
+                                          hintText: "Name of the project"),
+                                      value: InputValue(context, validators: [
+                                        FormBuilderValidators.required()
+                                      ])))),
+                          WithLabel(
+                              labelVm: const LabelModel(text: "Description"),
+                              child: DefaultInput(
+                                  decorationBuilder: (context) => InputDecor(
+                                        context,
+                                        child: InputChild(context,
+                                            name: "description",
+                                            hintText:
+                                                "Description of the project"),
+                                      )))
+                        ]).spaced(20))),
                 footer: CardFooter(
                   footer: [
                     DefaultButton(decorationBuilder: (context, type) {

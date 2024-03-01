@@ -58,6 +58,7 @@ class CheckboxModel extends IFormModel {
 
 class DefaultCheckbox extends StatelessWidget {
   final CheckboxModel vm;
+
   const DefaultCheckbox({super.key, required this.vm});
 
   @override
@@ -70,48 +71,50 @@ class DefaultCheckbox extends StatelessWidget {
 
   Widget _getChild(ThemeData theme) {
     return DefaultDisabled(
-        vm: DisabledVm(
-      disabled: !vm.enabled,
-      child: Theme(
-        data: theme.copyWith(checkboxTheme: _getCheckboxTheme(theme)),
-        child: FormBuilderField<List<String>>(
-          name: vm.name,
-          enabled: vm.enabled,
-          validator: vm.validator,
-          onChanged: vm.onChanged,
-          initialValue: vm.initialValues,
-          autovalidateMode: vm.autovalidateMode,
-          builder: (field) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (vm.title != null)
-                  Text(vm.title!,
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        color: field.errorText == null ? null : Colors.red,
-                      )),
-                if (vm.subtitle != null)
-                  Text(vm.subtitle!,
-                      style: theme.textTheme.bodySmall!.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.6))),
-                if (vm.title != null || vm.subtitle != null)
-                  const SizedBox(height: 4),
-                GroupCheckbox(field: field, vm: vm),
-                if (vm.helperText != null)
-                  Text(vm.helperText!, style: theme.textTheme.bodyMedium),
-                if (field.errorText != null)
-                  Text(
-                    field.errorText!,
-                    style:
-                        theme.textTheme.bodySmall?.copyWith(color: Colors.red),
-                  ),
-              ],
-            ).spaced(4);
-          },
-        ),
-      ),
-    ));
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state: DisabledState(context, isDisabled: !vm.enabled),
+            child: DisabledChild(context,
+                child: Theme(
+                    data:
+                        theme.copyWith(checkboxTheme: _getCheckboxTheme(theme)),
+                    child: FormBuilderField<List<String>>(
+                        name: vm.name,
+                        enabled: vm.enabled,
+                        validator: vm.validator,
+                        onChanged: vm.onChanged,
+                        initialValue: vm.initialValues,
+                        autovalidateMode: vm.autovalidateMode,
+                        builder: (field) {
+                          return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (vm.title != null)
+                                  Text(vm.title!,
+                                      style:
+                                          theme.textTheme.titleMedium!.copyWith(
+                                        color: field.errorText == null
+                                            ? null
+                                            : Colors.red,
+                                      )),
+                                if (vm.subtitle != null)
+                                  Text(vm.subtitle!,
+                                      style: theme.textTheme.bodySmall!
+                                          .copyWith(
+                                              color: theme.colorScheme.onSurface
+                                                  .withOpacity(0.6))),
+                                if (vm.title != null || vm.subtitle != null)
+                                  const SizedBox(height: 4),
+                                GroupCheckbox(field: field, vm: vm),
+                                if (vm.helperText != null)
+                                  Text(vm.helperText!,
+                                      style: theme.textTheme.bodyMedium),
+                                if (field.errorText != null)
+                                  Text(field.errorText!,
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(color: Colors.red))
+                              ]).spaced(4);
+                        })))));
   }
 
   CheckboxThemeData _getCheckboxTheme(ThemeData theme) {
@@ -126,6 +129,7 @@ class DefaultCheckbox extends StatelessWidget {
 class GroupCheckbox extends StatelessWidget {
   final FormFieldState<List<String>> field;
   final CheckboxModel vm;
+
   const GroupCheckbox({super.key, required this.field, required this.vm});
 
   @override
@@ -188,49 +192,52 @@ class CustomCheckbox extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final bool isValid = field.errorText == null;
     return DefaultDisabled(
-      vm: DisabledVm(
-          disabled: isDisabled,
-          child: GestureDetector(
-            onTap: () {
-              onCheckboxChanged(!(field.value?.contains(item.id) ?? false));
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: item.subtitle != null
-                  ? CrossAxisAlignment.start
-                  : CrossAxisAlignment.center,
-              children: [
-                //Checkbox
-                Checkbox(
-                    value: field.value?.contains(item.id) ??
-                        vm.initialValues?.contains(item.id) ??
-                        false,
-                    onChanged: onCheckboxChanged),
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state: DisabledState(context, isDisabled: isDisabled),
+            child: DisabledChild(context,
+                child: GestureDetector(
+                  onTap: () {
+                    onCheckboxChanged(
+                        !(field.value?.contains(item.id) ?? false));
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: item.subtitle != null
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                    children: [
+                      //Checkbox
+                      Checkbox(
+                          value: field.value?.contains(item.id) ??
+                              vm.initialValues?.contains(item.id) ??
+                              false,
+                          onChanged: onCheckboxChanged),
 
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //Title
-                    Text(
-                      item.title,
-                      style: TextStyle(
-                        color:
-                            isValid ? null : (isDisabled ? null : Colors.red),
-                      ),
-                    ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Title
+                          Text(
+                            item.title,
+                            style: TextStyle(
+                              color: isValid
+                                  ? null
+                                  : (isDisabled ? null : Colors.red),
+                            ),
+                          ),
 
-                    //Subtitle, if any
-                    if (item.subtitle != null)
-                      Text(item.subtitle!,
-                          style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withOpacity(0.6))),
-                  ],
-                ).spaced(2),
-              ],
-            ).spaced(4),
-          )),
-    );
+                          //Subtitle, if any
+                          if (item.subtitle != null)
+                            Text(item.subtitle!,
+                                style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurface
+                                        .withOpacity(0.6))),
+                        ],
+                      ).spaced(2),
+                    ],
+                  ).spaced(4),
+                ))));
   }
 
   void onCheckboxChanged(bool? value) {

@@ -94,80 +94,87 @@ class DefaultRadio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultDisabled(
-      vm: DisabledVm(
-        disabled: vm.form.onChanged == null,
-        child: ThemeProvider(builder: (context, themeVm) {
-          final theme = themeVm.theme;
-          return Theme(
-            data: theme.copyWith(
-              inputDecorationTheme: const InputDecorationTheme(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  errorStyle: TextStyle(
-                    color: Colors.red,
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state:
+                DisabledState(context, isDisabled: vm.form.onChanged == null),
+            child: DisabledChild(context,
+                child: ThemeProvider(builder: (context, themeVm) {
+              final theme = themeVm.theme;
+              return Theme(
+                  data: theme.copyWith(
+                    inputDecorationTheme: const InputDecorationTheme(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                        errorStyle: TextStyle(
+                          color: Colors.red,
+                        ),
+                        errorMaxLines: 2),
+                    radioTheme: _getRadioTheme(theme),
                   ),
-                  errorMaxLines: 2),
-              radioTheme: _getRadioTheme(theme),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (vm.decoration.title != null)
-                  Text(vm.decoration.title!, style: theme.textTheme.titleSmall),
-                FormBuilderRadioGroup<String>(
-                    name: vm.name,
-                    onChanged: vm.form.onChanged,
-                    enabled: vm.form.onChanged != null,
-                    validator: vm.form.validator,
-                    initialValue: vm.form.initialValue,
-                    disabled: vm.form.disabled,
-                    controlAffinity: vm.decoration.controlAffinity,
-                    autovalidateMode: vm.form.autovalidateMode,
-                    separator: vm.decoration.separatorWidget,
-                    orientation: vm.decoration.direction,
-                    wrapDirection:
-                        vm.decoration.direction == OptionsOrientation.vertical
-                            ? Axis.vertical
-                            : Axis.horizontal,
-                    wrapRunSpacing: 12.w,
-                    wrapSpacing: 12.w,
-                    options: vm.form.items
-                        .map((e) => FormBuilderFieldOption(
-                            value: e.id,
-                            child: DefaultDisabled(
-                              vm: DisabledVm(
-                                disabled: vm.form.disabled.contains(e.id),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(e.title,
-                                        style: theme.textTheme.bodyMedium!),
-                                    if (e.subtitle != null)
-                                      Text(
-                                        e.subtitle!,
-                                        style: theme.textTheme.bodySmall!
-                                            .copyWith(
-                                                color: theme
-                                                    .colorScheme.onSurface
-                                                    .withOpacity(0.6)),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            )))
-                        .toList()),
-              ],
-            ).spaced(8),
-          );
-        }),
-      ),
-    );
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (vm.decoration.title != null)
+                          Text(vm.decoration.title!,
+                              style: theme.textTheme.titleSmall),
+                        FormBuilderRadioGroup<String>(
+                            name: vm.name,
+                            onChanged: vm.form.onChanged,
+                            enabled: vm.form.onChanged != null,
+                            validator: vm.form.validator,
+                            initialValue: vm.form.initialValue,
+                            disabled: vm.form.disabled,
+                            controlAffinity: vm.decoration.controlAffinity,
+                            autovalidateMode: vm.form.autovalidateMode,
+                            separator: vm.decoration.separatorWidget,
+                            orientation: vm.decoration.direction,
+                            wrapDirection: vm.decoration.direction ==
+                                    OptionsOrientation.vertical
+                                ? Axis.vertical
+                                : Axis.horizontal,
+                            wrapRunSpacing: 12.w,
+                            wrapSpacing: 12.w,
+                            options: vm.form.items
+                                .map((e) => FormBuilderFieldOption(
+                                    value: e.id,
+                                    child: DefaultDisabled(
+                                        decorationBuilder: (context) =>
+                                            DisabledDecoration(context,
+                                                state: DisabledState(context,
+                                                    isDisabled: vm.form.disabled
+                                                        .contains(e.id)),
+                                                child: DisabledChild(context,
+                                                    child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(e.title,
+                                                              style: theme
+                                                                  .textTheme
+                                                                  .bodyMedium!),
+                                                          if (e.subtitle !=
+                                                              null)
+                                                            Text(e.subtitle!,
+                                                                style: theme
+                                                                    .textTheme
+                                                                    .bodySmall!
+                                                                    .copyWith(
+                                                                        color: theme
+                                                                            .colorScheme
+                                                                            .onSurface
+                                                                            .withOpacity(0.6)))
+                                                        ]))))))
+                                .toList())
+                      ]).spaced(8));
+            }))));
   }
 }

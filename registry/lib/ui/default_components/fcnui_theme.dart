@@ -32,20 +32,24 @@ class FcnuiDefaultColor {
 abstract class DecorationImpl {
   final BuildContext context;
 
-  ColorImpl? colorTheme;
-  BorderImpl? borderTheme;
-  SizeImpl? sizeTheme;
-  StateImpl? stateTheme;
-  ActionImpl? actionThemeState;
-  ChildImpl? childTheme;
+  ColorImpl? color;
+  BorderImpl? border;
+  SizeImpl? size;
+  StateImpl? state;
+  ActionImpl? action;
+  ChildImpl? child;
+  ValueImpl? value;
 
-  DecorationImpl(this.context,
-      {this.colorTheme,
-      this.borderTheme,
-      this.sizeTheme,
-      this.stateTheme,
-      this.actionThemeState,
-      this.childTheme});
+  DecorationImpl(
+    this.context, {
+    this.color,
+    this.border,
+    this.size,
+    this.state,
+    this.action,
+    this.child,
+    this.value,
+  });
 
   ThemeVm get themeVm {
     final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
@@ -168,4 +172,13 @@ abstract class ChildImpl {
     final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
     return themeVm.theme;
   }
+}
+
+/// Value related
+///
+/// initialValue, validator, etc
+abstract class ValueImpl {
+  final BuildContext context;
+
+  ValueImpl(this.context);
 }

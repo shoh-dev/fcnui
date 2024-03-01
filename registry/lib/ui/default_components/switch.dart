@@ -93,21 +93,19 @@ class DefaultSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultDisabled(
-      vm: DisabledVm(
-        disabled: !vm.decoration.enabled,
-        child: FormBuilderField<bool>(
-          name: vm.name,
-          validator: vm.form.validator,
-          enabled: vm.decoration.enabled,
-          initialValue: vm.form.initialValue,
-          onChanged: vm.form.onChanged,
-          autovalidateMode: vm.form.autovalidateMode,
-          builder: (field) {
-            return _Switch(field: field, vm: vm);
-          },
-        ),
-      ),
-    );
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state: DisabledState(context, isDisabled: !vm.decoration.enabled),
+            child: DisabledChild(context,
+                child: FormBuilderField<bool>(
+                    name: vm.name,
+                    validator: vm.form.validator,
+                    enabled: vm.decoration.enabled,
+                    initialValue: vm.form.initialValue,
+                    onChanged: vm.form.onChanged,
+                    autovalidateMode: vm.form.autovalidateMode,
+                    builder: (field) {
+                      return _Switch(field: field, vm: vm);
+                    }))));
   }
 }
 

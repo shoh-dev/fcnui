@@ -714,28 +714,26 @@ class _HeaderState extends State<_Header> {
               children: [
                 // search field
                 SizedBox(
-                  height: double.maxFinite,
-                  width: MediaQuery.sizeOf(context).width * 0.3,
-                  child: DefaultInput(
-                    vm: InputModel(
-                      name: "table_search",
-                      hintText: "Filter",
-                      focusNode: focusNode,
-                      onChanged: (value) {
-                        try {
-                          stateManager.setFilter((element) =>
-                              element.cells.values.any((cell) => cell.value
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(value!.toLowerCase())) ==
-                              true);
-                        } catch (e) {
-                          debugPrint(e.toString());
-                        }
-                      },
-                    ),
-                  ),
-                ).w,
+                    height: double.maxFinite,
+                    width: MediaQuery.sizeOf(context).width * 0.3,
+                    child: DefaultInput(
+                        decorationBuilder: (context) => InputDecor(context,
+                            child: InputChild(context,
+                                name: "table_search", hintText: "Filter"),
+                            state: InputState(context, focusNode: focusNode),
+                            action: InputAction(context, onChanged: (value) {
+                              try {
+                                stateManager.setFilter((element) =>
+                                    element.cells.values.any((cell) => cell
+                                        .value
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(value!.toLowerCase())) ==
+                                    true);
+                              } catch (e) {
+                                debugPrint(e.toString());
+                              }
+                            })))).w,
 
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.3,

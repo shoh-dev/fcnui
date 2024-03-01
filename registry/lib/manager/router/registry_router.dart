@@ -73,17 +73,6 @@ final registryRouter = GoRouter(
       },
     ),
 
-    //DropdownPage
-    GoRoute(
-      path: "/dropdown",
-      builder: (context, state) {
-        final variant = DpVariant.values.firstWhere(
-            (e) => e.name == state.uri.queryParameters['variant'],
-            orElse: () => DpVariant.form);
-        return DropdownPage(variant: variant);
-      },
-    ),
-
     //Switch
     GoRoute(
       path: "/switch",

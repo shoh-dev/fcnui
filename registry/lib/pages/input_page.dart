@@ -178,12 +178,9 @@ class _Default extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultInput(
-      vm: InputModel(
-        name: "email",
-        hintText: "Email",
-      ),
-    );
+    return DefaultInput(
+        decorationBuilder: (context) => InputDecor(context,
+            child: InputChild(context, name: "email", hintText: "Email")));
   }
 }
 
@@ -192,13 +189,10 @@ class _Disabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultInput(
-      vm: InputModel(
-        name: "emailDisabled",
-        enabled: false,
-        hintText: "Email",
-      ),
-    );
+    return DefaultInput(
+        decorationBuilder: (context) => InputDecor(context,
+            state: InputState(context, isDisabled: true),
+            child: InputChild(context, name: "email", hintText: "Email")));
   }
 }
 
@@ -207,13 +201,11 @@ class _WithLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const WithLabel(
-        labelVm: LabelModel(text: "Email", enabled: true),
+    return WithLabel(
+        labelVm: const LabelModel(text: "Email", enabled: true),
         child: DefaultInput(
-            vm: InputModel(
-          name: "emailWithLabel",
-          hintText: "Email",
-        )));
+            decorationBuilder: (context) => InputDecor(context,
+                child: InputChild(context, name: "email", hintText: "Email"))));
   }
 }
 
@@ -231,19 +223,20 @@ class _WithButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            child: DefaultInput(
-                vm: InputModel(
-              maxLines: 1,
-              name: "emailWithButton",
-              hintText: "Email",
-              validators: [
-                FormBuilderValidators.required(
-                    errorText: "Please enter your email address"),
-                FormBuilderValidators.email(
-                    errorText: "Please enter a valid email address"),
-              ],
-            )),
-          ),
+              child: DefaultInput(
+                  decorationBuilder: (context) => InputDecor(context,
+                      child: InputChild(
+                        context,
+                        maxLines: 1,
+                        name: "emailWithButton",
+                        hintText: "Email",
+                      ),
+                      value: InputValue(context, validators: [
+                        FormBuilderValidators.required(
+                            errorText: "Please enter your email address"),
+                        FormBuilderValidators.email(
+                            errorText: "Please enter a valid email address")
+                      ])))),
           SaveButton(text: "Subscribe", vm: formModel, onSave: print),
         ],
       ).spaced(10),
@@ -265,16 +258,15 @@ class _Form extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultInput(
-              vm: InputModel(
-                name: "username",
-                hintText: "Username",
-                helperText: "This is your public display name",
-                validators: [
-                  FormBuilderValidators.minLength(2,
-                      errorText: 'Username must be at least 2 characters.'),
-                ],
-              ),
-            ),
+                decorationBuilder: (context) => InputDecor(context,
+                    child: InputChild(context,
+                        name: "username",
+                        hintText: "Username",
+                        helperText: "This is your public display name"),
+                    value: InputValue(context, validators: [
+                      FormBuilderValidators.minLength(2,
+                          errorText: 'Username must be at least 2 characters.')
+                    ]))),
             SaveButton(
                 vm: formModel,
                 onSave: (value) {

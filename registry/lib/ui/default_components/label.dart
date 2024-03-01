@@ -29,29 +29,29 @@ class Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultDisabled(
-        vm: DisabledVm(
-      disabled: !vm.enabled,
-      child: RichText(
-          text: TextSpan(children: [
-        TextSpan(
-            text: vm.text,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontWeight: FontWeight.normal,
-                  color: vm.enabled
-                      ? null
-                      : Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.4),
-                )),
-        if (vm.isRequired)
-          TextSpan(
-              text: "\t*",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.red))
-      ])),
-    ));
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state: DisabledState(context, isDisabled: !vm.enabled),
+            child: DisabledChild(context,
+                child: RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: vm.text,
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.normal,
+                            color: vm.enabled
+                                ? null
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.4),
+                          )),
+                  if (vm.isRequired)
+                    TextSpan(
+                        text: "\t*",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: Colors.red))
+                ])))));
   }
 }

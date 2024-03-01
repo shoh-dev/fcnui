@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: const DefaultAppBar(),
       body: TextButton(
-        onPressed: () => context.go("/card"),
+        onPressed: () => context.go("/input"),
         child: const Text("Go to button page"),
       ),
     );

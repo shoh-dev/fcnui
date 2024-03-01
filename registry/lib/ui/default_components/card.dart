@@ -12,23 +12,23 @@ class CardDecoration extends DecorationImpl {
     CardBorder? border,
     CardSize? size,
   }) {
-    super.childTheme = child;
-    super.colorTheme = color ?? CardColor(context);
-    super.borderTheme = border ?? CardBorder(context);
-    super.sizeTheme = size ?? CardSize(context);
+    super.child = child;
+    super.color = color ?? CardColor(context);
+    super.border = border ?? CardBorder(context);
+    super.size = size ?? CardSize(context);
   }
 
   @override
-  CardChild get childTheme => super.childTheme as CardChild;
+  CardChild get child => super.child as CardChild;
 
   @override
-  CardColor get colorTheme => super.colorTheme as CardColor;
+  CardColor get color => super.color as CardColor;
 
   @override
-  CardBorder get borderTheme => super.borderTheme as CardBorder;
+  CardBorder get border => super.border as CardBorder;
 
   @override
-  CardSize get sizeTheme => super.sizeTheme as CardSize;
+  CardSize get size => super.size as CardSize;
 }
 
 class CardChild extends ChildImpl {
@@ -237,10 +237,10 @@ class CardCustom {
   });
 }
 
-typedef DecorationBuilder = CardDecoration Function(BuildContext context);
+typedef CardDecorationBuilder = CardDecoration Function(BuildContext context);
 
 class DefaultCard extends StatelessWidget {
-  final DecorationBuilder decorationBuilder;
+  final CardDecorationBuilder decorationBuilder;
 
   const DefaultCard({
     super.key,
@@ -260,40 +260,39 @@ class DefaultCard extends StatelessWidget {
   Widget _getCard(CardDecoration decoration) {
     return Container(
         decoration: BoxDecoration(
-          color: decoration.colorTheme.background,
-          borderRadius: decoration.borderTheme.borderRadius,
-          boxShadow: decoration.colorTheme.boxShadow,
-          border: decoration.borderTheme.borderSide != null
-              ? Border.fromBorderSide(decoration.borderTheme.borderSide!)
+          color: decoration.color.background,
+          borderRadius: decoration.border.borderRadius,
+          boxShadow: decoration.color.boxShadow,
+          border: decoration.border.borderSide != null
+              ? Border.fromBorderSide(decoration.border.borderSide!)
               : null,
         ),
-        padding: decoration.sizeTheme.padding,
-        child: decoration.childTheme.custom == null
+        padding: decoration.size.padding,
+        child: decoration.child.custom == null
             ? Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                    decoration.sizeTheme.childrenCrossAxisAlignment!,
+                crossAxisAlignment: decoration.size.childrenCrossAxisAlignment!,
                 children: [
                   _getTitle(decoration),
-                  if (decoration.childTheme.subtitle != null)
+                  if (decoration.child.subtitle != null)
                     _getSubtitle(decoration),
                   _getContent(decoration),
                   _getFooter(decoration),
                 ],
               )
             : Padding(
-                padding: decoration.sizeTheme.padding!,
-                child: decoration.childTheme.custom!.widget,
+                padding: decoration.size.padding!,
+                child: decoration.child.custom!.widget,
               ));
   }
 
   Widget _getTitle(CardDecoration decoration) {
-    final title = decoration.childTheme.title!;
-    return Text(title.title, style: decoration.childTheme.title!.style);
+    final title = decoration.child.title!;
+    return Text(title.title, style: decoration.child.title!.style);
   }
 
   Widget _getSubtitle(CardDecoration decoration) {
-    final subtitle = decoration.childTheme.subtitle!;
+    final subtitle = decoration.child.subtitle!;
 
     Widget widget = Text(subtitle.subtitle, style: subtitle.style);
 
@@ -304,7 +303,7 @@ class DefaultCard extends StatelessWidget {
   }
 
   Widget _getContent(CardDecoration decoration) {
-    final content = decoration.childTheme.content!;
+    final content = decoration.child.content!;
 
     Widget widget = content.content;
 
@@ -315,7 +314,7 @@ class DefaultCard extends StatelessWidget {
   }
 
   Widget _getFooter(CardDecoration decoration) {
-    final footer = decoration.childTheme.footer!;
+    final footer = decoration.child.footer!;
 
     Widget widget = Row(
       mainAxisAlignment: footer.mainAxisAlignment,

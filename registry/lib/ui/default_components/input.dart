@@ -7,159 +7,303 @@ import 'package:registry/ui/default_components/fcnui_theme.dart';
 import 'form.dart';
 import 'disabled.dart';
 
-class InputModel extends IFormModel {
-  final String? initialValue;
-  final ValueChanged<String?>? onChanged;
-  final int? maxLines;
-  final List<FormFieldValidator<String>> validators;
-  final List<TextInputFormatter> inputFormatters;
-  final bool enabled;
-  final bool readOnly;
-  final String? hintText;
-  final String? helperText;
-  final ValueTransformer<String?>? valueTransformer;
-  final TextEditingController? controller;
-  final FocusNode? focusNode;
-
-  const InputModel({
-    required super.name,
-    this.initialValue,
-    this.focusNode,
-    this.controller,
-    this.onChanged,
-    this.valueTransformer,
-    this.helperText,
-    this.enabled = true,
-    this.readOnly = false,
-    this.maxLines,
-    this.hintText,
-    this.validators = const [],
-    this.inputFormatters = const [],
-  });
-
-  @override
-  List<Object?> get props => [
-        name,
-        initialValue,
-        onChanged,
-        valueTransformer,
-        helperText,
-        enabled,
-        readOnly,
-        maxLines,
-        hintText,
-        validators,
-        inputFormatters,
-        controller,
-        focusNode,
-      ];
-}
-
-class DefaultInput extends StatelessWidget {
-  final InputModel vm;
-
-  const DefaultInput({super.key, required this.vm});
-
-  @override
-  Widget build(BuildContext context) {
-    return ThemeProvider(builder: (context, vm) {
-      return _getChild(vm);
-    });
+class InputDecor extends DecorationImpl {
+  InputDecor(
+    super.context, {
+    required InputChild child,
+    InputState? state,
+    InputAction? action,
+    InputValue? value,
+    InputColor? color,
+    InputBorder? border,
+    InputSize? size,
+  }) {
+    super.child = child;
+    super.state = state ?? InputState(context);
+    super.action = action ?? InputAction(context);
+    super.value = value ?? InputValue(context);
+    super.color = color ?? InputColor(context);
+    super.border = border ?? InputBorder(context);
+    super.size = size ?? InputSize(context);
   }
 
-  Widget _getChild(ThemeVm themeVm) {
-    final theme = themeVm.theme;
-    return DefaultDisabled(
-        vm: DisabledVm(
-      disabled: !vm.enabled,
-      child: Theme(
-        data: theme.copyWith(
-          inputDecorationTheme: InputDecorationTheme(
-            hoverColor: Colors.transparent,
-            //Border when tapped and focused
-            focusedBorder: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
-                borderSide: BorderSide(
-                        color: theme.colorScheme.primary,
-                        width: FcnuiDefaultSizes.selectedBorderWidth,
-                        strokeAlign: BorderSide.strokeAlignOutside)
-                    .w),
-            //Idle state border
-            enabledBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
-              borderSide: BorderSide(
-                      color: theme.dividerColor,
-                      width: FcnuiDefaultSizes.borderWidth,
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
-              borderSide: const BorderSide(
-                      color: Colors.red,
-                      width: FcnuiDefaultSizes.borderWidth,
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
-              borderSide: BorderSide(
-                      width: FcnuiDefaultSizes.borderWidth,
-                      color: theme.dividerColor.withOpacity(0.6),
-                      strokeAlign: BorderSide.strokeAlignInside)
-                  .w,
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r,
-              borderSide: const BorderSide(
-                      color: Colors.red,
-                      width: FcnuiDefaultSizes.selectedBorderWidth,
-                      strokeAlign: BorderSide.strokeAlignOutside)
-                  .w,
-            ),
-            errorStyle:
-                theme.textTheme.bodyMedium!.copyWith(color: Colors.red).sp,
-            helperStyle: theme.textTheme.bodyMedium!
-                .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6))
-                .sp,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 8).w,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            filled: true,
-            fillColor: theme.colorScheme.surface,
-            hintStyle: theme.textTheme.bodyMedium!
-                .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.4))
-                .sp,
-          ),
-        ),
-        child: FormBuilderTextField(
-          focusNode: vm.focusNode,
-          controller: vm.controller,
-          style: theme.textTheme.bodyLarge!
+  @override
+  InputChild get child => super.child as InputChild;
+
+  @override
+  InputState get state => super.state as InputState;
+
+  @override
+  InputAction get action => super.action as InputAction;
+
+  @override
+  InputValue get value => super.value as InputValue;
+
+  @override
+  InputColor get color => super.color as InputColor;
+
+  @override
+  InputBorder get border => super.border as InputBorder;
+
+  @override
+  InputSize get size => super.size as InputSize;
+}
+
+class InputChild extends ChildImpl {
+  InputChild(
+    super.context, {
+    this.helperText,
+    this.hintText,
+    this.maxLines,
+    required this.name,
+    this.inputFormatters = const [],
+    TextStyle? errorStyle,
+    TextStyle? helperStyle,
+    TextStyle? hintStyle,
+    TextStyle? valueStyle,
+  }) {
+    void setErrorStyle() {
+      this.errorStyle = errorStyle ??
+          theme.textTheme.bodyMedium!.copyWith(color: Colors.red).sp;
+    }
+
+    void setHelperStyle() {
+      this.helperStyle = helperStyle ??
+          theme.textTheme.bodyMedium!
+              .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6))
+              .sp;
+    }
+
+    void setHintStyle() {
+      this.hintStyle = hintStyle ??
+          theme.textTheme.bodyMedium!
+              .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.4))
+              .sp;
+    }
+
+    void setValueStyle() {
+      this.valueStyle = valueStyle ??
+          theme.textTheme.bodyLarge!
               .copyWith(
                   color: theme.colorScheme.onSurface,
                   fontWeight: FontWeight.normal)
-              .sp,
-          name: vm.name,
-          initialValue: vm.initialValue,
-          onChanged: vm.onChanged,
-          maxLines: vm.maxLines,
-          validator: FormBuilderValidators.compose(vm.validators),
-          inputFormatters: vm.inputFormatters,
-          enabled: vm.enabled,
-          valueTransformer: vm.valueTransformer,
-          readOnly: vm.readOnly,
-          decoration: InputDecoration(
-            helperText: vm.helperText,
-            hintText: vm.hintText,
-          ),
-        ),
-      ),
-    ));
+              .sp;
+    }
+
+    setErrorStyle();
+    setHelperStyle();
+    setHintStyle();
+    setValueStyle();
+  }
+
+  final String name;
+  final String? hintText;
+  final String? helperText;
+  final int? maxLines;
+  final List<TextInputFormatter> inputFormatters;
+
+  TextStyle? errorStyle;
+  TextStyle? helperStyle;
+  TextStyle? hintStyle;
+  TextStyle? valueStyle;
+}
+
+class InputState extends StateImpl {
+  InputState(
+    super.context, {
+    super.isDisabled,
+    this.readOnly = false,
+    this.focusNode,
+    this.isFilled = true,
+  });
+
+  final bool readOnly;
+  final FocusNode? focusNode;
+  final bool isFilled;
+}
+
+class InputAction extends ActionImpl {
+  InputAction(super.context, {this.onChanged});
+
+  final ValueChanged<String?>? onChanged;
+}
+
+class InputValue extends ValueImpl {
+  InputValue(super.context,
+      {this.initialValue, this.validators = const [], this.controller});
+
+  final String? initialValue;
+  final List<FormFieldValidator<String>> validators;
+  final TextEditingController? controller;
+}
+
+class InputColor extends ColorImpl {
+  InputColor(
+    super.context, {
+    Color? hoverColor,
+    Color? fillColor,
+  }) {
+    void setHoverColor() {
+      this.hoverColor = hoverColor ?? Colors.transparent;
+    }
+
+    void setFillColor() {
+      this.fillColor = fillColor ?? theme.colorScheme.surface;
+    }
+
+    setHoverColor();
+    setFillColor();
+  }
+
+  Color? hoverColor;
+  Color? fillColor;
+}
+
+class InputBorder extends BorderImpl {
+  InputBorder(
+    super.context, {
+    BorderSide? focusedBorderSide,
+    BorderSide? enabledBorderSide,
+    BorderSide? errorBorderSide,
+    BorderSide? disabledBorderSide,
+    BorderRadius? borderRadius,
+  }) {
+    void setBorderRadius() {
+      super.borderRadius = borderRadius ??
+          BorderRadius.circular(FcnuiDefaultSizes.borderRadius).r;
+    }
+
+    void setFocusBorderSide() {
+      this.focusedBorderSide = focusedBorderSide ??
+          BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: FcnuiDefaultSizes.selectedBorderWidth,
+                  strokeAlign: BorderSide.strokeAlignOutside)
+              .w;
+    }
+
+    void setEnabledBorderSide() {
+      this.enabledBorderSide = enabledBorderSide ??
+          BorderSide(
+                  color: theme.dividerColor,
+                  width: FcnuiDefaultSizes.borderWidth,
+                  strokeAlign: BorderSide.strokeAlignInside)
+              .w;
+    }
+
+    void setErrorBorderSide() {
+      this.errorBorderSide = errorBorderSide ??
+          const BorderSide(
+                  color: Colors.red,
+                  width: FcnuiDefaultSizes.borderWidth,
+                  strokeAlign: BorderSide.strokeAlignInside)
+              .w;
+    }
+
+    void setDisabledBorderSide() {
+      this.disabledBorderSide = disabledBorderSide ??
+          BorderSide(
+                  width: FcnuiDefaultSizes.borderWidth,
+                  color: theme.dividerColor.withOpacity(0.6),
+                  strokeAlign: BorderSide.strokeAlignInside)
+              .w;
+    }
+
+    setBorderRadius();
+    setFocusBorderSide();
+    setEnabledBorderSide();
+    setErrorBorderSide();
+    setDisabledBorderSide();
+  }
+
+  BorderSide? focusedBorderSide;
+  BorderSide? enabledBorderSide;
+  BorderSide? errorBorderSide;
+  BorderSide? disabledBorderSide;
+}
+
+class InputSize extends SizeImpl {
+  InputSize(
+    super.context, {
+    EdgeInsetsGeometry? padding,
+  }) {
+    void setPadding() {
+      this.padding =
+          padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8).w;
+    }
+
+    setPadding();
+  }
+
+  EdgeInsetsGeometry? padding;
+}
+
+typedef InputDecorBuilder = InputDecor Function(BuildContext context);
+
+class DefaultInput extends StatelessWidget {
+  final InputDecorBuilder decorationBuilder;
+
+  const DefaultInput({super.key, required this.decorationBuilder});
+
+  @override
+  Widget build(BuildContext context) {
+    final decoration = decorationBuilder(context);
+    return _getChild(decoration);
+  }
+
+  Widget _getChild(InputDecor decoration) {
+    final theme = decoration.theme;
+    return DefaultDisabled(
+        decorationBuilder: (context) => DisabledDecoration(context,
+            state:
+                DisabledState(context, isDisabled: decoration.state.isDisabled),
+            child: DisabledChild(context,
+                child: Theme(
+                    data: theme.copyWith(
+                        inputDecorationTheme: InputDecorationTheme(
+                            hoverColor: decoration.color.hoverColor,
+                            //Border when tapped and focused
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: decoration.border.borderRadius!,
+                                borderSide:
+                                    decoration.border.focusedBorderSide!),
+                            //Idle state border
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: decoration.border.borderRadius!,
+                                borderSide:
+                                    decoration.border.enabledBorderSide!),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: decoration.border.borderRadius!,
+                                borderSide: decoration.border.errorBorderSide!),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius: decoration.border.borderRadius!,
+                                borderSide:
+                                    decoration.border.disabledBorderSide!),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: decoration.border.borderRadius!,
+                                borderSide: decoration.border.errorBorderSide!),
+                            errorStyle: decoration.child.errorStyle!,
+                            helperStyle: decoration.child.helperStyle!,
+                            contentPadding: decoration.size.padding,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            filled: decoration.state.isFilled,
+                            fillColor: decoration.color.fillColor,
+                            hintStyle: decoration.child.hintStyle!)),
+                    child: FormBuilderTextField(
+                        focusNode: decoration.state.focusNode,
+                        controller: decoration.value.controller,
+                        style: decoration.child.valueStyle!,
+                        name: decoration.child.name,
+                        initialValue: decoration.value.initialValue,
+                        onChanged: decoration.action.onChanged,
+                        maxLines: decoration.child.maxLines,
+                        validator: FormBuilderValidators.compose(
+                            decoration.value.validators),
+                        inputFormatters: decoration.child.inputFormatters,
+                        enabled: !decoration.state.isDisabled,
+                        readOnly: decoration.state.readOnly,
+                        decoration: InputDecoration(
+                            helperText: decoration.child.helperText,
+                            hintText: decoration.child.hintText))))));
   }
 }
