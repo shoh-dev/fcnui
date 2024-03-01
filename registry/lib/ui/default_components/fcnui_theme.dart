@@ -147,6 +147,11 @@ abstract class ActionImpl {
   final VoidCallback? onPressed;
 
   ActionImpl(this.context, {this.onPressed});
+
+  ThemeData get theme {
+    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
+    return themeVm.theme;
+  }
 }
 
 /// Child related theme
@@ -158,4 +163,9 @@ abstract class ChildImpl {
   Widget? child;
 
   ChildImpl(this.context, {this.child});
+
+  ThemeData get theme {
+    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
+    return themeVm.theme;
+  }
 }

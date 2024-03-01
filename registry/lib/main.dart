@@ -6,7 +6,7 @@ import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/default_components/table.dart';
 import 'manager/manager.dart';
-import 'ui/default_components/theme.dart';
+import 'ui/default_components/fcnui_theme.dart';
 import 'ui/layout/default_layout.dart';
 
 void main() async {
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: const DefaultAppBar(),
       body: TextButton(
-        onPressed: () => context.go("/button"),
+        onPressed: () => context.go("/card"),
         child: const Text("Go to button page"),
       ),
     );
@@ -397,7 +397,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   DefaultTable(
                     vm: TableVm(
                       decoration: const TableDecoration(
-                        wrapperDecoration: CardDecoration(),
                         defaultRowHeight: 56,
                         defaultColumnTitlePadding: EdgeInsets.all(8),
                       ),

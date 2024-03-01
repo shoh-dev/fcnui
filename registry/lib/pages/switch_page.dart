@@ -324,120 +324,159 @@ class _Form extends StatelessWidget {
     return DefaultForm(
       vm: formModel,
       child: DefaultCard(
-        custom: CardCustom(
-          widget:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Notification', style: textTheme.displaySmall),
-            Text('You have 3 new notifications', style: textTheme.labelLarge),
-            const SizedBox(height: 20),
-            DefaultCard(
+        decorationBuilder: (context) => CardDecoration(context,
+            child: CardChild(
+              context,
               custom: CardCustom(
-                  widget: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+                widget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.notifications_active_outlined,
-                        size: 32,
+                      Text('Notification', style: textTheme.displaySmall),
+                      Text('You have 3 new notifications',
+                          style: textTheme.labelLarge),
+                      const SizedBox(height: 20),
+                      DefaultCard(
+                        decorationBuilder: (context) {
+                          return CardDecoration(context,
+                              child: CardChild(context,
+                                  custom: CardCustom(
+                                      widget: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.notifications_active_outlined,
+                                            size: 32,
+                                          ),
+                                          const SizedBox(width: 20),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Push Notifications',
+                                                    style: textTheme.labelLarge!
+                                                        .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                                Text(
+                                                    'Send push notifications to your users',
+                                                    style:
+                                                        textTheme.labelMedium),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const DefaultSwitch(
+                                          vm: SwitchModel(
+                                              name: "pushNotifications")),
+                                    ],
+                                  ).spaced(10))));
+                        },
                       ),
-                      const SizedBox(width: 20),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Push Notifications',
-                                style: textTheme.labelLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Text('Send push notifications to your users',
-                                style: textTheme.labelMedium),
-                          ],
-                        ),
+                      const SizedBox(height: 20),
+                      DefaultCard(
+                        decorationBuilder: (context) {
+                          return CardDecoration(context,
+                              child: CardChild(context,
+                                  custom: CardCustom(
+                                      widget: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.email,
+                                            size: 32,
+                                          ),
+                                          const SizedBox(width: 20),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Marketing Emails',
+                                                    style: textTheme.labelLarge!
+                                                        .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                                Text(
+                                                    'Receive marketing emails from us',
+                                                    style:
+                                                        textTheme.labelMedium),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const DefaultSwitch(
+                                          vm: SwitchModel(
+                                              name: "marketingEmails")),
+                                    ],
+                                  ).spaced(10))));
+                        },
                       ),
-                    ],
-                  ),
-                  const DefaultSwitch(
-                      vm: SwitchModel(name: "pushNotifications")),
-                ],
-              ).spaced(10)),
-            ),
-            const SizedBox(height: 20),
-            DefaultCard(
-              custom: CardCustom(
-                  widget: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.email,
-                        size: 32,
-                      ),
-                      const SizedBox(width: 20),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Marketing Emails',
-                                style: textTheme.labelLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Text('Receive marketing emails from us',
-                                style: textTheme.labelMedium),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const DefaultSwitch(vm: SwitchModel(name: "marketingEmails")),
-                ],
-              ).spaced(10)),
-            ),
-            const SizedBox(height: 20),
-            DefaultSwitch(
-                vm: SwitchModel(
-                    name: "checkAll",
-                    decoration: const SwitchDecoration(
-                      title: "Check all required switches",
-                    ),
-                    form: SwitchForm(
-                      onChanged: (value) {
-                        formModel.patchValue({
-                          "pushNotifications": value,
-                        });
-                      },
-                      validator: (p0) {
-                        //check if all switches are on
-                        if (formModel.getValue("pushNotifications") == false) {
-                          return "Please check all required switches";
-                        }
-                        return null;
-                      },
-                    ))),
-            const SizedBox(height: 20),
-            DefaultButton(decorationBuilder: (context, type) {
-              return ButtonDecoration(
-                context,
-                type: type,
-                colorTheme: ButtonColor(context, type: type),
-                action: ButtonAction(context, onPressed: () {
-                  formModel.saveAndValidate();
-                  if (!formModel.formKey.currentState!.validate()) return;
-                  showSnackbar(context, formModel.getValues());
-                }),
-                child: ButtonChild(context,
-                    icon: Icons.check, text: "Mark all as read"),
-                size: ButtonSize(context, type,
-                    minimumSize: const Size(double.infinity, 48)),
-              );
-            }),
-          ]),
-        ),
+                      const SizedBox(height: 20),
+                      DefaultSwitch(
+                          vm: SwitchModel(
+                              name: "checkAll",
+                              decoration: const SwitchDecoration(
+                                title: "Check all required switches",
+                              ),
+                              form: SwitchForm(
+                                onChanged: (value) {
+                                  formModel.patchValue({
+                                    "pushNotifications": value,
+                                  });
+                                },
+                                validator: (p0) {
+                                  //check if all switches are on
+                                  if (formModel.getValue("pushNotifications") ==
+                                      false) {
+                                    return "Please check all required switches";
+                                  }
+                                  return null;
+                                },
+                              ))),
+                      const SizedBox(height: 20),
+                      DefaultButton(decorationBuilder: (context, type) {
+                        return ButtonDecoration(
+                          context,
+                          type: type,
+                          colorTheme: ButtonColor(context, type: type),
+                          action: ButtonAction(context, onPressed: () {
+                            formModel.saveAndValidate();
+                            if (!formModel.formKey.currentState!.validate())
+                              return;
+                            showSnackbar(context, formModel.getValues());
+                          }),
+                          child: ButtonChild(context,
+                              icon: Icons.check, text: "Mark all as read"),
+                          size: ButtonSize(context, type,
+                              minimumSize: const Size(double.infinity, 48)),
+                        );
+                      }),
+                    ]),
+              ),
+            )),
       ),
     );
   }

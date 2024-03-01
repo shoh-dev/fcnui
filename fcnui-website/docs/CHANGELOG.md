@@ -10,6 +10,15 @@ Full changelog of the project.
 
 ## 28.02.2024
 
+- Changed the way to create and update components' view models.
+  - There are several abstract classes which will be extended to create view models.
+  - `DecorationImpl`, `ColorImpl`, `BorderImpl`, `SizeImpl`, `StateImpl`, `ActionImpl`, `ChildImpl`
+- Update `button` view model with new way.
+- Update `card` view model with new way.
+- 
+
+## 28.02.2024
+
 - [Registry] Add `switch` component;
 - [Homepage] Add `switch` component;
 

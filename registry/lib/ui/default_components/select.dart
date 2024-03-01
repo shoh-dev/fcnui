@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'disabled.dart';
 import 'form.dart';
 import 'input.dart';
-import 'theme.dart';
+import 'fcnui_theme.dart';
 
 class DefaultSelect<T> extends StatefulWidget {
   final SelectOptions<T> options;

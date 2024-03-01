@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fcnui_base/fcnui_base.dart';
-import 'package:registry/ui/default_components/theme.dart';
+import 'package:registry/ui/default_components/fcnui_theme.dart';
 
 class ButtonDecoration extends DecorationImpl {
   final ButtonType type;

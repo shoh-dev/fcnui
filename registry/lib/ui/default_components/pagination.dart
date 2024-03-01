@@ -3,7 +3,7 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 
-import 'theme.dart';
+import 'fcnui_theme.dart';
 import 'button.dart';
 
 class DefaultPagination extends StatelessWidget {

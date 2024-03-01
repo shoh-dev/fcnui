@@ -308,7 +308,7 @@ class TableLocaleText extends Equatable {
 @immutable
 class TableDecoration extends Equatable {
   final bool enableWrapper;
-  final CardDecoration wrapperDecoration;
+  final CardDecoration? wrapperDecoration;
   final bool isVerticalBorderVisible;
   final bool isHorizontalBorderVisible;
   final Color? checkedRowColor;
@@ -333,10 +333,7 @@ class TableDecoration extends Equatable {
   final bool enableFooter;
 
   const TableDecoration({
-    this.wrapperDecoration = const CardDecoration(
-      padding: EdgeInsets.all(0),
-      borderRadius: BorderRadius.all(Radius.circular(16)),
-    ),
+    this.wrapperDecoration,
     this.isVerticalBorderVisible = false,
     this.isHorizontalBorderVisible = true,
     this.checkedRowColor,
@@ -420,7 +417,7 @@ class _DefaultTableState extends State<DefaultTable> {
           decoration.gridBorderColor ?? Colors.grey.withOpacity(.1);
       if (isDarkMode) {
         return PlutoGridStyleConfig.dark(
-          gridBorderRadius: decoration.wrapperDecoration.borderRadius,
+          // gridBorderRadius: decoration.wrapperDecoration.borderRadius,//todo:
           gridBorderColor: borderColor,
           borderColor: borderColor,
           inactivatedBorderColor: borderColor,
@@ -457,7 +454,7 @@ class _DefaultTableState extends State<DefaultTable> {
         );
       }
       return PlutoGridStyleConfig(
-        gridBorderRadius: decoration.wrapperDecoration.borderRadius,
+        // gridBorderRadius: decoration.wrapperDecoration.borderRadius, //todo:
         gridBorderColor: borderColor,
         borderColor: borderColor,
         inactivatedBorderColor: borderColor,
@@ -560,10 +557,7 @@ class _DefaultTableState extends State<DefaultTable> {
   Widget build(BuildContext context) {
     return ThemeProvider(builder: (context, themeVm) {
       if (vm.decoration.enableWrapper) {
-        return DefaultCard(
-          decoration: vm.decoration.wrapperDecoration,
-          custom: CardCustom(widget: getTable(themeVm)),
-        );
+        return getTable(themeVm);
       } else {
         return getTable(themeVm);
       }

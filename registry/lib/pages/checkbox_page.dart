@@ -249,23 +249,27 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultCard(
-      decoration: CardDecoration(padding: EdgeInsets.all(16)),
-      custom: CardCustom(
-          widget: DefaultCheckbox(
-        vm: CheckboxModel(
-          name: "settingsField",
-          orientation: OptionsOrientation.vertical,
-          items: [
-            DpItem(
-              id: "settings",
-              title: "Use different settings for my mobile devices",
-              subtitle:
-                  "You can manage your mobile notifications in the mobile settings page.",
-            ),
-          ],
-        ),
-      )),
+    return DefaultCard(
+      decorationBuilder: (context) {
+        return CardDecoration(context,
+            size: CardSize(context, padding: const EdgeInsets.all(16)),
+            child: CardChild(context,
+                custom: const CardCustom(
+                    widget: DefaultCheckbox(
+                  vm: CheckboxModel(
+                    name: "settingsField",
+                    orientation: OptionsOrientation.vertical,
+                    items: [
+                      DpItem(
+                        id: "settings",
+                        title: "Use different settings for my mobile devices",
+                        subtitle:
+                            "You can manage your mobile notifications in the mobile settings page.",
+                      ),
+                    ],
+                  ),
+                ))));
+      },
     );
   }
 }
