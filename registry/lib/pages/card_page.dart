@@ -268,8 +268,9 @@ class _DefaultCardWithForm extends StatelessWidget {
                     vm: formModel,
                     child: Column(children: [
                       WithLabel(
-                          labelVm:
-                              const LabelModel(text: "Name", isRequired: true),
+                          labelBuilder: (context) => LabelDecoration(context,
+                              child: LabelChild(context, text: "Name"),
+                              state: LabelState(context, isRequired: true)),
                           child: DefaultInput(
                               decorationBuilder: (context) => InputDecor(
                                   context,
@@ -280,7 +281,8 @@ class _DefaultCardWithForm extends StatelessWidget {
                                     FormBuilderValidators.required()
                                   ])))),
                       WithLabel(
-                          labelVm: const LabelModel(text: "Description"),
+                          labelBuilder: (context) => LabelDecoration(context,
+                              child: LabelChild(context, text: "Description")),
                           child: DefaultInput(
                               decorationBuilder: (context) => InputDecor(
                                   context,
@@ -430,8 +432,10 @@ class _DecoratedCard extends StatelessWidget {
                         vm: formModel,
                         child: Column(children: [
                           WithLabel(
-                              labelVm: const LabelModel(
-                                  text: "Name", isRequired: true),
+                              labelBuilder: (context) => LabelDecoration(
+                                  context,
+                                  child: LabelChild(context, text: "Name"),
+                                  state: LabelState(context, isRequired: true)),
                               child: DefaultInput(
                                   decorationBuilder: (context) => InputDecor(
                                       context,
@@ -442,7 +446,10 @@ class _DecoratedCard extends StatelessWidget {
                                         FormBuilderValidators.required()
                                       ])))),
                           WithLabel(
-                              labelVm: const LabelModel(text: "Description"),
+                              labelBuilder: (context) => LabelDecoration(
+                                  context,
+                                  child:
+                                      LabelChild(context, text: "Description")),
                               child: DefaultInput(
                                   decorationBuilder: (context) => InputDecor(
                                         context,

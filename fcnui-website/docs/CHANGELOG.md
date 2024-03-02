@@ -8,14 +8,23 @@ Full changelog of the project.
 - Base - `fcnui_base` package which is the core of `fcnui` package.
 - API - `fcnui` package API documentation which provides `json` format components.
 
-## 28.02.2024
+## 02.03.2024
+
+- [Registry] Add `radio` component;
+- 
+
+## 28.02.2024 - 01.03.2024
 
 - Changed the way to create and update components' view models.
   - There are several abstract classes which will be extended to create view models.
   - `DecorationImpl`, `ColorImpl`, `BorderImpl`, `SizeImpl`, `StateImpl`, `ActionImpl`, `ChildImpl`
 - Update `button` view model with new way.
 - Update `card` view model with new way.
-- 
+- Update `input` view model with new way.
+- Update `disabled` view model with new way.
+- Update `with_label` view model with new way.
+- Update `label` view model with new way.
+- Update `pagination` view model with new way.
 
 ## 28.02.2024
 

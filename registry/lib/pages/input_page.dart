@@ -202,7 +202,9 @@ class _WithLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WithLabel(
-        labelVm: const LabelModel(text: "Email", enabled: true),
+        labelBuilder: (context) => LabelDecoration(context,
+            child: LabelChild(context, text: "Email"),
+            state: LabelState(context, isDisabled: false)),
         child: DefaultInput(
             decorationBuilder: (context) => InputDecor(context,
                 child: InputChild(context, name: "email", hintText: "Email"))));
@@ -253,7 +255,8 @@ class _Form extends StatelessWidget {
     return DefaultForm(
       vm: formModel,
       child: WithLabel(
-        labelVm: const LabelModel(text: "Username"),
+        labelBuilder: (context) => LabelDecoration(context,
+            child: LabelChild(context, text: "Username")),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

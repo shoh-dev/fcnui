@@ -198,22 +198,24 @@ class _Idle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultRadio(
-        vm: RadioModel(
-            name: "radio",
-            decoration: const RadioDecoration(
-              title: "Select your favorite city",
+        decorationBuilder: (context) => RadioDecoration(context,
+            value: RadioValue(context, name: "radio", items: const [
+              DpItem(id: 'default', title: "Default"),
+              DpItem(id: 'disabled', title: "Disabled"),
+              DpItem(id: 'comfortable', title: "Comfortable"),
+              DpItem(id: 'compact', title: "Compact"),
+            ], disabledItems: [
+              'disabled',
+            ]),
+            action: RadioAction(
+              context,
+              onChanged: (value) {
+                showSnackbar(context, value);
+              },
             ),
-            form: RadioForm(
-              disabled: const [
-                'disabled',
-              ],
-              onChanged: (value) {},
-              items: const [
-                DpItem(id: 'default', title: "Default"),
-                DpItem(id: 'disabled', title: "Disabled"),
-                DpItem(id: 'comfortable', title: "Comfortable"),
-                DpItem(id: 'compact', title: "Compact"),
-              ],
+            child: RadioChild(
+              context,
+              title: "Select your favorite city",
             )));
   }
 }
@@ -232,32 +234,39 @@ class _Form extends StatelessWidget {
         DefaultForm(
           vm: formModel,
           child: DefaultRadio(
-              vm: RadioModel(
-                  name: "radio",
-                  decoration: const RadioDecoration(
-                    title: "Select your favorite city",
-                  ),
-                  form: RadioForm(
+              decorationBuilder: (context) => RadioDecoration(context,
+                  value: RadioValue(
+                    context,
+                    name: "radio",
+                    items: const [
+                      DpItem(id: 'buenosAires', title: "Buenos Aires"),
+                      DpItem(
+                        id: 'newYork',
+                        title: "New York",
+                        subtitle: "Not available",
+                      ),
+                      DpItem(id: 'paris', title: "Paris"),
+                      DpItem(id: 'rome', title: "Rome"),
+                    ],
                     validator: (v) {
                       if (v == null) {
                         return "Please select a city";
                       }
                       return null;
                     },
-                    disabled: const [
-                      "newYork",
+                    disabledItems: [
+                      'newYork',
                     ],
-                    onChanged: (value) {},
-                    items: const [
-                      DpItem(id: "buenosAires", title: "Buenos Aires"),
-                      DpItem(
-                        id: "newYork",
-                        title: "New York",
-                        subtitle: "Not available",
-                      ),
-                      DpItem(id: "paris", title: "Paris"),
-                      DpItem(id: "rome", title: "Rome"),
-                    ],
+                  ),
+                  child:
+                      RadioChild(context, title: "Select your favorite city"),
+                  action: RadioAction(
+                    context,
+                    onChanged: (value) {
+                      formModel.patchValue({
+                        "radio": value,
+                      });
+                    },
                   ))),
         ),
         SaveButton(

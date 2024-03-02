@@ -145,12 +145,14 @@ abstract class StateImpl {
 /// Action type of states
 ///
 /// ex: onPressed, onLongPressed, etc
-abstract class ActionImpl {
+abstract class ActionImpl<T> {
   final BuildContext context;
 
   final VoidCallback? onPressed;
 
-  ActionImpl(this.context, {this.onPressed});
+  final ValueChanged<T>? onValueChanged;
+
+  ActionImpl(this.context, {this.onPressed, this.onValueChanged});
 
   ThemeData get theme {
     final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);

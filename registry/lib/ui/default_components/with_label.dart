@@ -7,9 +7,9 @@ import 'label.dart';
 export 'label.dart';
 
 class WithLabel extends StatelessWidget {
-  final LabelModel labelVm;
+  final LabelDecorationBuilder labelBuilder;
   final Widget child;
-  const WithLabel({super.key, required this.labelVm, required this.child});
+  const WithLabel({super.key, required this.labelBuilder, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class WithLabel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Label(vm: labelVm),
+        Label(decorationBuilder: labelBuilder),
         child,
       ],
     ).spaced(4);

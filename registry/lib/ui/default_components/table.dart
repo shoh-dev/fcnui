@@ -876,10 +876,14 @@ class __Footer extends State<_Footer> {
             ),
 
             //Page number
-            DefaultPagination(
-                totalPages: stateManager.totalPage,
-                onPageChanged: changePageNumber,
-                currentPage: stateManager.page),
+            DefaultPagination(decorationBuilder: (context) {
+              return PaginationDecoration(context,
+                  action: PaginationAction(context,
+                      onPageChanged: changePageNumber),
+                  value: PaginationValue(context,
+                      totalPages: stateManager.totalPage,
+                      currentPage: stateManager.page));
+            }),
           ],
         ),
       ),
