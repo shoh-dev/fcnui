@@ -10,8 +10,8 @@ Full changelog of the project.
 
 ## 02.03.2024
 
-- [Registry] Add `radio` component;
-- 
+- Update `radio` view model with new way.
+- Update `checkbox` view model with new way.
 
 ## 28.02.2024 - 01.03.2024
 
