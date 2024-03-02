@@ -256,10 +256,10 @@ class _DefaultCardWithForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultCard(decorationBuilder: (context) {
-      return CardDecoration(context,
+    return DefaultCard(decorationBuilder: (themeVm) {
+      return CardDecoration(themeVm,
           child: CardChild(
-            context,
+            themeVm,
             title: const CardTitle(title: "Create project"),
             subtitle: const CardSubtitle(
                 subtitle: "Deploy your new project in one-click"),
@@ -268,25 +268,25 @@ class _DefaultCardWithForm extends StatelessWidget {
                     vm: formModel,
                     child: Column(children: [
                       WithLabel(
-                          labelBuilder: (context) => LabelDecoration(context,
-                              child: LabelChild(context, text: "Name"),
-                              state: LabelState(context, isRequired: true)),
+                          labelBuilder: (themeVm) => LabelDecoration(themeVm,
+                              child: LabelChild(themeVm, text: "Name"),
+                              state: LabelState(themeVm, isRequired: true)),
                           child: DefaultInput(
-                              decorationBuilder: (context) => InputDecor(
-                                  context,
-                                  child: InputChild(context,
+                              decorationBuilder: (themeVm) => InputDecor(
+                                  themeVm,
+                                  child: InputChild(themeVm,
                                       name: "name",
                                       hintText: "Name of the project"),
-                                  value: InputValue(context, validators: [
+                                  value: InputValue(themeVm, validators: [
                                     FormBuilderValidators.required()
                                   ])))),
                       WithLabel(
-                          labelBuilder: (context) => LabelDecoration(context,
-                              child: LabelChild(context, text: "Description")),
+                          labelBuilder: (themeVm) => LabelDecoration(themeVm,
+                              child: LabelChild(themeVm, text: "Description")),
                           child: DefaultInput(
-                              decorationBuilder: (context) => InputDecor(
-                                  context,
-                                  child: InputChild(context,
+                              decorationBuilder: (themeVm) => InputDecor(
+                                  themeVm,
+                                  child: InputChild(themeVm,
                                       name: "description",
                                       hintText: "Description of the project"))))
                     ]).spaced(20))),
@@ -325,8 +325,8 @@ class _CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return DefaultCard(
-      decorationBuilder: (context) => CardDecoration(context,
-          child: CardChild(context,
+      decorationBuilder: (themeVm) => CardDecoration(themeVm,
+          child: CardChild(themeVm,
               custom: CardCustom(
                 widget: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,9 +336,9 @@ class _CustomCard extends StatelessWidget {
                           style: textTheme.labelLarge),
                       const SizedBox(height: 20),
                       DefaultCard(
-                          decorationBuilder: (context) => CardDecoration(
-                              context,
-                              child: CardChild(context,
+                          decorationBuilder: (themeVm) => CardDecoration(
+                              themeVm,
+                              child: CardChild(themeVm,
                                   custom: CardCustom(
                                       widget: Row(
                                     crossAxisAlignment:
@@ -412,18 +412,18 @@ class _DecoratedCard extends StatelessWidget {
     return ThemeProvider(builder: (context, vm) {
       final colorScheme = vm.theme.colorScheme;
       return DefaultCard(
-        decorationBuilder: (context) {
-          return CardDecoration(context,
-              border: CardBorder(context,
+        decorationBuilder: (themeVm) {
+          return CardDecoration(themeVm,
+              border: CardBorder(themeVm,
                   borderRadius: BorderRadius.circular(24),
                   borderSide: BorderSide(
                       color: colorScheme.primaryContainer,
                       width: 2,
                       strokeAlign: BorderSide.strokeAlignInside)),
-              color: CardColor(context,
+              color: CardColor(themeVm,
                   background: colorScheme.primaryContainer.withOpacity(0.2)),
               child: CardChild(
-                context,
+                themeVm,
                 title: const CardTitle(title: "Create project"),
                 subtitle: const CardSubtitle(
                     subtitle: "Deploy your new project in one-click"),
@@ -437,23 +437,23 @@ class _DecoratedCard extends StatelessWidget {
                                   child: LabelChild(context, text: "Name"),
                                   state: LabelState(context, isRequired: true)),
                               child: DefaultInput(
-                                  decorationBuilder: (context) => InputDecor(
-                                      context,
-                                      child: InputChild(context,
+                                  decorationBuilder: (themeVm) => InputDecor(
+                                      themeVm,
+                                      child: InputChild(themeVm,
                                           name: "name",
                                           hintText: "Name of the project"),
-                                      value: InputValue(context, validators: [
+                                      value: InputValue(themeVm, validators: [
                                         FormBuilderValidators.required()
                                       ])))),
                           WithLabel(
-                              labelBuilder: (context) => LabelDecoration(
-                                  context,
+                              labelBuilder: (themeVm) => LabelDecoration(
+                                  themeVm,
                                   child:
-                                      LabelChild(context, text: "Description")),
+                                      LabelChild(themeVm, text: "Description")),
                               child: DefaultInput(
-                                  decorationBuilder: (context) => InputDecor(
-                                        context,
-                                        child: InputChild(context,
+                                  decorationBuilder: (themeVm) => InputDecor(
+                                        themeVm,
+                                        child: InputChild(themeVm,
                                             name: "description",
                                             hintText:
                                                 "Description of the project"),

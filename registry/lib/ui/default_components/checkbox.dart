@@ -71,9 +71,9 @@ class DefaultCheckbox extends StatelessWidget {
 
   Widget _getChild(ThemeData theme) {
     return DefaultDisabled(
-        decorationBuilder: (context) => DisabledDecoration(context,
-            state: DisabledState(context, isDisabled: !vm.enabled),
-            child: DisabledChild(context,
+        decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+            state: DisabledState(themeVm, isDisabled: !vm.enabled),
+            child: DisabledChild(themeVm,
                 child: Theme(
                     data:
                         theme.copyWith(checkboxTheme: _getCheckboxTheme(theme)),

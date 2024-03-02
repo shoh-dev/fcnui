@@ -8,7 +8,7 @@ class ButtonDecoration extends DecorationImpl {
   final ButtonType type;
 
   ButtonDecoration(
-    super.context, {
+    super.themeVm, {
     required this.type,
     ButtonColor? color,
     ButtonChild? child,
@@ -17,12 +17,12 @@ class ButtonDecoration extends DecorationImpl {
     ButtonSize? size,
     ButtonBorder? border,
   }) : super(color: color) {
-    super.color = color ??= ButtonColor(context, type: type);
-    super.child = child ?? ButtonChild(context);
-    super.action = action ?? ButtonAction(context);
-    super.state = state ?? ButtonState(context);
-    super.size = size ?? ButtonSize(context, type);
-    super.border = border ?? ButtonBorder(context, type);
+    super.color = color ??= ButtonColor(themeVm, type: type);
+    super.child = child ?? ButtonChild(themeVm);
+    super.action = action ?? ButtonAction(themeVm);
+    super.state = state ?? ButtonState(themeVm);
+    super.size = size ?? ButtonSize(themeVm, type);
+    super.border = border ?? ButtonBorder(themeVm, type);
 
     assert(
         this.size.iconSize >= 0, "iconSize must be greater than or equal to 0");
@@ -150,7 +150,7 @@ class ButtonColor extends ColorImpl {
 
 class ButtonAction extends ActionImpl {
   /// If [onPressed] is null, the button will be disabled
-  ButtonAction(super.context, {super.onPressed});
+  ButtonAction(super.themeVm, {super.onPressed});
 
   bool get isDisabled => onPressed == null;
 }
@@ -167,7 +167,7 @@ class ButtonChild extends ChildImpl {
   /// Icon of the button
   ///
   /// If [isLoading] is true, icon will be replaced with loading indicator
-  ButtonChild(super.context, {super.child, this.text, this.icon});
+  ButtonChild(super.themeVm, {super.child, this.text, this.icon});
 }
 
 class ButtonState extends StateImpl {
@@ -176,7 +176,7 @@ class ButtonState extends StateImpl {
   /// If [icon] is provided, icon will be replaced with loading indicator
   ///
   /// [onPressed] will be disabled if [isLoading] is true
-  ButtonState(super.context, {super.isLoading});
+  ButtonState(super.themeVm, {super.isLoading});
 }
 
 class ButtonSize extends SizeImpl {
@@ -201,7 +201,7 @@ class ButtonSize extends SizeImpl {
   /// Text style of the button
   ///
   /// Default is bodyMedium
-  ButtonSize(super.context, this.type,
+  ButtonSize(super.themeVm, this.type,
       {this.iconSize = 18,
       this.minimumSize,
       TextStyle? textStyle,
@@ -223,7 +223,7 @@ class ButtonSize extends SizeImpl {
 class ButtonBorder extends BorderImpl {
   final ButtonType type;
 
-  ButtonBorder(super.context, this.type,
+  ButtonBorder(super.themeVm, this.type,
       {BorderSide? borderSide, BorderRadius? borderRadius}) {
     void setBorderSide() {
       this.borderSide = borderSide ??
@@ -240,7 +240,7 @@ class ButtonBorder extends BorderImpl {
 }
 
 typedef ButtonDecorationBuilder = ButtonDecoration Function(
-    BuildContext context, ButtonType type);
+    ThemeVm themeVm, ButtonType type);
 
 enum ButtonType {
   primary,
@@ -261,11 +261,12 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonDecoration decorationTheme =
-        decorationBuilder?.call(context, type) ??
-            ButtonDecoration(context, type: type);
-
-    return getChild(decorationTheme);
+    return ThemeProvider(builder: (context, themeVm) {
+      final ButtonDecoration decorationTheme =
+          decorationBuilder?.call(themeVm, type) ??
+              ButtonDecoration(themeVm, type: type);
+      return getChild(decorationTheme);
+    });
   }
 
   Widget getChild(ButtonDecoration decoration) {

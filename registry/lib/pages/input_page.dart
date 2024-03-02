@@ -20,7 +20,7 @@ class InputPage extends PageImpl {
   });
 
   @override
-  Widget preview(BuildContext context) {
+  Widget preview(BuildContext themeVm) {
     if (isDisabled) {
       return const _Disabled();
     }
@@ -140,7 +140,7 @@ class _Form extends StatelessWidget {
                 vm: formModel,
                 onSave: (value) {
                   if (formModel.isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(themeVm).showSnackBar(SnackBar(
                         content: Text(formModel.getValues().toString())));
                   }
                 },
@@ -179,8 +179,8 @@ class _Default extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultInput(
-        decorationBuilder: (context) => InputDecor(context,
-            child: InputChild(context, name: "email", hintText: "Email")));
+        decorationBuilder: (themeVm) => InputDecor(themeVm,
+            child: InputChild(themeVm, name: "email", hintText: "Email")));
   }
 }
 
@@ -190,9 +190,9 @@ class _Disabled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultInput(
-        decorationBuilder: (context) => InputDecor(context,
-            state: InputState(context, isDisabled: true),
-            child: InputChild(context, name: "email", hintText: "Email")));
+        decorationBuilder: (themeVm) => InputDecor(themeVm,
+            state: InputState(themeVm, isDisabled: true),
+            child: InputChild(themeVm, name: "email", hintText: "Email")));
   }
 }
 
@@ -202,12 +202,12 @@ class _WithLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WithLabel(
-        labelBuilder: (context) => LabelDecoration(context,
-            child: LabelChild(context, text: "Email"),
-            state: LabelState(context, isDisabled: false)),
+        labelBuilder: (themeVm) => LabelDecoration(themeVm,
+            child: LabelChild(themeVm, text: "Email"),
+            state: LabelState(themeVm, isDisabled: false)),
         child: DefaultInput(
-            decorationBuilder: (context) => InputDecor(context,
-                child: InputChild(context, name: "email", hintText: "Email"))));
+            decorationBuilder: (themeVm) => InputDecor(themeVm,
+                child: InputChild(themeVm, name: "email", hintText: "Email"))));
   }
 }
 
@@ -226,14 +226,14 @@ class _WithButton extends StatelessWidget {
         children: [
           Expanded(
               child: DefaultInput(
-                  decorationBuilder: (context) => InputDecor(context,
+                  decorationBuilder: (themeVm) => InputDecor(themeVm,
                       child: InputChild(
-                        context,
+                        themeVm,
                         maxLines: 1,
                         name: "emailWithButton",
                         hintText: "Email",
                       ),
-                      value: InputValue(context, validators: [
+                      value: InputValue(themeVm, validators: [
                         FormBuilderValidators.required(
                             errorText: "Please enter your email address"),
                         FormBuilderValidators.email(
@@ -255,18 +255,18 @@ class _Form extends StatelessWidget {
     return DefaultForm(
       vm: formModel,
       child: WithLabel(
-        labelBuilder: (context) => LabelDecoration(context,
-            child: LabelChild(context, text: "Username")),
+        labelBuilder: (themeVm) => LabelDecoration(themeVm,
+            child: LabelChild(themeVm, text: "Username")),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultInput(
-                decorationBuilder: (context) => InputDecor(context,
-                    child: InputChild(context,
+                decorationBuilder: (themeVm) => InputDecor(themeVm,
+                    child: InputChild(themeVm,
                         name: "username",
                         hintText: "Username",
                         helperText: "This is your public display name"),
-                    value: InputValue(context, validators: [
+                    value: InputValue(themeVm, validators: [
                       FormBuilderValidators.minLength(2,
                           errorText: 'Username must be at least 2 characters.')
                     ]))),

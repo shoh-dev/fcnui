@@ -214,7 +214,7 @@ class _Form extends StatelessWidget {
               onPressed: () {
                 formModel.saveAndValidate();
                 if (!formModel.formKey.currentState!.validate()) return;
-                showSnackbar(context, formModel.getValues());
+                showSnackbar(themeVm, formModel.getValues());
               },
               text: "Mark all as read",
               icon: Icons.check,
@@ -230,7 +230,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview(BuildContext context) {
+  Widget preview(BuildContext themeVm) {
     return switch (variant) {
       (SwitchVariant.withTitle) => const _WithTitle(),
       (SwitchVariant.decorated) => const _Decorated(),
@@ -324,9 +324,9 @@ class _Form extends StatelessWidget {
     return DefaultForm(
       vm: formModel,
       child: DefaultCard(
-        decorationBuilder: (context) => CardDecoration(context,
+        decorationBuilder: (themeVm) => CardDecoration(themeVm,
             child: CardChild(
-              context,
+              themeVm,
               custom: CardCustom(
                 widget: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,9 +336,9 @@ class _Form extends StatelessWidget {
                           style: textTheme.labelLarge),
                       const SizedBox(height: 20),
                       DefaultCard(
-                        decorationBuilder: (context) {
-                          return CardDecoration(context,
-                              child: CardChild(context,
+                        decorationBuilder: (themeVm) {
+                          return CardDecoration(themeVm,
+                              child: CardChild(themeVm,
                                   custom: CardCustom(
                                       widget: Row(
                                     crossAxisAlignment:
@@ -386,9 +386,9 @@ class _Form extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       DefaultCard(
-                        decorationBuilder: (context) {
-                          return CardDecoration(context,
-                              child: CardChild(context,
+                        decorationBuilder: (themeVm) {
+                          return CardDecoration(themeVm,
+                              child: CardChild(themeVm,
                                   custom: CardCustom(
                                       widget: Row(
                                     crossAxisAlignment:
@@ -457,20 +457,20 @@ class _Form extends StatelessWidget {
                                 },
                               ))),
                       const SizedBox(height: 20),
-                      DefaultButton(decorationBuilder: (context, type) {
+                      DefaultButton(decorationBuilder: (themeVm, type) {
                         return ButtonDecoration(
-                          context,
+                          themeVm,
                           type: type,
-                          color: ButtonColor(context, type: type),
-                          action: ButtonAction(context, onPressed: () {
+                          color: ButtonColor(themeVm, type: type),
+                          action: ButtonAction(themeVm, onPressed: () {
                             formModel.saveAndValidate();
                             if (!formModel.formKey.currentState!.validate())
                               return;
                             showSnackbar(context, formModel.getValues());
                           }),
-                          child: ButtonChild(context,
+                          child: ButtonChild(themeVm,
                               icon: Icons.check, text: "Mark all as read"),
-                          size: ButtonSize(context, type,
+                          size: ButtonSize(themeVm, type,
                               minimumSize: const Size(double.infinity, 48)),
                         );
                       }),

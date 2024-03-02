@@ -6,16 +6,16 @@ import 'package:registry/ui/default_components/fcnui_theme.dart';
 
 class CardDecoration extends DecorationImpl {
   CardDecoration(
-    super.context, {
+    super.themeVm, {
     required CardChild child,
     CardColor? color,
     CardBorder? border,
     CardSize? size,
   }) {
     super.child = child;
-    super.color = color ?? CardColor(context);
-    super.border = border ?? CardBorder(context);
-    super.size = size ?? CardSize(context);
+    super.color = color ?? CardColor(themeVm);
+    super.border = border ?? CardBorder(themeVm);
+    super.size = size ?? CardSize(themeVm);
   }
 
   @override
@@ -39,7 +39,7 @@ class CardChild extends ChildImpl {
 
   CardCustom? custom;
 
-  CardChild(super.context,
+  CardChild(super.themeVm,
       {CardTitle? title,
       CardSubtitle? subtitle,
       CardContent? content,
@@ -75,7 +75,7 @@ class CardChild extends ChildImpl {
 
 class CardColor extends ColorImpl {
   CardColor(
-    super.context, {
+    super.themeVm, {
     Color? background,
     List<BoxShadow>? boxShadow,
   }) {
@@ -114,7 +114,7 @@ class CardSize extends SizeImpl {
   CrossAxisAlignment? childrenCrossAxisAlignment;
 
   CardSize(
-    super.context, {
+    super.themeVm, {
     EdgeInsetsGeometry? padding,
     CrossAxisAlignment? childrenCrossAxisAlignment,
   }) {
@@ -126,7 +126,7 @@ class CardSize extends SizeImpl {
 
 class CardBorder extends BorderImpl {
   CardBorder(
-    super.context, {
+    super.themeVm, {
     BorderSide? borderSide,
     BorderRadius? borderRadius,
   }) {
@@ -237,7 +237,7 @@ class CardCustom {
   });
 }
 
-typedef CardDecorationBuilder = CardDecoration Function(BuildContext context);
+typedef CardDecorationBuilder = CardDecoration Function(ThemeVm themeVm);
 
 class DefaultCard extends StatelessWidget {
   final CardDecorationBuilder decorationBuilder;
@@ -249,8 +249,10 @@ class DefaultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final decoration = decorationBuilder(context);
-    return getChild(decoration);
+    return ThemeProvider(builder: (context, themeVm) {
+      final decoration = decorationBuilder(themeVm);
+      return getChild(decoration);
+    });
   }
 
   Widget getChild(CardDecoration decoration) {

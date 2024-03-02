@@ -390,10 +390,10 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
       return Theme(
           data: themeVm.theme,
           child: DefaultDisabled(
-              decorationBuilder: (context) => DisabledDecoration(context,
-                  state: DisabledState(context,
+              decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+                  state: DisabledState(themeVm,
                       isDisabled: isLoading || decoration.disabled),
-                  child: DisabledChild(context,
+                  child: DisabledChild(themeVm,
                       child: Semantics(
                           button: true,
                           enabled: true,
@@ -895,9 +895,9 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
 
     if (dpOptions.optionItemBuilder != null) {
       return DefaultDisabled(
-          decorationBuilder: (context) => DisabledDecoration(context,
-              state: DisabledState(context, isDisabled: !enabled),
-              child: DisabledChild(context,
+          decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+              state: DisabledState(themeVm, isDisabled: !enabled),
+              child: DisabledChild(themeVm,
                   child: InkWell(
                       onTap: onTap,
                       splashFactory: NoSplash.splashFactory,

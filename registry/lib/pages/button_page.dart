@@ -19,17 +19,17 @@ class ButtonPage extends PageImpl {
 
   @override
   Widget preview(BuildContext context) {
-    decoration(context, type) {
+    decoration(themeVm, type) {
       return ButtonDecoration(
-        context,
+        themeVm,
         type: type,
-        action: ButtonAction(context, onPressed: isDisabled ? null : () {}),
-        child: ButtonChild(context,
+        action: ButtonAction(themeVm, onPressed: isDisabled ? null : () {}),
+        child: ButtonChild(themeVm,
             text: getText(),
             icon: variant == "icon"
                 ? Icons.email
                 : (withIcon ? Icons.email : null)),
-        state: ButtonState(context, isLoading: isLoading),
+        state: ButtonState(themeVm, isLoading: isLoading),
       );
     }
 

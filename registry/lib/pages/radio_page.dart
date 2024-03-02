@@ -62,7 +62,7 @@ class _Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(themeVm).textTheme;
     return DefaultForm(
       vm: formModel,
       child: DefaultCard(
@@ -86,7 +86,7 @@ class _Form extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(themeVm).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -121,7 +121,7 @@ class _Form extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(themeVm).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -168,7 +168,7 @@ class _Form extends StatelessWidget {
               onPressed: () {
                 formModel.saveAndValidate();
                 if (!formModel.formKey.currentState!.validate()) return;
-                showSnackbar(context, formModel.getValues());
+                showSnackbar(themeVm, formModel.getValues());
               },
               text: "Mark all as read",
               icon: Icons.check,
@@ -184,7 +184,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview(BuildContext context) {
+  Widget preview(BuildContext themeVm) {
     return switch (variant) {
       (RadioVariant.idle) => const _Idle(),
       (RadioVariant.form) => _Form(),
@@ -198,8 +198,8 @@ class _Idle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultRadio(
-        decorationBuilder: (context) => RadioDecoration(context,
-            value: RadioValue(context, name: "radio", items: const [
+        decorationBuilder: (themeVm) => RadioDecoration(themeVm,
+            value: RadioValue(themeVm, name: "radio", items: const [
               DpItem(id: 'default', title: "Default"),
               DpItem(id: 'disabled', title: "Disabled"),
               DpItem(id: 'comfortable', title: "Comfortable"),
@@ -208,13 +208,13 @@ class _Idle extends StatelessWidget {
               'disabled',
             ]),
             action: RadioAction(
-              context,
+              themeVm,
               onChanged: (value) {
                 showSnackbar(context, value);
               },
             ),
             child: RadioChild(
-              context,
+              themeVm,
               title: "Select your favorite city",
             )));
   }
@@ -234,9 +234,9 @@ class _Form extends StatelessWidget {
         DefaultForm(
           vm: formModel,
           child: DefaultRadio(
-              decorationBuilder: (context) => RadioDecoration(context,
+              decorationBuilder: (themeVm) => RadioDecoration(themeVm,
                   value: RadioValue(
-                    context,
+                    themeVm,
                     name: "radio",
                     items: const [
                       DpItem(id: 'buenosAires', title: "Buenos Aires"),
@@ -259,9 +259,9 @@ class _Form extends StatelessWidget {
                     ],
                   ),
                   child:
-                      RadioChild(context, title: "Select your favorite city"),
+                      RadioChild(themeVm, title: "Select your favorite city"),
                   action: RadioAction(
-                    context,
+                    themeVm,
                     onChanged: (value) {
                       formModel.patchValue({
                         "radio": value,

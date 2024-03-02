@@ -9,7 +9,7 @@ import 'disabled.dart';
 
 class InputDecor extends DecorationImpl {
   InputDecor(
-    super.context, {
+    super.themeVm, {
     required InputChild child,
     InputState? state,
     InputAction? action,
@@ -19,12 +19,12 @@ class InputDecor extends DecorationImpl {
     InputSize? size,
   }) {
     super.child = child;
-    super.state = state ?? InputState(context);
-    super.action = action ?? InputAction(context);
-    super.value = value ?? InputValue(context);
-    super.color = color ?? InputColor(context);
-    super.border = border ?? InputBorder(context);
-    super.size = size ?? InputSize(context);
+    super.state = state ?? InputState(themeVm);
+    super.action = action ?? InputAction(themeVm);
+    super.value = value ?? InputValue(themeVm);
+    super.color = color ?? InputColor(themeVm);
+    super.border = border ?? InputBorder(themeVm);
+    super.size = size ?? InputSize(themeVm);
   }
 
   @override
@@ -51,7 +51,7 @@ class InputDecor extends DecorationImpl {
 
 class InputChild extends ChildImpl {
   InputChild(
-    super.context, {
+    super.themeVm, {
     this.helperText,
     this.hintText,
     this.maxLines,
@@ -110,7 +110,7 @@ class InputChild extends ChildImpl {
 
 class InputState extends StateImpl {
   InputState(
-    super.context, {
+    super.themeVm, {
     super.isDisabled,
     this.readOnly = false,
     this.focusNode,
@@ -123,13 +123,13 @@ class InputState extends StateImpl {
 }
 
 class InputAction extends ActionImpl {
-  InputAction(super.context, {this.onChanged});
+  InputAction(super.themeVm, {this.onChanged});
 
   final ValueChanged<String?>? onChanged;
 }
 
 class InputValue extends ValueImpl {
-  InputValue(super.context,
+  InputValue(super.themeVm,
       {this.initialValue, this.validators = const [], this.controller});
 
   final String? initialValue;
@@ -139,7 +139,7 @@ class InputValue extends ValueImpl {
 
 class InputColor extends ColorImpl {
   InputColor(
-    super.context, {
+    super.themeVm, {
     Color? hoverColor,
     Color? fillColor,
   }) {
@@ -161,7 +161,7 @@ class InputColor extends ColorImpl {
 
 class InputBorder extends BorderImpl {
   InputBorder(
-    super.context, {
+    super.themeVm, {
     BorderSide? focusedBorderSide,
     BorderSide? enabledBorderSide,
     BorderSide? errorBorderSide,
@@ -224,7 +224,7 @@ class InputBorder extends BorderImpl {
 
 class InputSize extends SizeImpl {
   InputSize(
-    super.context, {
+    super.themeVm, {
     EdgeInsetsGeometry? padding,
   }) {
     void setPadding() {
@@ -238,7 +238,7 @@ class InputSize extends SizeImpl {
   EdgeInsetsGeometry? padding;
 }
 
-typedef InputDecorBuilder = InputDecor Function(BuildContext context);
+typedef InputDecorBuilder = InputDecor Function(ThemeVm themeVm);
 
 class DefaultInput extends StatelessWidget {
   final InputDecorBuilder decorationBuilder;
@@ -247,8 +247,10 @@ class DefaultInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final decoration = decorationBuilder(context);
-    return _getChild(decoration);
+    return ThemeProvider(builder: (context, themeVm) {
+      final decoration = decorationBuilder(themeVm);
+      return _getChild(decoration);
+    });
   }
 
   Widget _getChild(InputDecor decoration) {

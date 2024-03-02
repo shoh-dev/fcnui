@@ -8,7 +8,7 @@ import 'button.dart';
 
 class PaginationDecoration extends DecorationImpl {
   PaginationDecoration(
-    super.context, {
+    super.themeVm, {
     required PaginationAction action,
     required PaginationValue value,
     PaginationColor? color,
@@ -17,9 +17,9 @@ class PaginationDecoration extends DecorationImpl {
   }) {
     super.action = action;
     super.value = value;
-    super.color = color ?? PaginationColor(context);
-    super.border = border ?? PaginationBorder(context);
-    super.size = size ?? PaginationSize(context);
+    super.color = color ?? PaginationColor(themeVm);
+    super.border = border ?? PaginationBorder(themeVm);
+    super.size = size ?? PaginationSize(themeVm);
   }
 
   @override
@@ -47,7 +47,7 @@ class PaginationValue extends ValueImpl {
   ///
   /// Default is 7
   PaginationValue(
-    super.context, {
+    super.themeVm, {
     required this.totalPages,
     this.limit = 7,
     this.currentPage = 1,
@@ -55,13 +55,13 @@ class PaginationValue extends ValueImpl {
 }
 
 class PaginationAction extends ActionImpl<int> {
-  PaginationAction(super.context, {required ValueChanged<int> onPageChanged})
+  PaginationAction(super.themeVm, {required ValueChanged<int> onPageChanged})
       : super(onValueChanged: onPageChanged);
 }
 
 class PaginationSize extends SizeImpl {
   PaginationSize(
-    super.context, {
+    super.themeVm, {
     EdgeInsets? padding,
     Size? buttonMinSize,
   }) {
@@ -75,7 +75,7 @@ class PaginationSize extends SizeImpl {
 
 class PaginationColor extends ColorImpl {
   PaginationColor(
-    super.context, {
+    super.themeVm, {
     Color? backgroundColor,
     ButtonType? selectedButtonType,
     ButtonType? unselectedButtonType,
@@ -84,7 +84,7 @@ class PaginationColor extends ColorImpl {
     IconData? previousButtonIcon,
   }) {
     this.backgroundColor =
-        backgroundColor ?? FcnuiDefaultColor(context).borderColor;
+        backgroundColor ?? theme.dividerColor.withOpacity(.4);
     this.selectedButtonType = selectedButtonType ?? ButtonType.primary;
     this.unselectedButtonType = unselectedButtonType ?? ButtonType.ghost;
     this.arrowButtonType = arrowButtonType ?? ButtonType.icon;
@@ -102,7 +102,7 @@ class PaginationColor extends ColorImpl {
 
 class PaginationBorder extends BorderImpl {
   PaginationBorder(
-    super.context, {
+    super.themeVm, {
     BorderRadius? borderRadius,
   }) {
     super.borderRadius =
@@ -111,7 +111,7 @@ class PaginationBorder extends BorderImpl {
 }
 
 typedef PaginationDecorationBuilder = PaginationDecoration Function(
-    BuildContext context);
+    ThemeVm themeVm);
 
 class DefaultPagination extends StatelessWidget {
   final PaginationDecorationBuilder decorationBuilder;
@@ -120,44 +120,45 @@ class DefaultPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If list of numbers are more than 8, then show 3 dots in the middle;
-    // If list of numbers are less than 8, then show all numbers;
+    return ThemeProvider(builder: (context, themeVm) {
+      // If list of numbers are more than 8, then show 3 dots in the middle;
+      // If list of numbers are less than 8, then show all numbers;
 
-    final PaginationDecoration decoration = decorationBuilder(context);
+      final PaginationDecoration decoration = decorationBuilder(themeVm);
 
-    final currentPage = decoration.value.currentPage;
-    final totalPages = decoration.value.totalPages;
+      final currentPage = decoration.value.currentPage;
+      final totalPages = decoration.value.totalPages;
 
-    final bool isFirstPage = currentPage == 1;
-    final bool isLastPage = currentPage == totalPages;
-
-    return Container(
-      padding: decoration.size.padding,
-      decoration: BoxDecoration(
-        color: decoration.color.backgroundColor,
-        borderRadius: decoration.border.borderRadius,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _PreviousNextButton(
-              decoration: decoration,
-              onTap: totalPages == 1
-                  ? null
-                  : (isFirstPage ? null : () => _onPreviousPage(decoration))),
-          const SizedBox(width: 7.0).w,
-          ..._builder(decoration),
-          const SizedBox(width: 7.0).w,
-          _PreviousNextButton(
-              decoration: decoration,
-              isNext: true,
-              onTap: totalPages == 1
-                  ? null
-                  : (isLastPage ? null : () => _onNextPage(decoration))),
-        ],
-      ).spaced(2),
-    );
+      final bool isFirstPage = currentPage == 1;
+      final bool isLastPage = currentPage == totalPages;
+      return Container(
+        padding: decoration.size.padding,
+        decoration: BoxDecoration(
+          color: decoration.color.backgroundColor,
+          borderRadius: decoration.border.borderRadius,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _PreviousNextButton(
+                decoration: decoration,
+                onTap: totalPages == 1
+                    ? null
+                    : (isFirstPage ? null : () => _onPreviousPage(decoration))),
+            const SizedBox(width: 7.0).w,
+            ..._builder(decoration),
+            const SizedBox(width: 7.0).w,
+            _PreviousNextButton(
+                decoration: decoration,
+                isNext: true,
+                onTap: totalPages == 1
+                    ? null
+                    : (isLastPage ? null : () => _onNextPage(decoration))),
+          ],
+        ).spaced(2),
+      );
+    });
   }
 
   List<Widget> _builder(PaginationDecoration decoration) {

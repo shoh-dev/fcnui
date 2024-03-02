@@ -1,18 +1,19 @@
 //v0.0.1
 
+import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/ui/default_components/fcnui_theme.dart';
 
 class DisabledDecoration extends DecorationImpl {
   DisabledDecoration(
-    super.context, {
+    super.themeVm, {
     required DisabledChild child,
     DisabledColor? color,
     DisabledState? state,
   }) {
     super.child = child;
-    super.color = color ?? DisabledColor(context);
-    super.state = state ?? DisabledState(context);
+    super.color = color ?? DisabledColor(themeVm);
+    super.state = state ?? DisabledState(themeVm);
   }
 
   @override
@@ -28,18 +29,18 @@ class DisabledDecoration extends DecorationImpl {
 class DisabledState extends StateImpl {
   final bool showForbiddenCursor;
 
-  DisabledState(super.context,
+  DisabledState(super.themeVm,
       {super.isDisabled = false, this.showForbiddenCursor = true});
 }
 
 class DisabledChild extends ChildImpl {
-  DisabledChild(super.context, {required Widget child}) {
+  DisabledChild(super.themeVm, {required Widget child}) {
     this.child = child;
   }
 }
 
 class DisabledColor extends ColorImpl {
-  DisabledColor(super.context, {double? opacity}) {
+  DisabledColor(super.themeVm, {double? opacity}) {
     void setOpacity() {
       this.opacity = opacity ?? 0.5;
     }
@@ -51,7 +52,7 @@ class DisabledColor extends ColorImpl {
 }
 
 typedef DisabledDecorationBuilder = DisabledDecoration Function(
-    BuildContext context);
+    ThemeVm themeVm);
 
 class DefaultDisabled extends StatelessWidget {
   final DisabledDecorationBuilder decorationBuilder;
@@ -59,19 +60,21 @@ class DefaultDisabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DisabledDecoration decoration = decorationBuilder(context);
+    return ThemeProvider(builder: (context, themeVm) {
+      final DisabledDecoration decoration = decorationBuilder(themeVm);
 
-    Widget view = AbsorbPointer(
-      absorbing: decoration.state.isDisabled,
-      child: decoration.child.child,
-    );
+      Widget view = AbsorbPointer(
+        absorbing: decoration.state.isDisabled,
+        child: decoration.child.child,
+      );
 
-    if (decoration.state.showForbiddenCursor && decoration.state.isDisabled) {
-      view = MouseRegion(cursor: SystemMouseCursors.forbidden, child: view);
-    }
+      if (decoration.state.showForbiddenCursor && decoration.state.isDisabled) {
+        view = MouseRegion(cursor: SystemMouseCursors.forbidden, child: view);
+      }
 
-    return Opacity(
-        opacity: decoration.state.isDisabled ? decoration.color.opacity! : 1,
-        child: view);
+      return Opacity(
+          opacity: decoration.state.isDisabled ? decoration.color.opacity! : 1,
+          child: view);
+    });
   }
 }

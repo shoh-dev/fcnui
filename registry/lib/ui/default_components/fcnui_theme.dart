@@ -30,7 +30,7 @@ class FcnuiDefaultColor {
 }
 
 abstract class DecorationImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
   ColorImpl? color;
   BorderImpl? border;
@@ -41,7 +41,7 @@ abstract class DecorationImpl {
   ValueImpl? value;
 
   DecorationImpl(
-    this.context, {
+    this.themeVm, {
     this.color,
     this.border,
     this.size,
@@ -51,11 +51,6 @@ abstract class DecorationImpl {
     this.value,
   });
 
-  ThemeVm get themeVm {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm;
-  }
-
   ThemeData get theme => themeVm.theme;
 }
 
@@ -63,14 +58,11 @@ abstract class DecorationImpl {
 ///
 /// ex: background, primary, secondary, etc
 abstract class ColorImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
-  ColorImpl(this.context);
+  ColorImpl(this.themeVm);
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 
   Color get primary => theme.colorScheme.primary;
 
@@ -97,90 +89,77 @@ abstract class ColorImpl {
 ///
 /// ex: border, borderRadius, etc
 abstract class BorderImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
   BorderSide? borderSide;
 
   BorderRadius? borderRadius;
 
-  BorderImpl(this.context, {this.borderSide, this.borderRadius});
+  BorderImpl(this.themeVm, {this.borderSide, this.borderRadius});
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 }
 
 /// Size type of states
 ///
 /// ex: padding, margin, etc
 abstract class SizeImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
-  SizeImpl(this.context);
+  SizeImpl(this.themeVm);
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 }
 
 /// Boolean type of states
 ///
 /// ex: isDisabled, isLoading, etc
 abstract class StateImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
   final bool isDisabled;
   final bool isLoading;
 
-  StateImpl(this.context, {this.isLoading = false, this.isDisabled = false});
+  StateImpl(this.themeVm, {this.isLoading = false, this.isDisabled = false});
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 }
 
 /// Action type of states
 ///
 /// ex: onPressed, onLongPressed, etc
 abstract class ActionImpl<T> {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
   final VoidCallback? onPressed;
 
   final ValueChanged<T>? onValueChanged;
 
-  ActionImpl(this.context, {this.onPressed, this.onValueChanged});
+  ActionImpl(this.themeVm, {this.onPressed, this.onValueChanged});
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 }
 
 /// Child related theme
 ///
 /// ex: child, icon, etc
 abstract class ChildImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
   Widget? child;
 
-  ChildImpl(this.context, {this.child});
+  ChildImpl(this.themeVm, {this.child});
 
-  ThemeData get theme {
-    final ThemeVm themeVm = ThemeVm.fromStore(fcnStore, context);
-    return themeVm.theme;
-  }
+  ThemeData get theme => themeVm.theme;
 }
 
 /// Value related
 ///
 /// initialValue, validator, etc
 abstract class ValueImpl {
-  final BuildContext context;
+  final ThemeVm themeVm;
 
-  ValueImpl(this.context);
+  ValueImpl(this.themeVm);
+
+  ThemeData get theme => themeVm.theme;
 }

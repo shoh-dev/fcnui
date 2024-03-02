@@ -7,12 +7,12 @@ import 'disabled.dart';
 
 class LabelDecoration extends DecorationImpl {
   LabelDecoration(
-    super.context, {
+    super.themeVm, {
     required LabelChild child,
     LabelState? state,
   }) {
     this.child = child;
-    this.state = state ?? LabelState(context);
+    this.state = state ?? LabelState(themeVm);
   }
 
   @override
@@ -23,49 +23,47 @@ class LabelDecoration extends DecorationImpl {
 }
 
 class LabelChild extends ChildImpl {
-  LabelChild(super.context, {required this.text});
-
+  LabelChild(super.themeVm, {required this.text});
   final String text;
 }
 
 class LabelState extends StateImpl {
-  LabelState(super.context, {super.isDisabled, this.isRequired = false});
+  LabelState(super.themeVm, {super.isDisabled, this.isRequired = false});
 
   final bool isRequired;
 }
 
-typedef LabelDecorationBuilder = LabelDecoration Function(BuildContext context);
+typedef LabelDecorationBuilder = LabelDecoration Function(ThemeVm themeVm);
 
 class Label extends StatelessWidget {
   final LabelDecorationBuilder decorationBuilder;
+
   const Label({super.key, required this.decorationBuilder});
 
   @override
   Widget build(BuildContext context) {
-    final decoration = decorationBuilder(context);
-    return DefaultDisabled(
-        decorationBuilder: (context) => DisabledDecoration(context,
-            state:
-                DisabledState(context, isDisabled: decoration.state.isDisabled),
-            child: DisabledChild(context,
-                child: RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: decoration.child.text,
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.normal,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.4),
-                          )),
-                  if (decoration.state.isRequired)
+    return ThemeProvider(builder: (context, themeVm) {
+      final decoration = decorationBuilder(themeVm);
+      return DefaultDisabled(
+          decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+              state: DisabledState(themeVm,
+                  isDisabled: decoration.state.isDisabled),
+              child: DisabledChild(themeVm,
+                  child: RichText(
+                      text: TextSpan(children: [
                     TextSpan(
-                        text: "\t*",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: Colors.red))
-                ])))));
+                        text: decoration.child.text,
+                        style: decoration.themeVm.theme.textTheme.titleSmall!
+                            .copyWith(
+                          fontWeight: FontWeight.normal,
+                          color: decoration.color!.onSurface.withOpacity(0.4),
+                        )),
+                    if (decoration.state.isRequired)
+                      TextSpan(
+                          text: "\t*",
+                          style: decoration.themeVm.theme.textTheme.titleMedium!
+                              .copyWith(color: Colors.red))
+                  ])))));
+    });
   }
 }

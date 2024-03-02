@@ -10,16 +10,16 @@ import 'dp_item.dart';
 
 class RadioDecoration extends DecorationImpl {
   RadioDecoration(
-    super.context, {
+    super.themeVm, {
     RadioChild? child,
     RadioColor? color,
     required RadioValue value,
     RadioAction? action,
   }) {
     super.value = value;
-    super.child = child ?? RadioChild(context);
-    super.color = color ?? RadioColor(context);
-    super.action = action ?? RadioAction(context);
+    super.child = child ?? RadioChild(themeVm);
+    super.color = color ?? RadioColor(themeVm);
+    super.action = action ?? RadioAction(themeVm);
   }
 
   @override
@@ -37,7 +37,7 @@ class RadioDecoration extends DecorationImpl {
 
 class RadioValue extends ValueImpl {
   RadioValue(
-    super.context, {
+    super.themeVm, {
     required this.name,
     required this.items,
     this.validator,
@@ -56,7 +56,7 @@ class RadioValue extends ValueImpl {
 
 class RadioChild extends ChildImpl {
   RadioChild(
-    super.context, {
+    super.themeVm, {
     this.title,
     this.controlAffinity = ControlAffinity.leading,
     this.direction = OptionsOrientation.vertical,
@@ -88,7 +88,7 @@ class RadioChild extends ChildImpl {
 
 class RadioColor extends ColorImpl {
   RadioColor(
-    super.context, {
+    super.themeVm, {
     Color? activeColor,
     Color? inactiveColor,
     Color? disabledColor,
@@ -110,12 +110,12 @@ class RadioColor extends ColorImpl {
 }
 
 class RadioAction extends ActionImpl<String> {
-  RadioAction(super.context, {this.onChanged});
+  RadioAction(super.themeVm, {this.onChanged});
 
   final ValueChanged<String?>? onChanged;
 }
 
-typedef RadioDecorationBuilder = RadioDecoration Function(BuildContext context);
+typedef RadioDecorationBuilder = RadioDecoration Function(ThemeVm themeVm);
 
 class DefaultRadio extends StatelessWidget {
   final RadioDecorationBuilder decorationBuilder;
@@ -148,84 +148,87 @@ class DefaultRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final decoration = decorationBuilder(context);
-    return DefaultDisabled(
-        decorationBuilder: (context) => DisabledDecoration(context,
-            state: DisabledState(context,
-                isDisabled: decoration.action.onChanged == null),
-            child: DisabledChild(context,
-                child: ThemeProvider(builder: (context, themeVm) {
-              final theme = themeVm.theme;
-              return Theme(
-                  data: theme.copyWith(
-                    inputDecorationTheme: InputDecorationTheme(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        focusedErrorBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
-                        errorStyle:
-                            TextStyle(color: decoration.color.errorColor),
-                        errorMaxLines: 2),
-                    radioTheme: _getRadioTheme(decoration),
-                  ),
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (decoration.child.title != null)
-                          Text(decoration.child.title!,
-                              style: decoration.child.titleStyle),
-                        FormBuilderRadioGroup<String>(
-                            name: decoration.value.name,
-                            onChanged: decoration.action.onChanged,
-                            enabled: decoration.action.onChanged != null,
-                            validator: decoration.value.validator,
-                            initialValue: decoration.value.initialValue,
-                            disabled: decoration.value.disabledItems,
-                            controlAffinity: decoration.child.controlAffinity,
-                            autovalidateMode: decoration.value.autovalidateMode,
-                            separator: decoration.child.separatorWidget,
-                            orientation: decoration.child.direction,
-                            wrapDirection: decoration.child.direction ==
-                                    OptionsOrientation.vertical
-                                ? Axis.vertical
-                                : Axis.horizontal,
-                            wrapRunSpacing: 12.w,
-                            wrapSpacing: 12.w,
-                            options: decoration.value.items
-                                .map((e) => FormBuilderFieldOption(
-                                    value: e.id,
-                                    child: DefaultDisabled(
-                                        decorationBuilder: (context) =>
-                                            DisabledDecoration(context,
-                                                state: DisabledState(context,
-                                                    isDisabled: decoration
-                                                        .value.disabledItems
-                                                        .contains(e.id)),
-                                                child: DisabledChild(context,
-                                                    child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(e.title,
-                                                              style: decoration
-                                                                  .child
-                                                                  .itemTitleStyle),
-                                                          if (e.subtitle !=
-                                                              null)
-                                                            Text(e.subtitle!,
+    return ThemeProvider(builder: (context, themeVm) {
+      final decoration = decorationBuilder(themeVm);
+      return DefaultDisabled(
+          decorationBuilder: (context) => DisabledDecoration(context,
+              state: DisabledState(context,
+                  isDisabled: decoration.action.onChanged == null),
+              child: DisabledChild(context,
+                  child: ThemeProvider(builder: (context, themeVm) {
+                final theme = themeVm.theme;
+                return Theme(
+                    data: theme.copyWith(
+                      inputDecorationTheme: InputDecorationTheme(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          errorStyle:
+                              TextStyle(color: decoration.color.errorColor),
+                          errorMaxLines: 2),
+                      radioTheme: _getRadioTheme(decoration),
+                    ),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (decoration.child.title != null)
+                            Text(decoration.child.title!,
+                                style: decoration.child.titleStyle),
+                          FormBuilderRadioGroup<String>(
+                              name: decoration.value.name,
+                              onChanged: decoration.action.onChanged,
+                              enabled: decoration.action.onChanged != null,
+                              validator: decoration.value.validator,
+                              initialValue: decoration.value.initialValue,
+                              disabled: decoration.value.disabledItems,
+                              controlAffinity: decoration.child.controlAffinity,
+                              autovalidateMode:
+                                  decoration.value.autovalidateMode,
+                              separator: decoration.child.separatorWidget,
+                              orientation: decoration.child.direction,
+                              wrapDirection: decoration.child.direction ==
+                                      OptionsOrientation.vertical
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              wrapRunSpacing: 12.w,
+                              wrapSpacing: 12.w,
+                              options: decoration.value.items
+                                  .map((e) => FormBuilderFieldOption(
+                                      value: e.id,
+                                      child: DefaultDisabled(
+                                          decorationBuilder: (context) =>
+                                              DisabledDecoration(context,
+                                                  state: DisabledState(context,
+                                                      isDisabled: decoration
+                                                          .value.disabledItems
+                                                          .contains(e.id)),
+                                                  child: DisabledChild(context,
+                                                      child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(e.title,
                                                                 style: decoration
                                                                     .child
-                                                                    .itemSubtitleStyle)
-                                                        ]))))))
-                                .toList())
-                      ]).spaced(8));
-            }))));
+                                                                    .itemTitleStyle),
+                                                            if (e.subtitle !=
+                                                                null)
+                                                              Text(e.subtitle!,
+                                                                  style: decoration
+                                                                      .child
+                                                                      .itemSubtitleStyle)
+                                                          ]))))))
+                                  .toList())
+                        ]).spaced(8));
+              }))));
+    });
   }
 }
