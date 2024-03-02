@@ -3,119 +3,193 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 
+import 'fcnui_theme.dart';
 import 'disabled.dart';
-import 'form.dart';
 
-class SwitchModel extends IFormModel {
-  final SwitchForm form;
-  final SwitchDecoration decoration;
-
-  const SwitchModel({
-    required super.name,
-    this.form = const SwitchForm(),
-    this.decoration = const SwitchDecoration(),
-  });
+class SwitchDecoration extends DecorationImpl {
+  SwitchDecoration(
+    super.themeVm, {
+    required SwitchValue value,
+    SwitchAction? action,
+    SwitchState? state,
+    SwitchChild? child,
+    SwitchColor? color,
+    SwitchSize? size,
+  }) {
+    this.value = value;
+    this.action = action ?? SwitchAction(themeVm);
+    this.state = state ?? SwitchState(themeVm);
+    this.child = child ?? SwitchChild(themeVm);
+    this.color = color ?? SwitchColor(themeVm);
+    this.size = size ?? SwitchSize(themeVm);
+  }
 
   @override
-  List<Object?> get props => [
-        name,
-        form,
-        decoration,
-      ];
+  SwitchValue get value => super.value as SwitchValue;
+
+  @override
+  SwitchAction get action => super.action as SwitchAction;
+
+  @override
+  SwitchState get state => super.state as SwitchState;
+
+  @override
+  SwitchChild get child => super.child as SwitchChild;
+
+  @override
+  SwitchColor get color => super.color as SwitchColor;
+
+  @override
+  SwitchSize get size => super.size as SwitchSize;
 }
 
-class SwitchForm extends Equatable {
+class SwitchAction extends ActionImpl {
+  SwitchAction(super.themeVm, {this.onChanged});
+
   final ValueChanged<bool?>? onChanged;
+}
+
+class SwitchState extends StateImpl {
+  SwitchState(super.themeVm, {super.isDisabled = false});
+}
+
+class SwitchValue extends ValueImpl {
+  SwitchValue(
+    super.themeVm, {
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.validator,
+    this.initialValue,
+    required this.name,
+  });
+
+  final String name;
   final bool? initialValue;
   final String? Function(bool?)? validator;
   final AutovalidateMode? autovalidateMode;
-
-  const SwitchForm({
-    this.onChanged,
-    this.initialValue,
-    this.validator,
-    this.autovalidateMode,
-  });
-
-  @override
-  List<Object?> get props =>
-      [onChanged, initialValue, validator, autovalidateMode];
 }
 
-class SwitchDecoration extends Equatable {
-  final String? title;
-  final String? subtitle;
-  final bool enabled;
-  final IconData? thumbActiveIcon;
-  final IconData? thumbInactiveIcon;
-  final Color thumbActiveColor;
-  final Color thumbInactiveColor;
-  final Color? trackActiveColor;
-  final Color? trackInactiveColor;
-  final double width;
-  final double height;
-
-  const SwitchDecoration({
+class SwitchChild extends ChildImpl {
+  SwitchChild(
+    super.themeVm, {
     this.title,
     this.subtitle,
-    this.enabled = true,
     this.thumbActiveIcon,
     this.thumbInactiveIcon,
-    this.thumbActiveColor = Colors.white,
-    this.thumbInactiveColor = Colors.white,
-    this.trackActiveColor,
-    this.trackInactiveColor,
-    this.width = 45,
-    this.height = 24,
-  });
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? errorStyle,
+  }) {
+    void setTextStyle() {
+      this.titleStyle = titleStyle ?? theme.textTheme.titleSmall;
+      this.subtitleStyle = subtitleStyle ??
+          theme.textTheme.bodySmall!
+              .copyWith(color: theme.colorScheme.onSurface.withOpacity(0.6));
+      this.errorStyle =
+          errorStyle ?? theme.textTheme.bodySmall!.copyWith(color: Colors.red);
+    }
 
-  @override
-  List<Object?> get props => [
-        title,
-        subtitle,
-        enabled,
-        width,
-        height,
-        thumbActiveColor,
-        thumbInactiveColor,
-        trackActiveColor,
-        trackInactiveColor,
-        thumbActiveIcon,
-        thumbInactiveIcon,
-      ];
+    setTextStyle();
+  }
+
+  String? title;
+  String? subtitle;
+
+  IconData? thumbActiveIcon;
+  IconData? thumbInactiveIcon;
+
+  TextStyle? titleStyle;
+  TextStyle? subtitleStyle;
+  TextStyle? errorStyle;
 }
 
-class DefaultSwitch extends StatelessWidget {
-  final SwitchModel vm;
+class SwitchColor extends ColorImpl {
+  SwitchColor(
+    super.themeVm, {
+    Color? thumbActiveColor,
+    Color? thumbInactiveColor,
+    Color? trackActiveColor,
+    Color? trackInactiveColor,
+    Color? focusColor,
+    Color? trackOutlineColor,
+    Color? errorColor,
+  }) {
+    void setColor() {
+      this.thumbActiveColor = thumbActiveColor ?? Colors.white;
+      this.thumbInactiveColor = thumbInactiveColor ?? Colors.white;
+      this.trackActiveColor =
+          trackActiveColor ?? theme.colorScheme.primary.withOpacity(0.5);
+      this.trackInactiveColor =
+          trackInactiveColor ?? theme.colorScheme.onSurface.withOpacity(0.5);
+      this.focusColor =
+          focusColor ?? theme.colorScheme.primary.withOpacity(0.12);
+      this.trackOutlineColor =
+          trackOutlineColor ?? theme.colorScheme.onSurface.withOpacity(0.05);
+      this.errorColor = errorColor ?? Colors.red;
+    }
 
-  const DefaultSwitch({super.key, required this.vm});
+    setColor();
+  }
+
+  Color? thumbActiveColor;
+  Color? thumbInactiveColor;
+  Color? trackActiveColor;
+  Color? trackInactiveColor;
+  Color? focusColor;
+  Color? trackOutlineColor;
+  Color? errorColor;
+}
+
+class SwitchSize extends SizeImpl {
+  SwitchSize(super.themeVm,
+      {double? width, double? height, double? splashRadius}) {
+    void setSize() {
+      this.width = (width ?? 45).w;
+      this.height = (height ?? 24).h;
+      this.splashRadius = (splashRadius ?? 17).r;
+    }
+
+    setSize();
+  }
+
+  double? width;
+  double? height;
+  double? splashRadius;
+}
+
+typedef SwitchDecorationBuilder = SwitchDecoration Function(ThemeVm themeVm);
+
+class DefaultSwitch extends StatelessWidget {
+  final SwitchDecorationBuilder decorationBuilder;
+
+  const DefaultSwitch({super.key, required this.decorationBuilder});
 
   @override
   Widget build(BuildContext context) {
-    return DefaultDisabled(
-      vm: DisabledVm(
-        disabled: !vm.decoration.enabled,
-        child: FormBuilderField<bool>(
-          name: vm.name,
-          validator: vm.form.validator,
-          enabled: vm.decoration.enabled,
-          initialValue: vm.form.initialValue,
-          onChanged: vm.form.onChanged,
-          autovalidateMode: vm.form.autovalidateMode,
-          builder: (field) {
-            return _Switch(field: field, vm: vm);
-          },
-        ),
-      ),
-    );
+    return DefaultDisabled(decorationBuilder: (themeVm) {
+      final decoration = decorationBuilder(themeVm);
+      return DisabledDecoration(themeVm,
+          state:
+              DisabledState(themeVm, isDisabled: decoration.state.isDisabled),
+          child: DisabledChild(themeVm,
+              child: FormBuilderField<bool>(
+                  name: decoration.value.name,
+                  validator: decoration.value.validator,
+                  enabled: !decoration.state.isDisabled,
+                  initialValue: decoration.value.initialValue,
+                  onChanged: decoration.action.onChanged,
+                  autovalidateMode: decoration.value.autovalidateMode,
+                  builder: (field) {
+                    return _Switch(field: field, decoration: decoration);
+                  })));
+    });
   }
 }
 
 class _Switch extends StatefulWidget {
   final FormFieldState<bool> field;
-  final SwitchModel vm;
+  final SwitchDecoration decoration;
 
-  const _Switch({required this.field, required this.vm});
+  const _Switch({required this.field, required this.decoration});
 
   @override
   State<_Switch> createState() => _SwitchState();
@@ -124,13 +198,15 @@ class _Switch extends StatefulWidget {
 class _SwitchState extends State<_Switch> {
   FormFieldState<bool> get field => widget.field;
 
-  SwitchModel get vm => widget.vm;
+  SwitchDecoration get decoration => widget.decoration;
+
+  ThemeData get theme => decoration.theme;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      field.didChange(vm.form.initialValue ?? false);
+      field.didChange(decoration.value.initialValue ?? false);
     });
   }
 
@@ -138,101 +214,90 @@ class _SwitchState extends State<_Switch> {
   Widget build(BuildContext context) {
     final errorText = field.errorText;
     final isError = errorText != null;
-    return ThemeProvider(builder: (context, themeVm) {
-      final theme = themeVm.theme;
-      return Theme(
+
+    return Theme(
         data: theme.copyWith(
           switchTheme: theme.switchTheme.copyWith(
-            trackOutlineWidth: MaterialStateProperty.all(0),
-            splashRadius: 17,
-          ),
+              trackOutlineWidth: MaterialStateProperty.all(0),
+              splashRadius: decoration.size.splashRadius),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                    width: vm.decoration.width,
-                    height: vm.decoration.height,
-                    child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: Switch(
-                          value: field.value ?? false,
-                          onChanged: field.didChange,
-                          focusColor:
-                              theme.colorScheme.primary.withOpacity(0.12),
-                          thumbIcon:
-                              MaterialStateProperty.resolveWith((states) {
-                            //Handle states here. Ex: disabled, error, etc.
-                            //check if active
-                            if (field.value == true) {
-                              return Icon(vm.decoration.thumbActiveIcon);
-                            }
-                            //check if inactive
-                            return Icon(vm.decoration.thumbInactiveIcon);
-                          }),
-                          thumbColor:
-                              MaterialStateProperty.resolveWith((states) {
-                            //Handle states here. Ex: disabled, error, etc.
-                            //check if active
-                            if (field.value == true) {
-                              return vm.decoration.thumbActiveColor;
-                            }
-                            //check if inactive
-                            return vm.decoration.thumbInactiveColor;
-                          }),
-                          trackColor:
-                              MaterialStateProperty.resolveWith((states) {
-                            //Handle states here. Ex: disabled, error, etc.
-                            // check if active
-                            if (field.value == true) {
-                              return vm.decoration.trackActiveColor;
-                            }
-                            //check if inactive
-                            return vm.decoration.trackInactiveColor;
-                          }),
-                          trackOutlineColor:
-                              MaterialStateProperty.resolveWith((states) {
-                            return theme.colorScheme.onSurface
-                                .withOpacity(0.05);
-                          }),
-                        ))).w,
-                if (vm.decoration.title != null ||
-                    vm.decoration.subtitle != null)
-                  GestureDetector(
-                    onTap: () => field.didChange(field.value == null
-                        ? vm.form.initialValue
-                        : !field.value!),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (vm.decoration.title != null)
-                          Text(vm.decoration.title!,
-                              style: theme.textTheme.titleSmall!.copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  color: isError ? Colors.red : null)),
-                        if (vm.decoration.subtitle != null)
-                          Text(vm.decoration.subtitle!,
-                              style: theme.textTheme.bodySmall!.copyWith(
-                                  color: theme.colorScheme.onSurface
-                                      .withOpacity(0.6))),
-                      ],
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                      width: decoration.size.width,
+                      height: decoration.size.height,
+                      child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: Switch(
+                            value: field.value ?? false,
+                            onChanged: field.didChange,
+                            focusColor: decoration.color.focusColor,
+                            thumbIcon:
+                                MaterialStateProperty.resolveWith((states) {
+                              //Handle states here. Ex: disabled, error, etc.
+                              //check if active
+                              if (field.value == true) {
+                                return Icon(decoration.child.thumbActiveIcon);
+                              }
+                              //check if inactive
+                              return Icon(decoration.child.thumbInactiveIcon);
+                            }),
+                            thumbColor:
+                                MaterialStateProperty.resolveWith((states) {
+                              //Handle states here. Ex: disabled, error, etc.
+                              //check if active
+                              if (field.value == true) {
+                                return decoration.color.thumbActiveColor;
+                              }
+                              //check if inactive
+                              return decoration.color.thumbInactiveColor;
+                            }),
+                            trackColor:
+                                MaterialStateProperty.resolveWith((states) {
+                              //Handle states here. Ex: disabled, error, etc.
+                              // check if active
+                              if (field.value == true) {
+                                return decoration.color.trackActiveColor;
+                              }
+                              //check if inactive
+                              return decoration.color.trackInactiveColor;
+                            }),
+                            trackOutlineColor:
+                                MaterialStateProperty.resolveWith((states) {
+                              return decoration.color.trackOutlineColor;
+                            }),
+                          ))).w,
+                  if (decoration.child.title != null ||
+                      decoration.child.subtitle != null)
+                    GestureDetector(
+                      onTap: () => field.didChange(field.value == null
+                          ? decoration.value.initialValue
+                          : !field.value!),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (decoration.child.title != null)
+                            Text(decoration.child.title!,
+                                style: decoration.child.titleStyle!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: isError
+                                        ? decoration.color.errorColor
+                                        : null)),
+                          if (decoration.child.subtitle != null)
+                            Text(decoration.child.subtitle!,
+                                style: decoration.child.subtitleStyle)
+                        ],
+                      ),
                     ),
-                  ),
-              ],
-            ).spaced(4),
-            if (isError)
-              Text(
-                errorText,
-                style: theme.textTheme.bodySmall!.copyWith(color: Colors.red),
-              ),
-          ],
-        ).spaced(4),
-      );
-    });
+                ],
+              ).spaced(4),
+              if (isError) Text(errorText, style: decoration.child.errorStyle)
+            ]).spaced(4));
   }
 }

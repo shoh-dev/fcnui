@@ -1,5 +1,6 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+
 import 'form.dart';
 import 'input.dart';
 import 'disabled.dart';
@@ -19,7 +20,7 @@ class DropdownItem extends Equatable {
   @override
   List<Object?> get props => [groupTitle, items, groupIcon];
 
-  //copyWith
+//copyWith
   DropdownItem copyWith({
     String? groupTitle,
     IconData? groupIcon,
@@ -66,7 +67,7 @@ class DpForm extends Equatable {
     this.validator,
     this.autovalidateMode,
   })  :
-        //assert if items has same id
+//assert if items has same id
         assert(
             items
                     .expand((element) => element.items)
@@ -78,7 +79,7 @@ class DpForm extends Equatable {
                     .map((e) => e.id)
                     .length,
             "Items id must be unique"),
-        //assert if items has at least one item
+//assert if items has at least one item
         assert(items.isNotEmpty, "Items cannot be empty");
 
   @override
@@ -96,6 +97,9 @@ class DpDecoration extends Equatable {
   final Color? foregroundColor;
   final String? helperText;
   final bool hasSearchBox;
+  final bool hasBorder;
+  final Widget? customWidget;
+  final double? defaultMenuItemWidth;
 
   const DpDecoration({
     this.hintText,
@@ -107,6 +111,9 @@ class DpDecoration extends Equatable {
     this.foregroundColor,
     this.helperText,
     this.hasSearchBox = false,
+    this.customWidget,
+    this.hasBorder = true,
+    this.defaultMenuItemWidth,
   });
 
   @override
@@ -119,7 +126,10 @@ class DpDecoration extends Equatable {
         backgroundColor,
         foregroundColor,
         helperText,
-        hasSearchBox
+        hasSearchBox,
+        customWidget,
+        hasBorder,
+        defaultMenuItemWidth,
       ];
 }
 
@@ -131,28 +141,28 @@ class DefaultDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultDisabled(
-      vm: DisabledVm(
-          disabled: variant.form.onChanged == null,
-          child: FormBuilderField<String>(
-            name: variant.name,
-            validator: variant.form.validator,
-            initialValue: variant.form.initialValue,
-            onChanged: variant.form.onChanged,
-            autovalidateMode: variant.form.autovalidateMode,
-            enabled: variant.form.onChanged != null,
-            builder: (FormFieldState<String> state) {
-              return _DropdownSelect(state: state, variant: variant);
-            },
-          )),
-    );
+        decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+            state: DisabledState(themeVm,
+                isDisabled: variant.form.onChanged == null),
+            child: DisabledChild(themeVm,
+                child: FormBuilderField<String>(
+                    name: variant.name,
+                    validator: variant.form.validator,
+                    initialValue: variant.form.initialValue,
+                    onChanged: variant.form.onChanged,
+                    autovalidateMode: variant.form.autovalidateMode,
+                    enabled: variant.form.onChanged != null,
+                    builder: (FormFieldState<String> state) {
+                      return _DropdownSelect(state: state, variant: variant);
+                    }))));
   }
 }
 
 class _DropdownSelect extends StatefulWidget {
-  final FormFieldState<String> state;
+  final FormFieldState<String>? state;
   final DropdownVariant variant;
 
-  const _DropdownSelect({required this.state, required this.variant});
+  const _DropdownSelect({this.state, required this.variant});
 
   @override
   State<_DropdownSelect> createState() => __DropdownSelectState();
@@ -163,20 +173,20 @@ class __DropdownSelectState extends State<_DropdownSelect> {
 
   DropdownVariant get variant => widget.variant;
 
-  FormFieldState<String> get state => widget.state;
+  FormFieldState<String>? get state => widget.state;
 
-  String? get errorText => state.errorText;
+  String? get errorText => state?.errorText;
 
   DpItem? get selectedItem => variant.form.items
       .expand((element) => element.items)
-      .firstWhereOrNull((element) => element.id == state.value);
+      .firstWhereOrNull((element) => element.id == state?.value);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (variant.form.initialValue != null) {
-        state.didChange(variant.form.initialValue);
+        state?.didChange(variant.form.initialValue);
       }
     });
   }
@@ -187,72 +197,16 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     super.dispose();
   }
 
-  InputDecorationTheme _getInputDecoration(ThemeData theme) {
-    return theme.inputDecorationTheme.copyWith(
-      contentPadding: const EdgeInsets.all(0),
-      //Border when tapped and focused
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4).r,
-          borderSide: BorderSide(
-                  color: variant.decoration.foregroundColor ??
-                      theme.dividerColor.withOpacity(0.6),
-                  width: 1,
-                  strokeAlign: BorderSide.strokeAlignOutside)
-              .w),
-      //Idle state border
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: BorderSide(
-                color: variant.decoration.foregroundColor ??
-                    theme.dividerColor.withOpacity(0.6),
-                strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: const BorderSide(
-                color: Colors.red, strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: BorderSide(
-                color: theme.dividerColor.withOpacity(0.6),
-                strokeAlign: BorderSide.strokeAlignInside)
-            .w,
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4).r,
-        borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1,
-                strokeAlign: BorderSide.strokeAlignOutside)
-            .w,
-      ),
-      focusColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      filled: true,
-      fillColor:
-          variant.decoration.backgroundColor ?? theme.colorScheme.surface,
-      errorMaxLines: 2,
-      helperMaxLines: 2,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final bool isError = state.hasError;
-    final String? errorText = state.errorText;
-
+    final bool isError = state?.hasError == true;
+    final String? errorText = state?.errorText;
     return ThemeProvider(builder: (context, themeVm) {
       final ThemeData theme = themeVm.theme;
       return Theme(
-        data: theme.copyWith(
-          inputDecorationTheme: _getInputDecoration(theme),
-        ),
+        data: theme,
         child: DropdownButtonFormField2<DpItem>(
           items: _getItems(themeVm.theme),
-          isExpanded: true,
           value: selectedItem,
           hint: variant.decoration.hintText != null
               ? Text(
@@ -260,21 +214,24 @@ class __DropdownSelectState extends State<_DropdownSelect> {
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.normal,
-                      color: variant.decoration.foregroundColor),
+                      color: variant.decoration.foregroundColor ??
+                          theme.colorScheme.onSurface.withOpacity(0.4)),
                 )
               : null,
           dropdownSearchData: variant.decoration.hasSearchBox
               ? DropdownSearchData(
                   searchController: searchController,
                   searchInnerWidget: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, top: 8).w,
-                    child: DefaultInput(
-                        vm: InputModel(
-                      controller: searchController,
-                      name: "${variant.name}Search",
-                      hintText: variant.decoration.searchHintText ?? "Search",
-                    )),
-                  ),
+                      padding:
+                          const EdgeInsets.only(left: 8, right: 8, top: 8).w,
+                      child: DefaultInput(
+                          decorationBuilder: (themeVm) => InputDecor(themeVm,
+                              child: InputChild(themeVm,
+                                  name: "${variant.name}Search",
+                                  hintText: variant.decoration.searchHintText ??
+                                      "Search"),
+                              value: InputValue(themeVm,
+                                  controller: searchController)))),
                   searchMatchFn: (item, searchValue) {
                     bool found = false;
                     if (item.value?.title
@@ -296,6 +253,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
                 )
               : null,
           decoration: InputDecoration(
+              filled: false,
               errorText: isError ? errorText : null,
               errorStyle:
                   theme.textTheme.bodyMedium!.copyWith(color: Colors.red),
@@ -306,8 +264,9 @@ class __DropdownSelectState extends State<_DropdownSelect> {
           onChanged: variant.form.onChanged == null
               ? null
               : (value) {
-                  state.didChange(value?.id);
+                  state?.didChange(value?.id);
                 },
+          customButton: variant.decoration.customWidget,
           dropdownStyleData: _getDropdownStyle(theme),
           iconStyleData: _getIconStyle(theme),
           menuItemStyleData: _getMenuItemStyle(theme),
@@ -366,6 +325,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
     ];
     return DropdownStyleData(
       maxHeight: 300.h,
+      width: variant.decoration.defaultMenuItemWidth?.w,
       padding: const EdgeInsets.all(8).w,
       elevation: 0,
       offset: const Offset(0, -4).w,
@@ -386,7 +346,7 @@ class __DropdownSelectState extends State<_DropdownSelect> {
           if (states.contains(MaterialState.hovered)) {
             return variant.decoration.hoverColor ??
                 variant.decoration.backgroundColor ??
-                theme.dividerColor.withOpacity(0.4);
+                theme.dividerColor.withOpacity(0.2);
           }
           return null;
         }),
@@ -407,9 +367,9 @@ class __DropdownSelectState extends State<_DropdownSelect> {
 
   List<double> _getCustomHeights() {
     final List<double> customHeights = [];
-    //if has group title => 35
-    //if has subtitle => 50
-    //if has only title => 35
+//if has group title => 35
+//if has subtitle => 50
+//if has only title => 35
     for (final groupItem in variant.form.items) {
       if (groupItem.groupTitle != null) {
         customHeights.add(35.h);
@@ -453,55 +413,55 @@ class __DropdownSelectState extends State<_DropdownSelect> {
       }
       for (final item in groupItem.items) {
         items.add(DropdownMenuItem<DpItem>(
-          value: item,
-          enabled: !variant.disabledItems.contains(item.id),
-          child: DefaultDisabled(
-              vm: DisabledVm(
-            disabled: variant.disabledItems.contains(item.id),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 8).w,
-              alignment: Alignment.centerLeft,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (item.icon != null)
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(item.icon,
-                            color: theme.colorScheme.onSurface.withOpacity(0.6),
-                            size: 16.w),
-                        const SizedBox(width: 8).w,
-                      ],
-                    ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(item.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium),
-                        if (item.subtitle != null)
-                          Text(item.subtitle!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall!.copyWith(
-                                color: theme.colorScheme.onSurface
-                                    .withOpacity(0.6),
-                              )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )),
-        ));
+            value: item,
+            enabled: !variant.disabledItems.contains(item.id),
+            child: DefaultDisabled(
+                decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+                    state: DisabledState(themeVm,
+                        isDisabled: variant.disabledItems.contains(item.id)),
+                    child: DisabledChild(themeVm,
+                        child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8).w,
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  if (item.icon != null)
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(item.icon,
+                                            color: theme.colorScheme.onSurface
+                                                .withOpacity(0.6),
+                                            size: 16.w),
+                                        const SizedBox(width: 8).w,
+                                      ],
+                                    ),
+                                  Expanded(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                        Text(item.title,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: theme.textTheme.bodyMedium),
+                                        if (item.subtitle != null)
+                                          Text(item.subtitle!,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: theme.textTheme.bodySmall!
+                                                  .copyWith(
+                                                      color: theme
+                                                          .colorScheme.onSurface
+                                                          .withOpacity(0.6)))
+                                      ]))
+                                ])))))));
       }
     }
     return items;

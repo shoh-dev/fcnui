@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:registry/pages/page_impl.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/input.dart';
-import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/with_label.dart';
+import 'package:registry/ui/snackbar.dart';
+
+import '../ui/default_components/button.dart';
 
 class InputPage extends PageImpl {
   final bool isDisabled;
   final bool withLabel;
   final bool withButton;
   final bool isForm;
+
   const InputPage({
     super.key,
     this.isDisabled = false,
@@ -20,7 +23,7 @@ class InputPage extends PageImpl {
   });
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     if (isDisabled) {
       return const _Disabled();
     }
@@ -140,7 +143,7 @@ class _Form extends StatelessWidget {
                 vm: formModel,
                 onSave: (value) {
                   if (formModel.isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(themeVm).showSnackBar(SnackBar(
                         content: Text(formModel.getValues().toString())));
                   }
                 },
@@ -178,12 +181,9 @@ class _Default extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultInput(
-      vm: InputModel(
-        name: "email",
-        hintText: "Email",
-      ),
-    );
+    return DefaultInput(
+        decorationBuilder: (themeVm) => InputDecor(themeVm,
+            child: InputChild(themeVm, name: "email", hintText: "Email")));
   }
 }
 
@@ -192,13 +192,10 @@ class _Disabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultInput(
-      vm: InputModel(
-        name: "emailDisabled",
-        enabled: false,
-        hintText: "Email",
-      ),
-    );
+    return DefaultInput(
+        decorationBuilder: (themeVm) => InputDecor(themeVm,
+            state: InputState(themeVm, isDisabled: true),
+            child: InputChild(themeVm, name: "email", hintText: "Email")));
   }
 }
 
@@ -207,13 +204,13 @@ class _WithLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const WithLabel(
-        labelVm: LabelModel(text: "Email", enabled: true),
+    return WithLabel(
+        labelBuilder: (themeVm) => LabelDecoration(themeVm,
+            child: LabelChild(themeVm, text: "Email"),
+            state: LabelState(themeVm, isDisabled: false)),
         child: DefaultInput(
-            vm: InputModel(
-          name: "emailWithLabel",
-          hintText: "Email",
-        )));
+            decorationBuilder: (themeVm) => InputDecor(themeVm,
+                child: InputChild(themeVm, name: "email", hintText: "Email"))));
   }
 }
 
@@ -231,20 +228,29 @@ class _WithButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            child: DefaultInput(
-                vm: InputModel(
-              maxLines: 1,
-              name: "emailWithButton",
-              hintText: "Email",
-              validators: [
-                FormBuilderValidators.required(
-                    errorText: "Please enter your email address"),
-                FormBuilderValidators.email(
-                    errorText: "Please enter a valid email address"),
-              ],
-            )),
-          ),
-          SaveButton(text: "Subscribe", vm: formModel, onSave: print),
+              child: DefaultInput(
+                  decorationBuilder: (themeVm) => InputDecor(themeVm,
+                      child: InputChild(
+                        themeVm,
+                        maxLines: 1,
+                        name: "emailWithButton",
+                        hintText: "Email",
+                      ),
+                      value: InputValue(themeVm, validators: [
+                        FormBuilderValidators.required(
+                            errorText: "Please enter your email address"),
+                        FormBuilderValidators.email(
+                            errorText: "Please enter a valid email address")
+                      ])))),
+          DefaultButton(
+              decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                  type: type,
+                  action: ButtonAction(themeVm, onPressed: () {
+                    if (formModel.isValid) {
+                      showSnackbar(context, formModel.getValues().toString());
+                    }
+                  }),
+                  child: ButtonChild(themeVm, text: "Subscribe")))
         ],
       ).spaced(10),
     );
@@ -255,35 +261,37 @@ class _Form extends StatelessWidget {
   _Form();
 
   final formModel = FormModel();
+
   @override
   Widget build(BuildContext context) {
     return DefaultForm(
       vm: formModel,
       child: WithLabel(
-        labelVm: const LabelModel(text: "Username"),
+        labelBuilder: (themeVm) => LabelDecoration(themeVm,
+            child: LabelChild(themeVm, text: "Username")),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultInput(
-              vm: InputModel(
-                name: "username",
-                hintText: "Username",
-                helperText: "This is your public display name",
-                validators: [
-                  FormBuilderValidators.minLength(2,
-                      errorText: 'Username must be at least 2 characters.'),
-                ],
-              ),
-            ),
-            SaveButton(
-                vm: formModel,
-                onSave: (value) {
-                  if (formModel.isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(formModel.getValues().toString())));
-                  }
-                },
-                text: "Submit"),
+                decorationBuilder: (themeVm) => InputDecor(themeVm,
+                    child: InputChild(themeVm,
+                        name: "username",
+                        hintText: "Username",
+                        helperText: "This is your public display name"),
+                    value: InputValue(themeVm, validators: [
+                      FormBuilderValidators.minLength(2,
+                          errorText: 'Username must be at least 2 characters.')
+                    ]))),
+            DefaultButton(
+                decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                    type: type,
+                    action: ButtonAction(themeVm, onPressed: () {
+                      if (formModel.isValid) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(formModel.getValues().toString())));
+                      }
+                    }),
+                    child: ButtonChild(themeVm, text: "Submit")))
           ],
         ).spaced(20),
       ),

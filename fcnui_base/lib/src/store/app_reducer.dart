@@ -1,6 +1,6 @@
 import 'package:fcnui_base/src/store/store.dart';
 
-AppState appReducer(AppState state, dynamic action) {
+FcnuiAppState appReducer(FcnuiAppState state, dynamic action) {
   var newState = state.copyWith(
     themeState: _themeReducer(state.themeState, action),
     utilityState: _utilityReducer(state.utilityState, action),

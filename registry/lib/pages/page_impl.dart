@@ -13,7 +13,7 @@ abstract class PageImpl extends StatelessWidget {
         clipBehavior: Clip.none,
         controller: controller,
         children: [
-          Center(child: SingleChildScrollView(child: preview())),
+          Center(child: SingleChildScrollView(child: preview(context))),
           Center(child: SingleChildScrollView(child: _codeWidget(context))),
         ],
       );
@@ -22,7 +22,7 @@ abstract class PageImpl extends StatelessWidget {
 
   String getCode();
 
-  Widget preview();
+  Widget preview(BuildContext context);
 
   Widget _codeWidget(BuildContext context) {
     return AnySyntaxHighlighter(getCode(),

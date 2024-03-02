@@ -1,8 +1,8 @@
 import 'package:fcnui_base/src/store/store.dart';
 
-class ThemeStateMiddleware extends MiddlewareClass<AppState> {
+class ThemeStateMiddleware extends MiddlewareClass<FcnuiAppState> {
   @override
-  call(Store<AppState> store, action, NextDispatcher next) {
+  call(Store<FcnuiAppState> store, action, NextDispatcher next) {
     if (action is ChangeThemeModeAction) {
       return _changeThemeModeAction(store, action, next);
     }
@@ -15,19 +15,19 @@ class ThemeStateMiddleware extends MiddlewareClass<AppState> {
     return next(action);
   }
 
-  void _changeThemeModeAction(Store<AppState> store,
+  void _changeThemeModeAction(Store<FcnuiAppState> store,
       ChangeThemeModeAction action, NextDispatcher next) {
     if (action.themeMode == store.state.themeState.themeMode) return;
     next(UpdateThemeState(themeMode: action.themeMode));
   }
 
-  void _changeFlexSchemeAction(Store<AppState> store,
+  void _changeFlexSchemeAction(Store<FcnuiAppState> store,
       ChangeFlexSchemeAction action, NextDispatcher next) {
     if (action.flexScheme == store.state.themeState.flexScheme) return;
     next(UpdateThemeState(flexScheme: action.flexScheme));
   }
 
-  void _changeUsePlatformThemeAction(Store<AppState> store,
+  void _changeUsePlatformThemeAction(Store<FcnuiAppState> store,
       ChangeUsePlatformThemeAction action, NextDispatcher next) {
     if (action.usePlatformTheme == store.state.themeState.usePlatformTheme) {
       return;

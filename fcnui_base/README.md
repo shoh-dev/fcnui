@@ -19,6 +19,7 @@ The `fcnui_base` package for Flutter is a comprehensive collection of dependenci
 | get_it                  | 7.6.7   |
 | flutter_form_builder    | 9.2.0   |
 | form_builder_validators | 9.1.0   |
+| pluto_grid              | 7.0.2   |
 
 #### Features:
 
@@ -35,5 +36,5 @@ The `fcnui_base` package for Flutter is a comprehensive collection of dependenci
 
 ### How to use:
   - To call a specific action use:
-    - `fcnGetIt.get<Store<AppState>>().dispatch(ChangeThemeModeAction(ThemeMode.light.name));`
+    - `ChangeThemeModeAction(themeMode: ThemeMode.light.name).playload();`
   - Or can use `DefaultStoreConnector<YourVm>` and create your `ViewModel` to dispatch actions. For reference, see `ThemeProvider`. 

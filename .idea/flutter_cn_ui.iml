@@ -32,6 +32,21 @@
       <excludeFolder url="file://$MODULE_DIR$/registry/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/registry/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/registry/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/build" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/packages/pluto_grid_export/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/packages/pluto_grid_export/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/fcnui_pluto_grid/packages/pluto_grid_export/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/build" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/registry/macos/Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/example/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -8,7 +8,7 @@ final registryRouter = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return MyHomePage(title: 'Registry App for Flutter cn UI');
+        return const MyHomePage(title: 'Registry App for Flutter cn UI');
       },
     ),
     GoRoute(
@@ -73,17 +73,6 @@ final registryRouter = GoRouter(
       },
     ),
 
-    //DropdownPage
-    GoRoute(
-      path: "/dropdown",
-      builder: (context, state) {
-        final variant = DpVariant.values.firstWhere(
-            (e) => e.name == state.uri.queryParameters['variant'],
-            orElse: () => DpVariant.form);
-        return DropdownPage(variant: variant);
-      },
-    ),
-
     //Switch
     GoRoute(
       path: "/switch",
@@ -103,6 +92,17 @@ final registryRouter = GoRouter(
             (e) => e.name == state.uri.queryParameters['variant'],
             orElse: () => RadioVariant.idle);
         return RadioPage(variant: variant);
+      },
+    ),
+
+    //Select
+    GoRoute(
+      path: "/select",
+      builder: (context, state) {
+        final variant = SelectVariant.values.firstWhere(
+            (e) => e.name == state.uri.queryParameters['variant'],
+            orElse: () => SelectVariant.basic);
+        return SelectPage(variant: variant);
       },
     ),
   ],

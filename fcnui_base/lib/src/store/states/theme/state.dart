@@ -3,9 +3,9 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 const String kDefaultThemeMode = 'light';
-const String kDefaultFlexScheme = 'aquaBlue';
+const String kDefaultFlexScheme = 'material';
 const ThemeMode kDefaultThemeModeValue = ThemeMode.light;
-const FlexScheme kDefaultFlexSchemeValue = FlexScheme.aquaBlue;
+const FlexScheme kDefaultFlexSchemeValue = FlexScheme.material;
 
 @immutable
 class ThemeState extends Equatable {

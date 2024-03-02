@@ -1,10 +1,10 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/pages/page_impl.dart';
+import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/radio.dart';
-import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/snackbar.dart';
 
 enum RadioVariant {
@@ -62,7 +62,7 @@ class _Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(themeVm).textTheme;
     return DefaultForm(
       vm: formModel,
       child: DefaultCard(
@@ -86,7 +86,7 @@ class _Form extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(themeVm).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -121,7 +121,7 @@ class _Form extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(themeVm).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -168,7 +168,7 @@ class _Form extends StatelessWidget {
               onPressed: () {
                 formModel.saveAndValidate();
                 if (!formModel.formKey.currentState!.validate()) return;
-                showSnackbar(context, formModel.getValues());
+                showSnackbar(themeVm, formModel.getValues());
               },
               text: "Mark all as read",
               icon: Icons.check,
@@ -184,7 +184,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       (RadioVariant.idle) => const _Idle(),
       (RadioVariant.form) => _Form(),
@@ -198,22 +198,24 @@ class _Idle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultRadio(
-        vm: RadioModel(
-            name: "radio",
-            decoration: const RadioDecoration(
-              title: "Select your favorite city",
+        decorationBuilder: (themeVm) => RadioDecoration(themeVm,
+            value: RadioValue(themeVm, name: "radio", items: const [
+              DpItem(id: 'default', title: "Default"),
+              DpItem(id: 'disabled', title: "Disabled"),
+              DpItem(id: 'comfortable', title: "Comfortable"),
+              DpItem(id: 'compact', title: "Compact"),
+            ], disabledItems: [
+              'disabled',
+            ]),
+            action: RadioAction(
+              themeVm,
+              onChanged: (value) {
+                showSnackbar(context, value);
+              },
             ),
-            form: RadioForm(
-              disabled: const [
-                'disabled',
-              ],
-              onChanged: (value) {},
-              items: const [
-                DpItem(id: 'default', title: "Default"),
-                DpItem(id: 'disabled', title: "Disabled"),
-                DpItem(id: 'comfortable', title: "Comfortable"),
-                DpItem(id: 'compact', title: "Compact"),
-              ],
+            child: RadioChild(
+              themeVm,
+              title: "Select your favorite city",
             )));
   }
 }
@@ -232,41 +234,49 @@ class _Form extends StatelessWidget {
         DefaultForm(
           vm: formModel,
           child: DefaultRadio(
-              vm: RadioModel(
-                  name: "radio",
-                  decoration: const RadioDecoration(
-                    title: "Select your favorite city",
-                  ),
-                  form: RadioForm(
+              decorationBuilder: (themeVm) => RadioDecoration(themeVm,
+                  value: RadioValue(
+                    themeVm,
+                    name: "radio",
+                    items: const [
+                      DpItem(id: 'buenosAires', title: "Buenos Aires"),
+                      DpItem(
+                        id: 'newYork',
+                        title: "New York",
+                        subtitle: "Not available",
+                      ),
+                      DpItem(id: 'paris', title: "Paris"),
+                      DpItem(id: 'rome', title: "Rome"),
+                    ],
                     validator: (v) {
                       if (v == null) {
                         return "Please select a city";
                       }
                       return null;
                     },
-                    disabled: const [
-                      "newYork",
+                    disabledItems: [
+                      'newYork',
                     ],
-                    onChanged: (value) {},
-                    items: const [
-                      DpItem(id: "buenosAires", title: "Buenos Aires"),
-                      DpItem(
-                        id: "newYork",
-                        title: "New York",
-                        subtitle: "Not available",
-                      ),
-                      DpItem(id: "paris", title: "Paris"),
-                      DpItem(id: "rome", title: "Rome"),
-                    ],
+                  ),
+                  child:
+                      RadioChild(themeVm, title: "Select your favorite city"),
+                  action: RadioAction(
+                    themeVm,
+                    onChanged: (value) {
+                      formModel.patchValue({
+                        "radio": value,
+                      });
+                    },
                   ))),
         ),
-        SaveButton(
-          vm: formModel,
-          onSave: (v) {
-            if (!formModel.formKey.currentState!.validate()) return;
-            showSnackbar(context, v);
-          },
-        ),
+        DefaultButton(
+            decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                type: type,
+                action: ButtonAction(themeVm, onPressed: () {
+                  if (!formModel.formKey.currentState!.validate()) return;
+                  showSnackbar(context, formModel.getValues());
+                }),
+                child: ButtonChild(themeVm, text: "Save")))
       ],
     ).spaced(20);
   }

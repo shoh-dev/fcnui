@@ -3,8 +3,9 @@ import 'package:redux/redux.dart';
 import 'app_state.dart';
 import 'middlewares/middlewares.dart';
 
-final appStore =
-    Store<AppState>(appReducer, initialState: AppState.initial(), middleware: [
-  ThemeStateMiddleware(),
-  UtilityStateMiddleware(),
-]);
+final appStore = Store<FcnuiAppState>(appReducer,
+    initialState: FcnuiAppState.initial(),
+    middleware: [
+      ThemeStateMiddleware(),
+      UtilityStateMiddleware(),
+    ]);

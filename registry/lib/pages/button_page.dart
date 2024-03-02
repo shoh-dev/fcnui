@@ -18,62 +18,42 @@ class ButtonPage extends PageImpl {
       required this.isLoading});
 
   @override
-  Widget preview() {
+  Widget preview(BuildContext context) {
+    decoration(themeVm, type) {
+      return ButtonDecoration(
+        themeVm,
+        type: type,
+        action: ButtonAction(themeVm, onPressed: isDisabled ? null : () {}),
+        child: ButtonChild(themeVm,
+            text: getText(),
+            icon: variant == "icon"
+                ? Icons.email
+                : (withIcon ? Icons.email : null)),
+        state: ButtonState(themeVm, isLoading: isLoading),
+      );
+    }
+
     switch (variant) {
       case 'secondary':
         return DefaultButton(
-          variant: SecondaryButtonVariant(
-            isLoading: isLoading,
-            text: getText(),
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
+            type: ButtonType.secondary, decorationBuilder: decoration);
       case 'tertiary':
         return DefaultButton(
-          variant: TertiaryButtonVariant(
-            text: getText(),
-            isLoading: isLoading,
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
+            type: ButtonType.tertiary, decorationBuilder: decoration);
       case 'error':
         return DefaultButton(
-          variant: ErrorButtonVariant(
-            text: getText(),
-            isLoading: isLoading,
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
+            type: ButtonType.error, decorationBuilder: decoration);
       case 'outline':
         return DefaultButton(
-          variant: OutlineButtonVariant(
-            text: getText(),
-            isLoading: isLoading,
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
+            type: ButtonType.outline, decorationBuilder: decoration);
       case 'ghost':
         return DefaultButton(
-          variant: GhostButtonVariant(
-            text: getText(),
-            isLoading: isLoading,
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
-      default:
+            type: ButtonType.ghost, decorationBuilder: decoration);
+      case 'icon':
         return DefaultButton(
-          variant: PrimaryButtonVariant(
-            text: getText(),
-            isLoading: isLoading,
-            onPressed: isDisabled ? null : () {},
-            icon: withIcon ? Icons.email : null,
-          ),
-        );
+            type: ButtonType.icon, decorationBuilder: decoration);
+      default:
+        return DefaultButton(decorationBuilder: decoration);
     }
   }
 
