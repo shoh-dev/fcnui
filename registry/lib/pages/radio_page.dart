@@ -1,10 +1,10 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/pages/page_impl.dart';
+import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/radio.dart';
-import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/snackbar.dart';
 
 enum RadioVariant {
@@ -269,13 +269,14 @@ class _Form extends StatelessWidget {
                     },
                   ))),
         ),
-        SaveButton(
-          vm: formModel,
-          onSave: (v) {
-            if (!formModel.formKey.currentState!.validate()) return;
-            showSnackbar(context, v);
-          },
-        ),
+        DefaultButton(
+            decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                type: type,
+                action: ButtonAction(themeVm, onPressed: () {
+                  if (!formModel.formKey.currentState!.validate()) return;
+                  showSnackbar(context, formModel.getValues());
+                }),
+                child: ButtonChild(themeVm, text: "Save")))
       ],
     ).spaced(20);
   }

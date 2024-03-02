@@ -1,11 +1,12 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:registry/pages/page_impl.dart';
+import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/card.dart';
 import 'package:registry/ui/default_components/checkbox.dart';
 import 'package:registry/ui/default_components/dp_item.dart';
 import 'package:registry/ui/default_components/form.dart';
-import 'package:registry/ui/default_components/save_button.dart';
+import 'package:registry/ui/snackbar.dart';
 
 enum CheckboxVariant {
   withLabel,
@@ -197,52 +198,51 @@ class _Form extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DefaultForm(
-          vm: formModel,
-          child: DefaultCheckbox(
-            decorationBuilder: (themeVm) => CheckboxDecoration(
-              themeVm,
-              value: CheckboxValue(themeVm,
-                  name: "termsForm",
-                  disabledItems: const [
-                    "home",
-                    "apps",
-                  ],
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: FormBuilderValidators.required(
-                      errorText: 'You have to select at least one item'),
-                  items: const [
-                    DpItem(id: "recents", title: "Recents"),
-                    DpItem(id: "home", title: "Home"),
-                    DpItem(id: "apps", title: "Applications"),
-                    DpItem(id: "settings", title: "Settings"),
-                    DpItem(id: "about", title: "About"),
-                  ]),
-              action: CheckboxAction(themeVm, onChanged: print),
-              child: CheckboxChild(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DefaultForm(
+            vm: formModel,
+            child: DefaultCheckbox(
+              decorationBuilder: (themeVm) => CheckboxDecoration(
                 themeVm,
-                title: "Sidebar",
-                subtitle: "Select the items you want to display",
-                helperText: "You have to select at least one item",
-                orientation: OptionsOrientation.vertical,
+                value: CheckboxValue(themeVm,
+                    name: "termsForm",
+                    disabledItems: const [
+                      "home",
+                      "apps",
+                    ],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: FormBuilderValidators.required(
+                        errorText: 'You have to select at least one item'),
+                    items: const [
+                      DpItem(id: "recents", title: "Recents"),
+                      DpItem(id: "home", title: "Home"),
+                      DpItem(id: "apps", title: "Applications"),
+                      DpItem(id: "settings", title: "Settings"),
+                      DpItem(id: "about", title: "About"),
+                    ]),
+                action: CheckboxAction(themeVm, onChanged: print),
+                child: CheckboxChild(
+                  themeVm,
+                  title: "Sidebar",
+                  subtitle: "Select the items you want to display",
+                  helperText: "You have to select at least one item",
+                  orientation: OptionsOrientation.vertical,
+                ),
               ),
             ),
           ),
-        ),
-        SaveButton(
-            vm: formModel,
-            onSave: (value) {
-              if (formModel.isValid) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(value.toString())),
-                );
-              }
-            }),
-      ],
-    ).spaced(20);
+          DefaultButton(
+              decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                  type: type,
+                  action: ButtonAction(themeVm, onPressed: () {
+                    if (formModel.isValid) {
+                      showSnackbar(context, formModel.getValues());
+                    }
+                  }),
+                  child: ButtonChild(themeVm, text: "Subscribe")))
+        ]).spaced(20);
   }
 }
 

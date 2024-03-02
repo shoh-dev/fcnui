@@ -12,6 +12,7 @@ Full changelog of the project.
 
 - Update `radio` view model with new way.
 - Update `checkbox` view model with new way.
+- Update `switch` view model with new way.
 
 ## 28.02.2024 - 01.03.2024
 

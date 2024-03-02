@@ -1,10 +1,8 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:registry/pages/pages.dart';
 import 'package:registry/ui/default_components/button.dart';
 import 'package:registry/ui/default_components/form.dart';
-import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/snackbar.dart';
 
@@ -520,13 +518,14 @@ class Form extends StatelessWidget {
           ),
 
           // Submit button
-          SaveButton(
-            vm: formModel,
-            onSave: (value) {
-              if (!formModel.isValid) return;
-              showSnackbar(context, formModel.getValues());
-            },
-          ),
+          DefaultButton(
+              decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                  type: type,
+                  action: ButtonAction(themeVm, onPressed: () {
+                    if (!formModel.isValid) return;
+                    showSnackbar(context, formModel.getValues());
+                  }),
+                  child: ButtonChild(themeVm, text: "Save")))
         ],
       ).spaced(8),
     );

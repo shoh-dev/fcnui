@@ -244,28 +244,17 @@ class _WithTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        DefaultSwitch(
-          vm: SwitchModel(
-            name: "switch",
-            decoration: SwitchDecoration(
-              title: "With title",
-            ),
-          ),
-        ),
-        DefaultSwitch(
-          vm: SwitchModel(
-            name: "switch",
-            decoration: SwitchDecoration(
-              title: "With subtitle",
-              subtitle: "Turn on while flying",
-            ),
-          ),
-        ),
-      ],
-    ).spaced(20);
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      DefaultSwitch(
+          decorationBuilder: (themeVm) => SwitchDecoration(themeVm,
+              value: SwitchValue(themeVm, name: "switch"),
+              child: SwitchChild(themeVm, title: "With title"))),
+      DefaultSwitch(
+          decorationBuilder: (themeVm) => SwitchDecoration(themeVm,
+              value: SwitchValue(themeVm, name: "switch"),
+              child: SwitchChild(themeVm,
+                  title: "With title", subtitle: "Turn on while flying")))
+    ]).spaced(20);
   }
 }
 
@@ -274,40 +263,40 @@ class _Decorated extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         DefaultSwitch(
-          vm: SwitchModel(
-            name: "switch",
-            decoration: SwitchDecoration(
-              title: "Airplane mode",
-              thumbActiveColor: Colors.red,
-              thumbInactiveColor: Colors.blue,
-              trackActiveColor: Colors.green,
-              trackInactiveColor: Colors.yellow,
-              thumbActiveIcon: Icons.airplanemode_active,
-              thumbInactiveIcon: Icons.airplanemode_inactive,
-              width: 100,
-              height: 50,
-            ),
-          ),
-        ),
+            decorationBuilder: (themeVm) => SwitchDecoration(themeVm,
+                value: SwitchValue(themeVm, name: "switch"),
+                child: SwitchChild(themeVm,
+                    title: "Airplane mode",
+                    thumbActiveIcon: Icons.airplanemode_active,
+                    thumbInactiveIcon: Icons.airplanemode_inactive),
+                color: SwitchColor(themeVm,
+                    thumbActiveColor: Colors.red,
+                    thumbInactiveColor: Colors.blue,
+                    trackActiveColor: Colors.green,
+                    trackInactiveColor: Colors.yellow),
+                size: SwitchSize(themeVm, width: 100, height: 50))),
         //another switch with unique decoration other than the first one
         DefaultSwitch(
-          vm: SwitchModel(
-            name: "switch",
-            decoration: SwitchDecoration(
-              title: "Sound on/off",
-              subtitle: "Disabled",
-              enabled: false,
-              thumbActiveIcon: Icons.volume_up,
-              thumbInactiveIcon: Icons.volume_off,
-              width: 50,
-              height: 25,
-            ),
-          ),
-        ),
+            decorationBuilder: (themeVm) => SwitchDecoration(themeVm,
+                value: SwitchValue(themeVm, name: "switch"),
+                child: SwitchChild(
+                  themeVm,
+                  title: "Sound on/off",
+                  subtitle: "Disabled",
+                  thumbActiveIcon: Icons.volume_up,
+                  thumbInactiveIcon: Icons.volume_off,
+                ),
+                state: SwitchState(themeVm, isDisabled: true),
+                color: SwitchColor(themeVm,
+                    thumbActiveColor: Colors.red,
+                    thumbInactiveColor: Colors.blue,
+                    trackActiveColor: Colors.green,
+                    trackInactiveColor: Colors.yellow),
+                size: SwitchSize(themeVm, width: 100, height: 25))),
       ],
     ).spaced(20);
   }
@@ -341,47 +330,46 @@ class _Form extends StatelessWidget {
                               child: CardChild(themeVm,
                                   custom: CardCustom(
                                       widget: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                        Row(children: [
                                           const Icon(
                                             Icons.notifications_active_outlined,
                                             size: 32,
                                           ),
                                           const SizedBox(width: 20),
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Push Notifications',
-                                                    style: textTheme.labelLarge!
-                                                        .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
-                                                Text(
-                                                    'Send push notifications to your users',
-                                                    style:
-                                                        textTheme.labelMedium),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const DefaultSwitch(
-                                          vm: SwitchModel(
-                                              name: "pushNotifications")),
-                                    ],
-                                  ).spaced(10))));
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Push Notifications',
+                                                        style: textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    Text(
+                                                        'Send push notifications to your users',
+                                                        style: textTheme
+                                                            .labelMedium)
+                                                  ]))
+                                        ]),
+                                        DefaultSwitch(
+                                            decorationBuilder: (themeVm) =>
+                                                SwitchDecoration(themeVm,
+                                                    value: SwitchValue(themeVm,
+                                                        name:
+                                                            "pushNotifications")))
+                                      ]).spaced(10))));
                         },
                       ),
                       const SizedBox(height: 20),
@@ -391,71 +379,73 @@ class _Form extends StatelessWidget {
                               child: CardChild(themeVm,
                                   custom: CardCustom(
                                       widget: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.email,
-                                            size: 32,
-                                          ),
-                                          const SizedBox(width: 20),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Marketing Emails',
-                                                    style: textTheme.labelLarge!
-                                                        .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
-                                                Text(
-                                                    'Receive marketing emails from us',
-                                                    style:
-                                                        textTheme.labelMedium),
-                                              ],
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.email,
+                                              size: 32,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const DefaultSwitch(
-                                          vm: SwitchModel(
-                                              name: "marketingEmails")),
-                                    ],
-                                  ).spaced(10))));
+                                            const SizedBox(width: 20),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('Marketing Emails',
+                                                      style: textTheme
+                                                          .labelLarge!
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                  Text(
+                                                      'Receive marketing emails from us',
+                                                      style: textTheme
+                                                          .labelMedium),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        DefaultSwitch(
+                                            decorationBuilder: (themeVm) =>
+                                                SwitchDecoration(themeVm,
+                                                    value: SwitchValue(themeVm,
+                                                        name:
+                                                            "marketingEmails")))
+                                      ]).spaced(10))));
                         },
                       ),
                       const SizedBox(height: 20),
                       DefaultSwitch(
-                          vm: SwitchModel(
-                              name: "checkAll",
-                              decoration: const SwitchDecoration(
-                                title: "Check all required switches",
-                              ),
-                              form: SwitchForm(
-                                onChanged: (value) {
-                                  formModel.patchValue({
-                                    "pushNotifications": value,
-                                  });
-                                },
-                                validator: (p0) {
+                          decorationBuilder: (themeVm) => SwitchDecoration(
+                                themeVm,
+                                value: SwitchValue(themeVm, validator: (p0) {
                                   //check if all switches are on
                                   if (formModel.getValue("pushNotifications") ==
                                       false) {
                                     return "Please check all required switches";
                                   }
                                   return null;
-                                },
-                              ))),
+                                }, name: "checkAll"),
+                                child: SwitchChild(themeVm,
+                                    title: "Check all required switches"),
+                                action:
+                                    SwitchAction(themeVm, onChanged: (value) {
+                                  formModel.patchValue({
+                                    "pushNotifications": value,
+                                  });
+                                }),
+                              )),
                       const SizedBox(height: 20),
                       DefaultButton(decorationBuilder: (themeVm, type) {
                         return ButtonDecoration(

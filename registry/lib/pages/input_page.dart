@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:registry/pages/page_impl.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/input.dart';
-import 'package:registry/ui/default_components/save_button.dart';
 import 'package:registry/ui/default_components/with_label.dart';
+import 'package:registry/ui/snackbar.dart';
+
+import '../ui/default_components/button.dart';
 
 class InputPage extends PageImpl {
   final bool isDisabled;
   final bool withLabel;
   final bool withButton;
   final bool isForm;
+
   const InputPage({
     super.key,
     this.isDisabled = false,
@@ -239,7 +242,15 @@ class _WithButton extends StatelessWidget {
                         FormBuilderValidators.email(
                             errorText: "Please enter a valid email address")
                       ])))),
-          SaveButton(text: "Subscribe", vm: formModel, onSave: print),
+          DefaultButton(
+              decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                  type: type,
+                  action: ButtonAction(themeVm, onPressed: () {
+                    if (formModel.isValid) {
+                      showSnackbar(context, formModel.getValues().toString());
+                    }
+                  }),
+                  child: ButtonChild(themeVm, text: "Subscribe")))
         ],
       ).spaced(10),
     );
@@ -250,6 +261,7 @@ class _Form extends StatelessWidget {
   _Form();
 
   final formModel = FormModel();
+
   @override
   Widget build(BuildContext context) {
     return DefaultForm(
@@ -270,15 +282,16 @@ class _Form extends StatelessWidget {
                       FormBuilderValidators.minLength(2,
                           errorText: 'Username must be at least 2 characters.')
                     ]))),
-            SaveButton(
-                vm: formModel,
-                onSave: (value) {
-                  if (formModel.isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(formModel.getValues().toString())));
-                  }
-                },
-                text: "Submit"),
+            DefaultButton(
+                decorationBuilder: (themeVm, type) => ButtonDecoration(themeVm,
+                    type: type,
+                    action: ButtonAction(themeVm, onPressed: () {
+                      if (formModel.isValid) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(formModel.getValues().toString())));
+                      }
+                    }),
+                    child: ButtonChild(themeVm, text: "Submit")))
           ],
         ).spaced(20),
       ),
