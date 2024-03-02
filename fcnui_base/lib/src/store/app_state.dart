@@ -3,21 +3,21 @@ import 'package:equatable/equatable.dart';
 import 'package:fcnui_base/src/store/states/states.dart';
 
 @immutable
-class AppState extends Equatable {
+class FcnuiAppState extends Equatable {
   final ThemeState themeState;
   final UtilityState utilityState;
 
-  const AppState({required this.themeState, required this.utilityState});
+  const FcnuiAppState({required this.themeState, required this.utilityState});
 
-  factory AppState.initial() {
-    return AppState(
+  factory FcnuiAppState.initial() {
+    return FcnuiAppState(
       themeState: ThemeState.initial(),
       utilityState: UtilityState.initial(),
     );
   }
 
-  AppState copyWith({ThemeState? themeState, UtilityState? utilityState}) {
-    return AppState(
+  FcnuiAppState copyWith({ThemeState? themeState, UtilityState? utilityState}) {
+    return FcnuiAppState(
       themeState: themeState ?? this.themeState,
       utilityState: utilityState ?? this.utilityState,
     );
@@ -27,9 +27,9 @@ class AppState extends Equatable {
   List<Object?> get props => [themeState, utilityState];
 }
 
-class UpdateAppState {
+class UpdateFcnuiAppState {
   final ThemeState? themeState;
   final UtilityState? utilityState;
 
-  UpdateAppState({this.themeState, this.utilityState});
+  UpdateFcnuiAppState({this.themeState, this.utilityState});
 }

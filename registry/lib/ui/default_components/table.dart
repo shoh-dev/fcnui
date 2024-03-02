@@ -738,47 +738,54 @@ class _HeaderState extends State<_Header> {
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.3,
                   child: DefaultSelect<PlutoColumn>(
-                    form: const SelectForm(name: "columns"),
-                    decoration: SelectDecoration(
-                      showSelectedValuesContent: false,
-                      labelText: "Columns",
-                      hintText: columns.length == stateManager.columns.length
-                          ? "All"
-                          : columns.every((element) => element.hide)
-                              ? "None"
-                              : "${columns.where((element) => element.hide == false).length} selected",
-                      selectionType: SelectionType.multi,
-                    ),
-                    options: SelectOptions(
-                      onOptionRemoved: (index, option) {
-                        if (option.value != null) {
-                          stateManager.hideColumn(option.value!, true);
-                        }
-                      },
-                      onOptionSelected: (selectedOptions) {
-                        if (selectedOptions.isNotEmpty) {
-                          for (var col in selectedOptions) {
-                            if (col.value != null) {
-                              stateManager.hideColumn(col.value!, false);
+                    decorationBuilder: (themeVm) => SelectionDecoration(themeVm,
+                        value: SelectionValue(
+                          themeVm,
+                          name: "columns",
+                          selectedOptions: [
+                            for (var col in columns)
+                              ValueItem(
+                                label: col.title,
+                                value: col,
+                              )
+                          ],
+                          options: [
+                            for (var col in columns)
+                              ValueItem(
+                                label: col.title,
+                                value: col,
+                              )
+                          ],
+                        ),
+                        action: SelectionAction(themeVm,
+                            onOptionRemoved: (index, option) {
+                          if (option.value != null) {
+                            stateManager.hideColumn(option.value!, true);
+                          }
+                        }, onOptionSelected: (selectedOptions) {
+                          if (selectedOptions.isNotEmpty) {
+                            for (var col in selectedOptions) {
+                              if (col.value != null) {
+                                stateManager.hideColumn(col.value!, false);
+                              }
                             }
                           }
-                        }
-                      },
-                      selectedOptions: [
-                        for (var col in columns)
-                          ValueItem(
-                            label: col.title,
-                            value: col,
-                          )
-                      ],
-                      options: [
-                        for (var col in columns)
-                          ValueItem(
-                            label: col.title,
-                            value: col,
-                          )
-                      ],
-                    ),
+                        }),
+                        state: SelectionState(
+                          themeVm,
+                          isShowSelectedValuesContent: false,
+                        ),
+                        child: SelectionChild(
+                          themeVm,
+                          labelText: "Columns",
+                          hintText: columns.length ==
+                                  stateManager.columns.length
+                              ? "All"
+                              : columns.every((element) => element.hide)
+                                  ? "None"
+                                  : "${columns.where((element) => element.hide == false).length} selected",
+                          selectionType: SelectionType.multi,
+                        )),
                   ),
                 )
               ],
@@ -792,6 +799,7 @@ class _HeaderState extends State<_Header> {
 
 class _Footer extends StatefulWidget {
   final PlutoGridStateManager stateManager;
+
   const _Footer({
     required this.stateManager,
   });
@@ -851,27 +859,30 @@ class __Footer extends State<_Footer> {
             SizedBox(
               width: MediaQuery.sizeOf(context).width * 0.2,
               child: DefaultSelect<int>(
-                form: const SelectForm(name: "table_page_size"),
-                decoration: const SelectDecoration(labelText: 'Rows per page'),
-                options: SelectOptions(
-                  onOptionSelected: (newList) {
-                    if (newList.isNotEmpty) {
-                      changePageSize(newList.first.value!);
-                    }
-                  },
-                  options: [
-                    for (var ps in [10, 50, 100])
-                      ValueItem(
-                        label: ps.toString(),
-                        value: ps,
-                      )
-                  ],
-                  selectedOptions: [
-                    ValueItem(
-                        label: "${stateManager.pageSize}",
-                        value: stateManager.pageSize)
-                  ],
-                ),
+                decorationBuilder: (themeVm) => SelectionDecoration(themeVm,
+                    value: SelectionValue(
+                      themeVm,
+                      name: "table_page_size",
+                      options: [
+                        for (var ps in [10, 50, 100])
+                          ValueItem(
+                            label: ps.toString(),
+                            value: ps,
+                          )
+                      ],
+                      selectedOptions: [
+                        ValueItem(
+                            label: "${stateManager.pageSize}",
+                            value: stateManager.pageSize)
+                      ],
+                    ),
+                    child: SelectionChild(themeVm, labelText: "Rows per page"),
+                    action:
+                        SelectionAction(themeVm, onOptionSelected: (newList) {
+                      if (newList.isNotEmpty) {
+                        changePageSize(newList.first.value!);
+                      }
+                    })),
               ),
             ),
 

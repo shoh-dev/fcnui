@@ -18,7 +18,7 @@ class DefaultStoreProvider extends StatelessWidget {
     debugPrint("DefaultStoreProvider.build complete");
     return StoreProvider(
         store: fcnStore,
-        child: StoreConnector<AppState, void>(
+        child: StoreConnector<FcnuiAppState, void>(
             rebuildOnChange: false,
             converter: (store) {},
             onInit: (store) {

@@ -147,24 +147,26 @@ class _MyHomePageState extends State<MyHomePage> {
       hasSort: false,
       cellWidget: (cell, rowIndex) {
         return DefaultSelect<String>(
-          form: SelectForm(name: "actions${cell.key}"),
-          decoration: const SelectDecoration(
-              dropdownMenuSize: Size.fromWidth(100),
-              customWidget: Icon(Icons.more_vert_rounded)),
-          options: SelectOptions(
-              onOptionSelected: (selectedOptions) {},
-              options: const [
-                ValueItem(label: "View", value: "view"),
-                ValueItem(label: "Edit", value: "edit"),
-                ValueItem(label: "Delete", value: "delete"),
-              ]),
-        );
+            decorationBuilder: (themeVm) => SelectionDecoration(themeVm,
+                value: SelectionValue(themeVm,
+                    name: "actions${cell.key}",
+                    options: const [
+                      ValueItem(label: "View", value: "view"),
+                      ValueItem(label: "Edit", value: "edit"),
+                      ValueItem(label: "Delete", value: "delete"),
+                    ]),
+                action: SelectionAction(themeVm,
+                    onOptionSelected: (selectedOptions) {}),
+                size: SelectionSize(themeVm,
+                    dropdownMenuSize: const Size.fromWidth(100)),
+                child: SelectionChild(themeVm,
+                    customWidget: const Icon(Icons.more_vert_rounded))));
       },
     ),
   ];
 
   final List<DefaultRow> rows = [
-    for (int i = 0; i < 200; i++)
+    for (int i = 0; i < 1; i++)
       DefaultRow(
         cells: [
           DefaultCell(
@@ -200,13 +202,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const DefaultAppBar(),
-      body: TextButton(
-        onPressed: () => context.go("/switch"),
-        child: const Text("Go to button page"),
-      ),
-    );
+    // return Scaffold(
+    //   appBar: const DefaultAppBar(),
+    //   body: TextButton(
+    //     onPressed: () => context.go("/switch"),
+    //     child: const Text("Go to button page"),
+    //   ),
+    // );
     return ThemeProvider(
       builder: (context, vm) {
         return Scaffold(

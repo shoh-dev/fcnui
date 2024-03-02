@@ -24,7 +24,7 @@ class ThemeVm extends Equatable {
       required this.onChangeThemeScheme,
       required this.usePlatformTheme});
 
-  factory ThemeVm.fromStore(Store<AppState> store, BuildContext context) {
+  factory ThemeVm.fromStore(Store<FcnuiAppState> store, BuildContext context) {
     ThemeMode themeMode = kDefaultThemeModeValue;
     FlexScheme flexScheme = kDefaultFlexSchemeValue;
 
