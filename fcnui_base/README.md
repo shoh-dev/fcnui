@@ -20,6 +20,7 @@ The `fcnui_base` package for Flutter is a comprehensive collection of dependenci
 | flutter_form_builder    | 9.2.0   |
 | form_builder_validators | 9.1.0   |
 | pluto_grid              | 7.0.2   |
+| http                    | 1.1.0   |
 
 #### Features:
 

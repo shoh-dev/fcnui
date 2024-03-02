@@ -1,5 +1,4 @@
 /// 0. Components can be found in: lib/components (or the folder specified in fcnui.json)
-import 'package:example/components/button.dart';
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 

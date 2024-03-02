@@ -1,7 +1,7 @@
 
-## 1.0.4 (19.02.2024)
+## 1.0.4 (19.02.2024 - 02.03.2024)
 
-- Add new dependencies to README.md.
+- Add new dependencies. (http, pluto_grid)
 
 ## 1.0.3 (16.02.2024 - 17.02.2024)
 

@@ -1,6 +1,6 @@
 name: fcnui_base
 description: "Base package for fcnui applications. Contains common code for all fcnui applications."
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/shoh-dev/flutter_cn_ui
 homepage: https://fcnui.shoh.dev
 documentation: https://fcnui.shoh.dev/docs
