@@ -2,10 +2,9 @@
 
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/ui/default_components/fcnui_theme.dart';
 
+import 'fcnui_theme.dart';
 import 'disabled.dart';
-import 'form.dart';
 
 class SwitchDecoration extends DecorationImpl {
   SwitchDecoration(

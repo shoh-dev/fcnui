@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fcnui_base/fcnui_base.dart';
-import 'package:registry/ui/default_components/fcnui_theme.dart';
-import 'form.dart';
+
+import 'fcnui_theme.dart';
 import 'disabled.dart';
 
 class InputDecor extends DecorationImpl {

@@ -230,7 +230,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview(BuildContext themeVm) {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       (SwitchVariant.withTitle) => const _WithTitle(),
       (SwitchVariant.decorated) => const _Decorated(),
@@ -454,8 +454,9 @@ class _Form extends StatelessWidget {
                           color: ButtonColor(themeVm, type: type),
                           action: ButtonAction(themeVm, onPressed: () {
                             formModel.saveAndValidate();
-                            if (!formModel.formKey.currentState!.validate())
+                            if (!formModel.formKey.currentState!.validate()) {
                               return;
+                            }
                             showSnackbar(context, formModel.getValues());
                           }),
                           child: ButtonChild(themeVm,

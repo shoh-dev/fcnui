@@ -4,10 +4,10 @@ import 'dart:developer';
 
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
-import 'package:registry/ui/default_components/fcnui_theme.dart';
+
+import 'fcnui_theme.dart';
 import 'disabled.dart';
 import 'dp_item.dart';
-import 'form.dart';
 
 class CheckboxDecoration extends DecorationImpl {
   CheckboxDecoration(

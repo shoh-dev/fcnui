@@ -1,12 +1,10 @@
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:registry/ui/default_components/card.dart';
 import 'package:registry/ui/default_components/form.dart';
 import 'package:registry/ui/default_components/select.dart';
 import 'package:registry/ui/default_components/table.dart';
 import 'manager/manager.dart';
-import 'ui/default_components/fcnui_theme.dart';
 import 'ui/layout/default_layout.dart';
 
 void main() async {
@@ -147,26 +145,24 @@ class _MyHomePageState extends State<MyHomePage> {
       hasSort: false,
       cellWidget: (cell, rowIndex) {
         return DefaultSelect<String>(
-            decorationBuilder: (themeVm) => SelectionDecoration(themeVm,
-                value: SelectionValue(themeVm,
-                    name: "actions${cell.key}",
-                    options: const [
-                      ValueItem(label: "View", value: "view"),
-                      ValueItem(label: "Edit", value: "edit"),
-                      ValueItem(label: "Delete", value: "delete"),
-                    ]),
-                action: SelectionAction(themeVm,
-                    onOptionSelected: (selectedOptions) {}),
-                size: SelectionSize(themeVm,
-                    dropdownMenuSize: const Size.fromWidth(100)),
-                child: SelectionChild(themeVm,
-                    customWidget: const Icon(Icons.more_vert_rounded))));
+          form: SelectForm(name: "actions${cell.key}"),
+          decoration: const SelectDecoration(
+              dropdownMenuSize: Size.fromWidth(100),
+              customWidget: Icon(Icons.more_vert_rounded)),
+          options: SelectOptions(
+              onOptionSelected: (selectedOptions) {},
+              options: const [
+                ValueItem(label: "View", value: "view"),
+                ValueItem(label: "Edit", value: "edit"),
+                ValueItem(label: "Delete", value: "delete"),
+              ]),
+        );
       },
     ),
   ];
 
   final List<DefaultRow> rows = [
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 200; i++)
       DefaultRow(
         cells: [
           DefaultCell(
@@ -202,13 +198,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: const DefaultAppBar(),
-    //   body: TextButton(
-    //     onPressed: () => context.go("/switch"),
-    //     child: const Text("Go to button page"),
-    //   ),
-    // );
+    return Scaffold(
+      appBar: const DefaultAppBar(),
+      body: TextButton(
+        onPressed: () => context.go("/radio"),
+        child: const Text("Go to button page"),
+      ),
+    );
     return ThemeProvider(
       builder: (context, vm) {
         return Scaffold(

@@ -184,7 +184,7 @@ class _Form extends StatelessWidget {
   }
 
   @override
-  Widget preview(BuildContext themeVm) {
+  Widget preview(BuildContext context) {
     return switch (variant) {
       (RadioVariant.idle) => const _Idle(),
       (RadioVariant.form) => _Form(),

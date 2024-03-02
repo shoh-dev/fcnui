@@ -2,6 +2,7 @@
 
 import 'package:fcnui_base/fcnui_base.dart';
 import 'package:flutter/material.dart';
+
 import 'label.dart';
 
 export 'label.dart';

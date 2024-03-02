@@ -86,7 +86,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
         height += 11;
       }
     }
-    return height.h;
+    return height;
   }
 
   @override
@@ -203,7 +203,6 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
     var offset = renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
 
     final availableHeight = MediaQuery.of(context).size.height - offset.dy;
-
     if (decoration.customWidget != null) {
       return [
         decoration.dropdownMenuSize ?? const Size.fromWidth(300),
@@ -389,113 +388,136 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
   Widget build(BuildContext context) {
     return ThemeProvider(builder: (context, themeVm) {
       return Theme(
-        data: themeVm.theme,
-        child: DefaultDisabled(
-          vm: DisabledVm(
-              disabled: isLoading || decoration.disabled,
-              child: Semantics(
-                button: true,
-                enabled: true,
-                child: CompositedTransformTarget(
-                  link: _layerLink,
-                  child: Focus(
-                    canRequestFocus: true,
-                    skipTraversal: true,
-                    focusNode: _focusNode,
-                    child: FormBuilderField<List<ValueItem<T>>>(
-                        name: form.name,
-                        validator: (value) {
-                          if (value == null) return null;
-                          return form.validator?.call(value);
-                        },
-                        initialValue: _selectedOptions,
-                        onChanged: (value) {
-                          if (value != null) {
-                            dpOptions.onOptionSelected?.call(value);
-                          }
-                        },
-                        enabled: !decoration.disabled,
-                        builder: (field) {
-                          final errorText = field.errorText;
-                          final hasError = errorText != null;
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              InkWell(
-                                splashFactory: NoSplash.splashFactory,
-                                overlayColor: MaterialStatePropertyAll(
-                                    FcnuiDefaultColor(context).borderColor),
-                                radius: FcnuiDefaultSizes.borderRadius,
-                                borderRadius: BorderRadius.circular(
-                                    FcnuiDefaultSizes.borderRadius),
-                                onTap: _toggleFocus,
-                                child: decoration.customWidget ??
-                                    AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      height:
-                                          decoration.wrapType == WrapType.wrap
-                                              ? null
-                                              : decoration.height?.h ?? 50.h,
-                                      constraints: BoxConstraints(
-                                        minWidth:
-                                            MediaQuery.of(context).size.width,
-                                        minHeight: decoration.height?.h ?? 50.h,
-                                      ),
-                                      padding: _getContainerPadding(),
-                                      decoration: _getContainerDecoration(
-                                          themeVm.theme, hasError),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                              child: _getContainerContent()),
-                                          if (_anyItemSelected) ...[
-                                            const SizedBox(
-                                                    width: FcnuiDefaultSizes
-                                                        .itemSpacing)
-                                                .w,
-                                            if (isMultiSelection &&
-                                                decoration.showClearIcon)
+          data: themeVm.theme,
+          child: DefaultDisabled(
+              decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+                  state: DisabledState(themeVm,
+                      isDisabled: isLoading || decoration.disabled),
+                  child: DisabledChild(themeVm,
+                      child: Semantics(
+                          button: true,
+                          enabled: true,
+                          child: CompositedTransformTarget(
+                              link: _layerLink,
+                              child: Focus(
+                                  canRequestFocus: true,
+                                  skipTraversal: true,
+                                  focusNode: _focusNode,
+                                  child: FormBuilderField<List<ValueItem<T>>>(
+                                      name: form.name,
+                                      validator: (value) {
+                                        if (value == null) return null;
+                                        return form.validator?.call(value);
+                                      },
+                                      initialValue: _selectedOptions,
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          dpOptions.onOptionSelected
+                                              ?.call(value);
+                                        }
+                                      },
+                                      enabled: !decoration.disabled,
+                                      builder: (field) {
+                                        final errorText = field.errorText;
+                                        final hasError = errorText != null;
+                                        return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
                                               InkWell(
-                                                  onTap: () => clear(),
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    size: FcnuiDefaultSizes
-                                                        .iconSize,
-                                                  )),
-                                            const SizedBox(
-                                                    width: FcnuiDefaultSizes
-                                                        .itemSpacing)
-                                                .w
-                                          ],
-                                          _buildSuffixIcon(),
-                                        ],
-                                      ),
-                                    ),
-                              ),
-                              if (hasError)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Text(
-                                    errorText,
-                                    style: TextStyle(
-                                      color:
-                                          FcnuiDefaultColor(context).errorColor,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          );
-                        }),
-                  ),
-                ),
-              )),
-        ),
-      );
+                                                splashFactory:
+                                                    NoSplash.splashFactory,
+                                                overlayColor:
+                                                    MaterialStatePropertyAll(
+                                                        FcnuiDefaultColor(
+                                                                context)
+                                                            .borderColor),
+                                                radius: FcnuiDefaultSizes
+                                                    .borderRadius,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        FcnuiDefaultSizes
+                                                            .borderRadius),
+                                                onTap: _toggleFocus,
+                                                child: decoration
+                                                        .customWidget ??
+                                                    AnimatedContainer(
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      height:
+                                                          decoration.wrapType ==
+                                                                  WrapType.wrap
+                                                              ? null
+                                                              : decoration
+                                                                      .height
+                                                                      ?.h ??
+                                                                  50.h,
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        minWidth: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        minHeight: decoration
+                                                                .height?.h ??
+                                                            50.h,
+                                                      ),
+                                                      padding:
+                                                          _getContainerPadding(),
+                                                      decoration:
+                                                          _getContainerDecoration(
+                                                              themeVm.theme,
+                                                              hasError),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Expanded(
+                                                              child:
+                                                                  _getContainerContent()),
+                                                          if (_anyItemSelected) ...[
+                                                            const SizedBox(
+                                                                    width: FcnuiDefaultSizes
+                                                                        .itemSpacing)
+                                                                .w,
+                                                            if (isMultiSelection &&
+                                                                decoration
+                                                                    .showClearIcon)
+                                                              InkWell(
+                                                                  onTap: () =>
+                                                                      clear(),
+                                                                  child:
+                                                                      const Icon(
+                                                                    Icons.close,
+                                                                    size: FcnuiDefaultSizes
+                                                                        .iconSize,
+                                                                  )),
+                                                            const SizedBox(
+                                                                    width: FcnuiDefaultSizes
+                                                                        .itemSpacing)
+                                                                .w
+                                                          ],
+                                                          _buildSuffixIcon(),
+                                                        ],
+                                                      ),
+                                                    ),
+                                              ),
+                                              if (hasError)
+                                                Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 4.0),
+                                                    child: Text(errorText,
+                                                        style: TextStyle(
+                                                            color:
+                                                                FcnuiDefaultColor(
+                                                                        context)
+                                                                    .errorColor,
+                                                            fontSize: 12.sp)))
+                                            ]);
+                                      }))))))));
     });
   }
 
@@ -680,15 +702,10 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                           FcnuiDefaultSizes.borderRadius.r),
                     ),
                     constraints: decoration.searchEnabled
-                        ? BoxConstraints.loose(Size(
-                            size.width,
-                            (decoration.dropdownMenuMaxHeight ??
-                                    dropdownHeight) +
-                                50))
-                        : BoxConstraints.loose(Size(
-                            size.width,
-                            (decoration.dropdownMenuMaxHeight ??
-                                dropdownHeight))),
+                        ? BoxConstraints.loose(Size(size.width,
+                            (decoration.dropdownMenuMaxHeight ?? 200) + 50))
+                        : BoxConstraints.loose(Size(size.width,
+                            (decoration.dropdownMenuMaxHeight ?? 200))),
                     child: _reponseBody != null && widget.networkConfig != null
                         ? Center(
                             child: networkConfig!.responseErrorBuilder!(
@@ -703,10 +720,17 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0).w,
                                     child: DefaultInput(
-                                      vm: InputModel(
-                                        name: "search",
-                                        focusNode: _searchFocusNode,
-                                        onChanged: (value) {
+                                      decorationBuilder: (context) =>
+                                          InputDecor(
+                                        context,
+                                        child: InputChild(context,
+                                            name: "search",
+                                            hintText: decoration.hintText ??
+                                                "Search"),
+                                        state: InputState(context,
+                                            focusNode: _searchFocusNode),
+                                        action: InputAction(context,
+                                            onChanged: (value) {
                                           if (value == null) return;
                                           dropdownState(() {
                                             options = _options.where((element) {
@@ -721,9 +745,7 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                                   subtitle.contains(search);
                                             }).toList();
                                           });
-                                        },
-                                        hintText:
-                                            decoration.hintText ?? "Search",
+                                        }),
                                       ),
                                     ),
                                   ),
@@ -782,16 +804,26 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
                                             });
                                           }
                                         } else {
-                                          dropdownState(() {
-                                            selectedOptions.clear();
-                                            selectedOptions.add(option);
-                                          });
-                                          setState(() {
-                                            _selectedOptions.clear();
-                                            _selectedOptions.add(option);
-                                          });
+                                          if (isSelected) {
+                                            dropdownState(() {
+                                              selectedOptions.clear();
+                                              selectedOptions.add(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.clear();
+                                            });
+                                          } else {
+                                            dropdownState(() {
+                                              selectedOptions.clear();
+                                              selectedOptions.add(option);
+                                            });
+                                            setState(() {
+                                              _selectedOptions.clear();
+                                              _selectedOptions.add(option);
+                                            });
+                                          }
+                                          _focusNode.unfocus();
                                         }
-                                        _focusNode.unfocus();
 
                                         _controller.value._selectedOptions
                                             .clear();
@@ -863,14 +895,14 @@ class _DefaultSelectState<T> extends State<DefaultSelect<T>> {
 
     if (dpOptions.optionItemBuilder != null) {
       return DefaultDisabled(
-          vm: DisabledVm(
-        disabled: !enabled,
-        child: InkWell(
-          onTap: onTap,
-          splashFactory: NoSplash.splashFactory,
-          child: dpOptions.optionItemBuilder!(context, option, isSelected),
-        ),
-      ));
+          decorationBuilder: (themeVm) => DisabledDecoration(themeVm,
+              state: DisabledState(themeVm, isDisabled: !enabled),
+              child: DisabledChild(themeVm,
+                  child: InkWell(
+                      onTap: onTap,
+                      splashFactory: NoSplash.splashFactory,
+                      child: dpOptions.optionItemBuilder!(
+                          context, option, isSelected)))));
     }
 
     return ListTile(
